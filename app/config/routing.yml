@@ -1,0 +1,4 @@
+miller_vein_calendar:
+    resource: "@MillerVeinCalendarBundle/Controller/"
+    type:     annotation
+    prefix:   /
