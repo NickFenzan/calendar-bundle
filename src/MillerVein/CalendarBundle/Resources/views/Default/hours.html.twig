@@ -1,0 +1,20 @@
+{% extends 'MillerVeinCalendarBundle::base.html.twig' %}
+
+{% block title %}Hours{% endblock %}
+
+{% block javascripts %}
+{{ parent()}}
+{% endblock %}
+
+{% block stylesheets %}
+{{parent()}}
+{% endblock %}
+
+{% block body %}
+    {% if output %}
+<pre>
+        {{ output }}
+</pre>
+    {% endif %}
+    {{form(form)}}
+{% endblock %}

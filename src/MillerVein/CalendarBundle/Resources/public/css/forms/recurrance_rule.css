@@ -1,0 +1,51 @@
+.by_day_widget{
+    display:flex;
+}
+.by_day_widget>div{
+    margin:10px;
+}
+.by_day_widget>div>div:first-of-type{
+    margin: 5px;
+}
+.form-byMonth input,
+.form-byMonth label,
+.form-everday input,
+.form-everday label{
+    font-size: .75em;
+    float: left;
+    margin:2px;
+}
+.form-everday input{
+    clear: both;
+}
+.form-byRelativeDay {
+    overflow: hidden;
+    clear:both;
+    display: flex;
+    align-items: flex-end;
+}
+.form-byRelativeDay .day-label,
+.form-byRelativeDay input{
+    float:left;
+    margin:5px;
+    width:15px;
+    text-align: center;
+    font-size: .75em;
+}
+.form-byRelativeDay input:nth-of-type(7n+1) {
+    clear: both;
+}
+.form-byRelativeDay>div {
+    float: left;
+}
+.form-byRelativeDay .number-labels div {
+    float:left;
+    clear:both;
+    margin:5px;
+    font-size: .75em;
+}
+.form-byRelativeDay input,
+.form-byRelativeDay .number-labels div {
+    height: 20px;
+    line-height: 20px;
+}

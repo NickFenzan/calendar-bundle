@@ -1,0 +1,9 @@
+services:
+    millervein.calendar.form.type.recurrance_rule:
+        class: MillerVein\CalendarBundle\Form\Type\RecurranceRuleType
+        tags:
+            - { name: form.type, alias: recurrance_rule }
+    millervein.calendar.form.type.hours:
+        class: MillerVein\CalendarBundle\Form\Type\HoursType
+        tags:
+            - { name: form.type, alias: hours }
