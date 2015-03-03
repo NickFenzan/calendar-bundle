@@ -51,7 +51,59 @@
                 {{ form_label(form.byDay) }}
             </td>
             <td>
-                {{ form_widget(form.byDay) }}
+                <div class="by_day_widget">
+                    {{ form_widget(form.byDay) }}
+                    <div class="by_day_container">
+                        <div>Every</div>
+                        <div class="form-everday">
+                    {{ form_widget(form.byDayChoice) }}
+                        </div>
+                    </div>
+                    <div class="by_day_container">
+                        <div>From the beginning of month</div>
+                        <div class="form-byRelativeDay">
+                            <div class="number-labels">
+                                <div>+1</div>
+                                <div>+2</div>
+                                <div>+3</div>
+                                <div>+4</div>
+                                <div>+5</div>
+                            </div>
+                            <div>
+                                <div class="day-label">S</div>
+                                <div class="day-label">M</div>
+                                <div class="day-label">T</div>
+                                <div class="day-label">W</div>
+                                <div class="day-label">T</div>
+                                <div class="day-label">F</div>
+                                <div class="day-label">S</div>
+                        {{ form_widget(form.byDayPositiveRelative) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="by_day_container">
+                        <div>From the end of month</div>
+                        <div class="form-byRelativeDay">
+                            <div class="number-labels">
+                                <div>-5</div>
+                                <div>-4</div>
+                                <div>-3</div>
+                                <div>-2</div>
+                                <div>-1</div>
+                            </div>
+                            <div>
+                                <div class="day-label">S</div>
+                                <div class="day-label">M</div>
+                                <div class="day-label">T</div>
+                                <div class="day-label">W</div>
+                                <div class="day-label">T</div>
+                                <div class="day-label">F</div>
+                                <div class="day-label">S</div>
+                        {{ form_widget(form.byDayNegativeRelative) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
         <tr>
@@ -95,58 +147,3 @@
     </table>
 </div>
 {%- endblock recurrance_rule_widget -%}
-{%- block by_day_widget -%}
-    <div class="by_day_widget">
-        {{ form_widget(form.byDay) }}
-        <div class="by_day_container">
-            <div>Every</div>
-            <div class="form-everday">
-                {{ form_widget(form.byDayChoice) }}
-            </div>
-        </div>
-        <div class="by_day_container">
-            <div>From the beginning of month</div>
-            <div class="form-byRelativeDay">
-                <div class="number-labels">
-                    <div>+1</div>
-                    <div>+2</div>
-                    <div>+3</div>
-                    <div>+4</div>
-                    <div>+5</div>
-                </div>
-                <div>
-                    <div class="day-label">S</div>
-                    <div class="day-label">M</div>
-                    <div class="day-label">T</div>
-                    <div class="day-label">W</div>
-                    <div class="day-label">T</div>
-                    <div class="day-label">F</div>
-                    <div class="day-label">S</div>
-                    {{ form_widget(form.byDayPositiveRelative) }}
-                </div>
-            </div>
-        </div>
-        <div class="by_day_container">
-            <div>From the end of month</div>
-            <div class="form-byRelativeDay">
-                <div class="number-labels">
-                    <div>-5</div>
-                    <div>-4</div>
-                    <div>-3</div>
-                    <div>-2</div>
-                    <div>-1</div>
-                </div>
-                <div>
-                    <div class="day-label">S</div>
-                    <div class="day-label">M</div>
-                    <div class="day-label">T</div>
-                    <div class="day-label">W</div>
-                    <div class="day-label">T</div>
-                    <div class="day-label">F</div>
-                    <div class="day-label">S</div>
-                    {{ form_widget(form.byDayNegativeRelative) }}
-                </div>
-            </div>
-        </div>
-    </div>
-{%- endblock by_day_widget -%}

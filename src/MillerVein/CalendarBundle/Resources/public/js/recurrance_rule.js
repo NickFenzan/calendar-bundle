@@ -6,7 +6,7 @@ $.widget("millervein.by_day", {
         negativeDays: null,
     },
     _create: function() {
-        this.inputs.byDay = this.element.find('[name*="[byDay][byDay]"]');
+        this.inputs.byDay = this.element.find('[name*="[byDay]"]');
         this.inputs.everyDay = this.element.find('[name*="[byDayChoice]"]');
         this.inputs.positiveDays = this.element.find('[name*="[byDayPositiveRelative]"]');
         this.inputs.negativeDays = this.element.find('[name*="[byDayNegativeRelative]"]');

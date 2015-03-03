@@ -24,14 +24,14 @@ class RecurranceRuleType extends AbstractType {
                 ->add('interval', 'number', array(
                     'label' => 'Every',
                 ))
-                ->add('endMethod','choice',array(
+                ->add('endMethod', 'choice', array(
                     'label' => 'Until',
                     'choices' => array(
                         'until' => 'A Certain Date',
                         'count' => 'A Certain Number of Times',
                         'forever' => 'Forever'
-                        ),
-                    'mapped' =>false
+                    ),
+                    'mapped' => false
                 ))
                 ->add('until', 'date', array(
                     'label' => 'End Date',
@@ -39,12 +39,36 @@ class RecurranceRuleType extends AbstractType {
                     'format' => 'MM/dd/yyyy',
                     'required' => false
                 ))
-                ->add('count', 'number',array(
+                ->add('count', 'number', array(
                     'required' => false
                 ))
-                ->add('byDay', new ByDayType(), array(
+                ->add('byDay', 'hidden', array(
                     'label' => 'By Day',
-                    'required' => false
+                    'required' => false,
+                ))
+                ->add('byDayChoice', 'choice', array(
+                    'label' => 'By Day',
+                    'choices' => $this->getDaysOfWeek(),
+                    'multiple' => true,
+                    'expanded' => true,
+                    'required' => false,
+                    'mapped' => false
+                ))
+                ->add('byDayPositiveRelative', 'choice', array(
+                    'label' => 'By Day Relative Positive',
+                    'choices' => $this->getRelativePositive(),
+                    'multiple' => true,
+                    'expanded' => true,
+                    'required' => false,
+                    'mapped' => false
+                ))
+                ->add('byDayNegativeRelative', 'choice', array(
+                    'label' => 'By Day Relative Positive',
+                    'choices' => $this->getRelativeNegative(),
+                    'multiple' => true,
+                    'expanded' => true,
+                    'required' => false,
+                    'mapped' => false
                 ))
                 ->add('byMonth', 'hidden', array(
                     'label' => ' ',
@@ -72,7 +96,7 @@ class RecurranceRuleType extends AbstractType {
                 ))
         ;
     }
-    
+
     protected function getFrequencies() {
         $refl = new \ReflectionClass('MillerVein\CalendarBundle\Entity\RecurranceRule');
         $array = array();
@@ -84,18 +108,39 @@ class RecurranceRuleType extends AbstractType {
         return $array;
     }
 
-//    protected function getDaysOfWeek() {
-//        $refl = new \ReflectionClass('MillerVein\CalendarBundle\Entity\RecurranceRule');
-//        $array = array();
-//        foreach ($refl->getConstants() as $constant => $value) {
-//            $matches = array();
-//            if (preg_match("/^WEEKDAY_([A-Z]+)$/", $constant, $matches)) {
-//                $array[$value] = ucfirst(strtolower($matches[1]));
-//            }
-//        }
-//        return $array;
-//    }
-    
+    protected function getDaysOfWeek() {
+        $refl = new \ReflectionClass('MillerVein\CalendarBundle\Entity\RecurranceRule');
+        $array = array();
+        foreach ($refl->getConstants() as $constant => $value) {
+            $matches = array();
+            if (preg_match("/^WEEKDAY_([A-Z]+)$/", $constant, $matches)) {
+                $array[$value] = ucfirst(strtolower($matches[1]));
+            }
+        }
+        return $array;
+    }
+
+    protected function getRelativePositive() {
+        $daysOfWeek = $this->getDaysOfWeek();
+        $array = array();
+        for ($i = 1; $i <= 5; $i++) {
+            foreach ($daysOfWeek as $val => $name) {
+                $array["+$i$val"] = " ";
+            }
+        }
+        return $array;
+    }
+    protected function getRelativeNegative() {
+        $daysOfWeek = $this->getDaysOfWeek();
+        $array = array();
+        for ($i = 5; $i >= 1; $i--) {
+            foreach ($daysOfWeek as $val => $name) {
+                $array["-$i$val"] = " ";
+            }
+        }
+        return $array;
+    }
+
     protected function getMonths() {
         $array = array();
         for ($i = 1; $i <= 12; $i++) {
