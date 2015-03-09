@@ -4,6 +4,7 @@ namespace MillerVein\CalendarBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Description of Column
@@ -23,7 +24,8 @@ class Column {
 
     /**
      * Column name
-     * @var string 
+     * @var string
+     * @Assert\NotBlank() 
      * @ORM\Column(type="string")
      */
     private $name;
