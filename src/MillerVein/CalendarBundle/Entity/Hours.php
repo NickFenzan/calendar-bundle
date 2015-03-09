@@ -7,14 +7,13 @@ use Exception;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use MillerVein\CalendarBundle\Entity\RecurranceRule;
 
 /**
  * Describes when the office is open and the length of the scheduling slots. 
  * These apply to Calendar\Columns. One should be able to link to many columns.
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @ORM\Entity(repositoryClass="HoursRepository")
+ * @ORM\Entity()
  * @ORM\Table("calendar_hours")
  */
 class Hours {
@@ -28,7 +27,7 @@ class Hours {
     protected $id;
 
     /**
-     * @*ORM\ManyToMany(targetEntity="Column", inversedBy="hours")
+     * @ORM\ManyToMany(targetEntity="Column", mappedBy="hours")
      * @*ORM\JoinTable(name="calendar_column_hours")
      * @var Array
      */
@@ -38,7 +37,7 @@ class Hours {
      * Descriptive name of hours rule
      * @var string 
      * @ORM\Column(length=50)
-     * @Assert\NotNull()
+     * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 2,
      *      max = 50
@@ -49,6 +48,7 @@ class Hours {
     /**
      * Office opening time
      * @var DateTime
+     * @Assert\NotBlank()
      * @Assert\Time() 
      * @ORM\Column(type="time")
      */
@@ -57,6 +57,7 @@ class Hours {
     /**
      * Office closing time
      * @var DateTime 
+     * @Assert\NotBlank()
      * @Assert\Time()
      * @ORM\Column(type="time")
      */
@@ -65,6 +66,7 @@ class Hours {
     /**
      * The beginning of lunch
      * @var DateTime 
+     * @Assert\NotBlank()
      * @Assert\Time()
      * @ORM\Column(type="time")
      */
@@ -73,6 +75,7 @@ class Hours {
     /**
      * The end of lunch
      * @var DateTime 
+     * @Assert\NotBlank()
      * @Assert\Time()
      * @ORM\Column(type="time")
      */
@@ -81,6 +84,7 @@ class Hours {
     /**
      * Amount of minutes each slot takes up.
      * @var int
+     * @Assert\NotBlank()
      * @Assert\Range(
      *      min=5,
      *      max=240
@@ -93,7 +97,7 @@ class Hours {
      * The Recurrance Rule
      * @var MillerVein\CalendarBundle\Entity\RecurranceRule
      * @Assert\Valid
-     * @ORM\ManyToOne(targetEntity="MillerVein\CalendarBundle\Entity\RecurranceRule")
+     * @ORM\ManyToOne(targetEntity="MillerVein\CalendarBundle\Entity\RecurranceRule", cascade={"persist"})
      */
     protected $recurrance_rule;
 
@@ -161,21 +165,25 @@ class Hours {
     }
 
     public function setSchedulingIncrement($scheduling_increment) {
-        if(is_int($scheduling_increment)){
-            $this->scheduling_increment = $scheduling_increment;
-        }else{
-            throw new Exception("Scheduling increment must be an interger. "
-                    . "'$scheduling_increment' passed.");
-        }
+        $this->scheduling_increment = $scheduling_increment;
     }
 
-    public function setRecurrance_rule(RecurranceRule $recurrance_rule) {
+    public function setRecurranceRule(RecurranceRule $recurrance_rule) {
         $this->recurrance_rule = $recurrance_rule;
     }
 
 
 // </editor-fold>
 
+    /**
+     * @Assert\True(message="Scheduling increment must be a multiple of 5")
+     */
+    public function isSchedulingIncrementValid(){
+        if ($this->scheduling_increment % 5 !== 0){
+            return false;
+        }
+    }
+    
     public function getTimeSlotCount() {
         $openMinutes = ($this->close_time->getTimestamp() - $this->open_time->getTimestamp())/60;
         if($openMinutes % $this->scheduling_increment !== 0){

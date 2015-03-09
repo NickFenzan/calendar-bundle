@@ -7,3 +7,7 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\HoursType
         tags:
             - { name: form.type, alias: hours }
+    millervein.calendar.form.type.column:
+        class: MillerVein\CalendarBundle\Form\Type\ColumnType
+        tags:
+            - { name: form.type, alias: column }

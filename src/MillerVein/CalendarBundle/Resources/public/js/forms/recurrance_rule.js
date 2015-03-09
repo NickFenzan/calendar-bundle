@@ -255,11 +255,6 @@ $.widget("millervein.recurrance_rule", {
     byWeekNo: {
         change: function(){
             var val = this.inputs.byWeekNo.val();
-            if(!(val>0 && val<=53) && val.length > 0){
-                alert('Week number must be between 1 and 53');
-                this.inputs.byWeekNo.val('');
-            }
-            val = this.inputs.byWeekNo.val();
             if(this.inputs.freq.val() === "YEARLY"){
                 if(val.length > 0){
                     this.inputs.byDay.by_day('disableRelative');

@@ -2,25 +2,6 @@
 
 {% block title %}Recurrance Rule{% endblock %}
 
-{% block javascripts %}
-{{ parent()}}
-{% javascripts '@MillerVeinCalendarBundle/Resources/public/js/recurrance_rule.js' %}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
-{% endblock %}
-
-{% block stylesheets %}
-{{parent()}}
-{% stylesheets 'bundles/millerveincalendar/css/forms/*'  filter='cssrewrite' %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-{% endstylesheets %}
-{% endblock %}
-
 {% block body %}
-    {% if output %}
-<pre>
-        {{ output }}
-</pre>
-    {% endif %}
     {{form(form)}}
 {% endblock %}

@@ -16,6 +16,7 @@ class RecurranceRuleType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
+                ->add('name', 'text')
                 ->add('freq', 'choice', array(
                     'label' => 'Repeats',
                     'choices' => RecurranceRule::getFreqChoices()
@@ -82,18 +83,14 @@ class RecurranceRuleType extends AbstractType {
                     'required' => false,
                     'mapped' => false
                 ))
-                ->add('byWeekNo', 'text', array(
-                    'label' => 'By Week Number',
-                    'required' => false
-                ))
-                ->add('byYearDay', 'text', array(
-                    'label' => 'By Day of Year',
-                    'required' => false
-                ))
-                ->add('byMonthDay', 'text', array(
-                    'label' => 'By Day of Month',
-                    'required' => false
-                ))
+//                ->add('byWeekNo', 'text', array(
+//                    'label' => 'By Week Number',
+//                    'required' => false
+//                ))
+//                ->add('byYearDay', 'text', array(
+//                    'label' => 'By Day of Year',
+//                    'required' => false
+//                ))
         ;
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace MillerVein\CalendarBundle\Entity;
 
 use Eluceo\iCal\Property\Event\RecurrenceRule as EluceoRecurranceRule;
@@ -20,6 +21,18 @@ class RecurranceRule extends EluceoRecurranceRule {
      * @ORM\GeneratedValue
      */
     protected $id;
+
+    /**
+     * Name of the rule
+     * @var string
+     * @ORM\Column(length=50)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50
+     * )
+     */
+    protected $name;
     
     /**
      * The frequency of an Event
@@ -29,14 +42,14 @@ class RecurranceRule extends EluceoRecurranceRule {
      * @ORM\Column(type="string")
      */
     protected $freq = self::FREQ_YEARLY;
-    
+
     /**
      * @var null|int
      * @Assert\Range(min = 1)
      * @ORM\Column(name="interv",type="integer", nullable=true)
      */
     protected $interval = 1;
-    
+
     /**
      *
      * @var \DateTime
@@ -53,15 +66,6 @@ class RecurranceRule extends EluceoRecurranceRule {
     protected $count = null;
 
     /**
-     * I'm not using this right now so I am making sure it is always null
-     * @var null|string
-     * @Assert\Null()
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $wkst;
-
-    /**
-     * Validation is performed on a getter method
      * @var null|string
      * @ORM\Column(type="string", nullable=true)
      */
@@ -83,70 +87,166 @@ class RecurranceRule extends EluceoRecurranceRule {
      * @var null|string
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $byMonthDay;
-
-    /**
-     * @var null|string
-     * @ORM\Column(type="string", nullable=true)
-     */
     protected $byDay;
 
-    /**
-     * @var null|string
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $byHour;
-
-    /**
-     * @var null|string
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $byMinute;
-
+// <editor-fold defaultstate="collapsed" desc="Getters">
+    public function getName() {
+        return $this->name;
+    }
     
-    public function getUntil(){
+    public function getUntil() {
         return $this->until;
     }
-    public function setUntil(\DateTime $until = null){
+
+    public function setUntil(\DateTime $until = null) {
         $this->until = $until;
     }
-    public function getByDay(){
+
+    public function getByDay() {
         return $this->byDay;
     }
-    public function getByMonth(){
+
+    public function getByMonth() {
         return $this->byMonth;
     }
+
     /**
      * 
      * @return Array|null Array of months 1-12
      */
-    public function getByMonthArray(){
-        if(null === $this->getByMonth()){
+    public function getByMonthArray() {
+        if (null === $this->getByMonth()) {
             return null;
-        }else{
-            return split(",",$this->getByMonth());
+        } else {
+            return split(",", $this->getByMonth());
         }
-        
     }
-    public function getByWeekNo(){
+
+    public function getByWeekNo() {
         return $this->byWeekNo;
     }
-    public function getByYearDay(){
+
+    public function getByYearDay() {
         return $this->byYearDay;
     }
-    public function getByMonthDay(){
+
+    public function getByMonthDay() {
         return $this->byMonthDay;
     }
+
+    // </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="Setters">
+    public function setName($name){
+        $this->name = $name;
+        return $this;
+    }
+    public function setByMonth($month) {
+
+//        if (!is_integer($month) || $month < 0 || $month > 12) {
+//            throw new InvalidArgumentException('Invalid value for BYMONTH');
+//        }
+
+        $this->byMonth = $month;
+        return $this;
+    }
+
+// </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="Validation Checks">
+    /**
+     * @Assert\True(message="By month contains an invalid value")
+     */
+    public function isByMonthValid() {
+        if (null === $this->byMonth) {
+            return true;
+        }
+        $array = split(",", $this->byMonth);
+        foreach ($array as $val) {
+            if ($val < 1 || $val > 12 || !is_int($val)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @Assert\True(message="By week number contains an invalid value")
+     */
+    public function isByWeekNoValid() {
+        if (null === $this->byWeekNo) {
+            return true;
+        }
+        if ($this->freq !== self::FREQ_YEARLY) {
+            return false;
+        }
+        $array = split(",", $this->byWeekNo);
+        foreach ($array as $val) {
+            if (abs($val) > 53 || $val == 0 || !is_int($val)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @Assert\True(message="By year day contains an invalid value")
+     */
+    public function isByYearDayValid() {
+        if (null === $this->byYearDay) {
+            return true;
+        }
+        if ($this->freq !== self::FREQ_YEARLY) {
+            return false;
+        }
+        $array = split(",", $this->byYearDay);
+        foreach ($array as $val) {
+            if (abs($val) > 366 || $val == 0 || !is_int($val)) {
+                return false;
+            }
+        }
+        return true;
+    }
     
+    /**
+     * @Assert\True(message="By day contains an invalid value")
+     */
+    public function isByDayValid() {
+        if (null === $this->byDay) {
+            return true;
+        }
+        $array = split(",", $this->byDay);
+        foreach ($array as $val) {
+            if ( in_array($this->freq, [self::FREQ_YEARLY, self::FREQ_MONTHLY])) {
+                if (!preg_match("/^(\+\d|\-\d)?(MO|TU|WE|TH|FR|SA|SU)$/", $val)) {
+                    return false;
+                }
+            }else{
+                if (!preg_match("/^(MO|TU|WE|TH|FR|SA|SU)$/", $val)) {
+                    return false;
+                }
+            }
+        }
+            
+        return true;
+    }
+
+    
+// </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="Overrides">
     protected function buildParameterBag() {
         $parameterBag = parent::buildParameterBag();
         if (null !== $this->until) {
-            $parameterBag->setParam('UNTIL',$this->until->format("Ymd\THis\Z"));
+            $parameterBag->setParam('UNTIL', $this->until->format("Ymd\THis\Z"));
         }
         return $parameterBag;
     }
 
-    public static function getFreqChoices(){
+// </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="Statics">
+    public static function getFreqChoices() {
         $refl = new \ReflectionClass('MillerVein\CalendarBundle\Entity\RecurranceRule');
         $array = array();
         foreach ($refl->getConstants() as $constant => $value) {
@@ -156,19 +256,10 @@ class RecurranceRule extends EluceoRecurranceRule {
         }
         return $array;
     }
-    public static function getFreqChoicesValidation(){
+
+    public static function getFreqChoicesValidation() {
         return array_flip(self::getFreqChoices());
     }
-    
-    public function setByMonth($month) {
-        
-//        if (!is_integer($month) || $month < 0 || $month > 12) {
-//            throw new InvalidArgumentException('Invalid value for BYMONTH');
-//        }
 
-        $this->byMonth = $month;
-        return $this;
-    }
-
-
+// </editor-fold>
 }

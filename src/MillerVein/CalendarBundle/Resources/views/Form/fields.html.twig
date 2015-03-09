@@ -1,6 +1,16 @@
 {%- block recurrance_rule_widget -%}
+{{form_errors(form)}}
 <div class="recurrance_rule_widget">
     <table>
+        <tr>
+            <td>
+                {{ form_label(form.name) }}
+            </td>
+            <td>
+                {{ form_widget(form.name) }}
+                {{ form_errors(form.name) }}
+            </td>
+        </tr>
         <tr>
             <td>
                 {{ form_label(form.freq) }}
@@ -117,7 +127,7 @@
                 {{ form_errors(form.byMonthChoice) }}
             </td>
         </tr>
-        <tr>
+        {#<tr>
             <td>
                 {{ form_label(form.byWeekNo) }}
             </td>
@@ -128,22 +138,13 @@
         </tr>
         <tr>
             <td>
-                {{ form_label(form.byMonthDay) }}
-            </td>
-            <td>
-                {{ form_widget(form.byMonthDay) }}
-                {{ form_errors(form.byMonthDay) }}
-            </td>
-        </tr>
-        <tr>
-            <td>
                 {{ form_label(form.byYearDay) }}
             </td>
             <td>
                 {{ form_widget(form.byYearDay) }}
                 {{ form_errors(form.byYearDay) }}
             </td>
-        </tr>
+        </tr>#}
     </table>
 </div>
 {%- endblock recurrance_rule_widget -%}

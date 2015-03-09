@@ -2,11 +2,9 @@
 
 namespace MillerVein\CalendarBundle\Controller;
 
-use DateTime;
-use Eluceo\iCal\Component\Calendar;
-use Eluceo\iCal\Component\Event;
 use MillerVein\CalendarBundle\Entity\Hours;
 use MillerVein\CalendarBundle\Entity\RecurranceRule;
+use MillerVein\CalendarBundle\Entity\Column;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,15 +19,17 @@ class DefaultController extends Controller
     public function hoursAction(Request $request)
     {
         $hours = new Hours();
-        $output = '';
         
         $form = $this->createForm('hours', $hours)->add('save','submit');
         $form->handleRequest($request);
         
         if($form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($hours);
+            $em->flush();
         }
         
-        return array('form' => $form->createView(), 'output'=>$output);
+        return array('form' => $form->createView());
     }
     /**
      * @Route("/recurrance_rule")
@@ -38,24 +38,37 @@ class DefaultController extends Controller
     public function recurranceRuleAction(Request $request)
     {
         $rule = new RecurranceRule();
-        $output = '';
         
         $form = $this->createForm('recurrance_rule', $rule)->add('save','submit');
         $form->handleRequest($request);
-        echo $rule->getEscapedValue();
         
         if($form->isValid()){
-            $calendar = new Calendar("MillerVeinEMR");
-            $event = new Event();
-            $event->setDtStart(new DateTime("2015-02-18 7:00"));
-            $event->setDtEnd(new DateTime("2015-02-18 8:00"));
-            $event->setSummary("test");
-            $event->setRecurrenceRule($rule);
-            $calendar->addComponent($event);
-            $output = $calendar->render();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($rule);
+            $em->flush();
         }
         
-        return array('form' => $form->createView(), 'output'=>$output);
+        return array('form' => $form->createView());
+    }
+    /**
+     * @Route("/column")
+     * @Template()
+     */
+    public function columnAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $column = new Column();
+        
+        $form = $this->createForm('column', $column)->add('save','submit');
+        $form->handleRequest($request);
+        
+        if($form->isValid()){
+            $em->persist($column);
+            $em->flush();
+        }
+        
+        return array('form' => $form->createView());
     }
     
 }
