@@ -1,0 +1,22 @@
+{% extends 'MillerVeinCalendarBundle::base.html.twig' %}
+
+{% block title %}Calendar{% endblock %}
+
+{% block body %}
+    {{ calendar.date | date('m/d/Y') }}
+    {% for calendarColumn in calendar.columns %}
+<ul>
+    <li>
+        {{calendarColumn.column.name}}
+        <ul>
+            
+            {% for timeSlot in calendarColumn.timeSlots %}
+            <li>
+                
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>
+    {% endfor %}
+{% endblock %}

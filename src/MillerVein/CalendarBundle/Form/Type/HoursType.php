@@ -15,6 +15,10 @@ class HoursType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('name', 'text')
+                ->add('start_date', 'date',[
+                    'widget' => 'single_text',
+                    'format' => 'MM/dd/yyyy',
+                ])
                 ->add('open_time', 'time')
                 ->add('close_time', 'time')
                 ->add('lunch_start', 'time')

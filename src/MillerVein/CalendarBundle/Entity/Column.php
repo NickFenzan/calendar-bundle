@@ -14,13 +14,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @author Nick Fenzan <nickf@millervein.com>
  */
 class Column {
+
+// <editor-fold defaultstate="collapsed" desc="Properties">
     /**
      * Column ID
      * @var int 
      * @ORM\Id @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    private $id;
+    protected $id;
 
     /**
      * Column name
@@ -28,26 +30,29 @@ class Column {
      * @Assert\NotBlank() 
      * @ORM\Column(type="string")
      */
-    private $name;
+    protected $name;
 
-    /** 
+    /**
+
      * Site this column belongs to.
      * @var Site
      * @ORM\ManyToOne(targetEntity="Site")
      */
-    private $site;
+    protected $site;
 
     /**
      * Regular hours of this column
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Hours", inversedBy="columns")
+     * @ORM\OrderBy({"start_date" = "DESC"})
      */
-    private $hours; 
+    protected $hours; // </editor-fold>
 
     public function __construct() {
         $this->hours = new ArrayCollection();
     }
-    
+
+// <editor-fold defaultstate="collapsed" desc="Getters">
     public function getId() {
         return $this->id;
     }
@@ -59,11 +64,14 @@ class Column {
     public function getHours() {
         return $this->hours;
     }
-    
+
     public function getSite() {
         return $this->site;
     }
 
+// </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="Setters">
     public function setId($id) {
         $this->id = $id;
     }
@@ -75,9 +83,12 @@ class Column {
     public function setHours(ArrayCollection $hours) {
         $this->hours = $hours;
     }
-    
+
     public function setSite(Site $site) {
         $this->site = $site;
     }
+
+// </editor-fold>
+
 
 }

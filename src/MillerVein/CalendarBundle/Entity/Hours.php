@@ -27,13 +27,6 @@ class Hours {
     protected $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Column", mappedBy="hours")
-     * @*ORM\JoinTable(name="calendar_column_hours")
-     * @var Array
-     */
-    protected $columns;
-
-    /**
      * Descriptive name of hours rule
      * @var string 
      * @ORM\Column(length=50)
@@ -44,6 +37,15 @@ class Hours {
      * )
      */
     protected $name;
+    
+    /**
+     * Date hours take effect
+     * @var DateTime 
+     * @ORM\Column(type="date")
+     * @Assert\NotBlank()
+     * @Assert\Date()
+     */
+    protected $start_date;
 
     /**
      * Office opening time
@@ -114,6 +116,11 @@ class Hours {
         return $this->name;
     }
 
+    public function getStartDate() {
+        return $this->start_date;
+    }
+
+        
     public function getOpenTime() {
         return $this->open_time;
     }
@@ -146,6 +153,10 @@ class Hours {
 
     public function setName($name) {
         $this->name = $name;
+    }
+
+    public function setStartDate(DateTime $start_date) {
+        $this->start_date = $start_date;
     }
 
     public function setOpenTime(DateTime $open_time) {
@@ -193,7 +204,6 @@ class Hours {
             return $openMinutes / $this->scheduling_increment;
         }
     }
-
     public function doHoursApplyToDate(DateTime $date){
             
         return true;
