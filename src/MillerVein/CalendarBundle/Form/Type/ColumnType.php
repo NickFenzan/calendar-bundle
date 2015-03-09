@@ -17,12 +17,10 @@ class ColumnType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('name', 'text')
-//                ->add('hours','collection',[
-//                    'allow_add' => true,
-//                    'allow_delete' => true,
-//                    'delete_empty' => true,
-//                    'type' => 'hours'
-//                ])
+                ->add('site','entity',[
+                    'class' => 'MillerVeinCalendarBundle:Site',
+                    'property' => 'city'
+                ])
                 ->add('hours','entity',[
                     'class' => 'MillerVeinCalendarBundle:Hours',
                     'property' => 'name',

@@ -30,13 +30,12 @@ class Column {
      */
     private $name;
 
-    /** @todo Add Site */
-    /* 
+    /** 
      * Site this column belongs to.
      * @var Site
-     * @ORM\ManyToOne(targetEntity="Site", inversedBy="calendar_columns")
-    private $site;
+     * @ORM\ManyToOne(targetEntity="Site")
      */
+    private $site;
 
     /**
      * Regular hours of this column
@@ -60,6 +59,10 @@ class Column {
     public function getHours() {
         return $this->hours;
     }
+    
+    public function getSite() {
+        return $this->site;
+    }
 
     public function setId($id) {
         $this->id = $id;
@@ -73,4 +76,8 @@ class Column {
         $this->hours = $hours;
     }
     
+    public function setSite(Site $site) {
+        $this->site = $site;
+    }
+
 }
