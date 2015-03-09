@@ -2,9 +2,10 @@
 
 namespace MillerVein\CalendarBundle\Controller;
 
+use MillerVein\CalendarBundle\Entity\Column;
 use MillerVein\CalendarBundle\Entity\Hours;
 use MillerVein\CalendarBundle\Entity\RecurranceRule;
-use MillerVein\CalendarBundle\Entity\Column;
+use MillerVein\CalendarBundle\Entity\Site;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -65,6 +66,26 @@ class DefaultController extends Controller
         
         if($form->isValid()){
             $em->persist($column);
+            $em->flush();
+        }
+        
+        return array('form' => $form->createView());
+    }
+    /**
+     * @Route("/site")
+     * @Template()
+     */
+    public function siteAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $site = new Site();
+        
+        $form = $this->createForm('site', $site)->add('save','submit');
+        $form->handleRequest($request);
+        
+        if($form->isValid()){
+            $em->persist($site);
             $em->flush();
         }
         

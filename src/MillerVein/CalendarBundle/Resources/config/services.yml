@@ -11,3 +11,7 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\ColumnType
         tags:
             - { name: form.type, alias: column }
+    millervein.calendar.form.type.site:
+        class: MillerVein\CalendarBundle\Form\Type\SiteType
+        tags:
+            - { name: form.type, alias: site }
