@@ -1,0 +1,30 @@
+html {
+  box-sizing: border-box; }
+
+*, *:before, *:after {
+  box-sizing: inherit; }
+
+html, body {
+  background-color: whitesmoke; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%; }
+
+#topLevelFlex {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%; }
+
+#controls {
+  background-color: lightgreen; }
+
+#calendar {
+  background-color: lightblue;
+  flex: 1 0 auto;
+  overflow-x: auto; }
+
+/*# sourceMappingURL=calendar.css.map */

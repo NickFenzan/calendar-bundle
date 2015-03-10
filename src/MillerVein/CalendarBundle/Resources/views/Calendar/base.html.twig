@@ -1,0 +1,37 @@
+{% extends "MillerVeinCalendarBundle::base.html.twig" %}
+{#Title#}
+{% block title %}Calendar{% endblock %}
+
+{#Stylesheets#}
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets 'bundles/millerveincalendar/css/calendar/*'
+    filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{#Javascripts#}
+{% block javascripts %}
+    {{ parent()}}
+    {% javascripts 
+    '@MillerVeinCalendarBundle/Resources/public/js/calendar/*' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{#Body#}
+{% block body %}
+    <div id="topLevelFlex">
+        <div id="controls">
+        {% block controls %}
+            Im a control
+        {% endblock %}
+        </div>
+        <div id="calendar">
+        {% block calendar %}
+
+        {% endblock %}
+        </div>
+    </div>
+{% endblock %}

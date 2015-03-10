@@ -53,7 +53,11 @@ class CalendarColumn {
     
     protected function buildTimeSlots(){
         if(null !== $this->hours){
-            
+            $this->time_slots = array();
+            $hours = new HoursIterator($this->hours);
+            foreach($hours as $time){
+                $this->time_slots[] = new TimeSlot($time);
+            }
         }
     }
     
@@ -70,7 +74,7 @@ class CalendarColumn {
     }
     
     public function getTimeSlots(){
-        
+        return $this->time_slots;
     }
     
 }

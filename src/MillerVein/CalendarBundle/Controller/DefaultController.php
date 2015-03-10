@@ -92,18 +92,4 @@ class DefaultController extends Controller {
         return array('form' => $form->createView());
     }
 
-    /**
-     * @Route("/calendar")
-     * @Template()
-     */
-    public function calendarAction(Request $request) {
-        $em = $this->getDoctrine()->getManager();
-        $columnRepo = $em->getRepository("MillerVeinCalendarBundle:Column");
-        $columns = $columnRepo->findAll();
-        
-        $calendar = new Calendar(new \DateTime(), $columns);
-        
-        return array('calendar'=>$calendar);
-    }
-
 }

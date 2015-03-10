@@ -10,27 +10,21 @@ use MillerVein\CalendarBundle\Entity\Hours;
  *
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class HoursIterator implements Iterator{
+class HoursIterator implements Iterator {
+
     protected $position;
     protected $hours;
-    
+    protected $offset;
+
     public function __construct(Hours $hours) {
         $this->hours = $hours;
-        $this->rewind();
+        $this->position = 0;
+        $this->offset = new \DateInterval("PT0M");
     }
-    
+
     public function current() {
-        
-        
-        $fromOpen = $this->hours->getOpenTime()->add($interval);
-        if($fromOpen < $this->hours->getLunchStart()){
-            return $this->hours->getOpenTime()->add($interval);
-        }
-        
-        $fromLunch = $this->hours->getLunchEnd()->add($interval);
-        if($fromLunch < $this->hours->getCloseTime()){
-            return $this->hours->getOpenTime()->add($interval);
-        }
+        $openTime = clone $this->hours->getOpenTime();
+        return $openTime->add($this->offset);
     }
 
     public function key() {
@@ -39,6 +33,18 @@ class HoursIterator implements Iterator{
 
     public function next() {
         ++$this->position;
+        $mins = $this->hours->getSchedulingIncrement() * $this->position;
+        $offset = new \DateInterval("PT{$mins}M");
+        $openTime = clone $this->hours->getOpenTime();
+        if($openTime->add($offset) < $this->hours->getLunchStart()){
+            $this->offset = $offset;
+        }else{
+            $lunchMins = ($this->hours->getLunchEnd()->getTimestamp() -
+            $this->hours->getLunchStart()->getTimestamp()) / 60;
+            $adjusted = $mins + $lunchMins;
+            $this->offset = new \DateInterval("PT{$adjusted}M");
+        }
+        
     }
 
     public function rewind() {
@@ -46,18 +52,8 @@ class HoursIterator implements Iterator{
     }
 
     public function valid() {
-        
+        $openTime = clone $this->hours->getOpenTime();
+        return ($openTime->add($this->offset) < $this->hours->getCloseTime());
     }
-    
-    public function getInterval(){
-        $increment = $this->hours->getSchedulingIncrement();
-        return new \DateInterval("PT{$increment}M");
-    }
-    
-    public function getLunchInterval(){
-        $lunchDiff = $this->hours->getLunchStart()->diff($this->hours->getLunchEnd(), true);
-        
-        
-    }
-    
+
 }
