@@ -1,0 +1,8 @@
+<div class="calendar-column">
+    <div class="column-header">{{calendarColumn.column.name}}</div>
+    <div class="column-body">
+        {% for timeSlot in calendarColumn.timeSlots %}
+            {% include 'MillerVeinCalendarBundle:Calendar:timeslot.html.twig' %}
+        {% endfor %}
+    </div>
+</div>

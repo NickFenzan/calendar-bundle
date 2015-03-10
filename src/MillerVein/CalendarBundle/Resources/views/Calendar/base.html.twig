@@ -6,6 +6,7 @@
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets 'bundles/millerveincalendar/css/calendar/*'
+    'bundles/millerveincalendar/css/main.css'
     filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
@@ -14,8 +15,7 @@
 {#Javascripts#}
 {% block javascripts %}
     {{ parent()}}
-    {% javascripts 
-    '@MillerVeinCalendarBundle/Resources/public/js/calendar/*' %}
+    {% javascripts '@MillerVeinCalendarBundle/Resources/public/js/calendar/*' %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
@@ -23,15 +23,11 @@
 {#Body#}
 {% block body %}
     <div id="topLevelFlex">
-        <div id="controls">
         {% block controls %}
-            Im a control
+            {% include 'MillerVeinCalendarBundle:Calendar:controls.html.twig' %}
         {% endblock %}
-        </div>
-        <div id="calendar">
         {% block calendar %}
-
+            {% include 'MillerVeinCalendarBundle:Calendar:calendar.html.twig' %}
         {% endblock %}
-        </div>
     </div>
 {% endblock %}

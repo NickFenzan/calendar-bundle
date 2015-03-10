@@ -1,0 +1,24 @@
+<div id="controls">
+    <form method='post' action='{{path("calendar_post")}}'>
+        <div id="previousDay">
+            <button><<</button>
+        </div>
+        <div id="currentDate">
+            <input type="hidden" id='calendar-dateinput' name='date' 
+                   value="{{ calendar.date | date('m/d/Y') }}">
+            <span id="calendar-datespan">{{ calendar.date | date('m/d/Y') }}</span>
+        </div>
+        <div id="currentSite">
+            <select>
+                {% for site in sites %}
+                <option>
+                    {{site.City}}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="nextDay">
+            <button>>></button>
+        </div>
+    </form>
+</div>

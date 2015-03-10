@@ -1,30 +1,38 @@
-html {
-  box-sizing: border-box; }
-
-*, *:before, *:after {
-  box-sizing: inherit; }
-
-html, body {
-  background-color: whitesmoke; }
-
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%; }
-
-#topLevelFlex {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%; }
-
-#controls {
-  background-color: lightgreen; }
-
 #calendar {
-  background-color: lightblue;
-  flex: 1 0 auto;
-  overflow-x: auto; }
+  display: inline-flex;
+  overflow-x: auto;
+  white-space: nowrap; }
+  #calendar .calendar-column {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid grey;
+    min-width: 500px; }
+    #calendar .calendar-column .column-header {
+      flex: 0 1 0;
+      text-align: center;
+      font-weight: bold;
+      padding: 5px;
+      border-bottom: 1px solid grey;
+      background-color: #8ca3d2;
+      color: white; }
+    #calendar .calendar-column .column-body {
+      flex: 1 0 0;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto; }
+      #calendar .calendar-column .column-body .timeslot {
+        width: 100%;
+        display: flex; }
+        #calendar .calendar-column .column-body .timeslot .time {
+          padding: 5px;
+          border-right: 1px solid grey;
+          border-bottom: 1px solid grey; }
+        #calendar .calendar-column .column-body .timeslot .appts {
+          flex: 1 0 0;
+          padding: 5px;
+          border-bottom: 1px solid grey; }
+  #calendar .calendar-column:last-of-type {
+    border-right: none; }
 
 /*# sourceMappingURL=calendar.css.map */

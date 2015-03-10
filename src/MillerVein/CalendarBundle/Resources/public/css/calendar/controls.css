@@ -1,0 +1,7 @@
+#controls form {
+  display: flex; }
+  #controls form div {
+    text-align: center;
+    flex: 1 0 auto; }
+
+/*# sourceMappingURL=controls.css.map */
