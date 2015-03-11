@@ -15,7 +15,6 @@ class HoursIterator implements Iterator {
     protected $position;
     protected $hours;
     protected $offset;
-    protected $lunch = false;
 
     public function __construct(Hours $hours) {
         $this->hours = $hours;
@@ -35,17 +34,7 @@ class HoursIterator implements Iterator {
     public function next() {
         ++$this->position;
         $mins = $this->hours->getSchedulingIncrement() * $this->position;
-        $offset = new \DateInterval("PT{$mins}M");
-        $openTime = clone $this->hours->getOpenTime();
-        if($openTime->add($offset) < $this->hours->getLunchStart()){
-            $this->offset = $offset;
-        }else{
-            $lunchMins = ($this->hours->getLunchEnd()->getTimestamp() -
-            $this->hours->getLunchStart()->getTimestamp()) / 60;
-            $adjusted = $mins + $lunchMins;
-            $this->offset = new \DateInterval("PT{$adjusted}M");
-        }
-        
+        $this->offset = new \DateInterval("PT{$mins}M");
     }
 
     public function rewind() {

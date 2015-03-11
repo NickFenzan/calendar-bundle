@@ -5,9 +5,6 @@ namespace MillerVein\CalendarBundle\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
-use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Reader;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -41,7 +38,6 @@ class Hours {
      */
     protected $name;
 
-
     /**
      * Date hours take effect
      * @var DateTime 
@@ -68,24 +64,6 @@ class Hours {
      * @ORM\Column(type="time")
      */
     protected $close_time;
-
-    /**
-     * The beginning of lunch
-     * @var DateTime 
-     * @Assert\NotBlank()
-     * @Assert\Time()
-     * @ORM\Column(type="time")
-     */
-    protected $lunch_start;
-
-    /**
-     * The end of lunch
-     * @var DateTime 
-     * @Assert\NotBlank()
-     * @Assert\Time()
-     * @ORM\Column(type="time")
-     */
-    protected $lunch_end;
 
     /**
      * Amount of minutes each slot takes up.
@@ -124,21 +102,12 @@ class Hours {
         return $this->start_date;
     }
 
-        
     public function getOpenTime() {
         return $this->open_time;
     }
 
     public function getCloseTime() {
         return $this->close_time;
-    }
-
-    public function getLunchStart() {
-        return $this->lunch_start;
-    }
-
-    public function getLunchEnd() {
-        return $this->lunch_end;
     }
 
     public function getSchedulingIncrement() {
@@ -171,14 +140,6 @@ class Hours {
         $this->close_time = $close_time;
     }
 
-    public function setLunchStart(DateTime $lunch_start) {
-        $this->lunch_start = $lunch_start;
-    }
-
-    public function setLunchEnd(DateTime $lunch_end) {
-        $this->lunch_end = $lunch_end;
-    }
-
     public function setSchedulingIncrement($scheduling_increment) {
         $this->scheduling_increment = $scheduling_increment;
     }
@@ -187,41 +148,31 @@ class Hours {
         $this->recurrence_rule = $recurrence_rule;
     }
 
-
 // </editor-fold>
 
     /**
      * @Assert\True(message="Scheduling increment must be a multiple of 5")
      */
-    public function isSchedulingIncrementValid(){
-        if ($this->scheduling_increment % 5 !== 0){
+    public function isSchedulingIncrementValid() {
+        if ($this->scheduling_increment % 5 !== 0) {
             return false;
         }
     }
-    
-    public function getTimeSlotCount() {
-        $openMinutes = ($this->close_time->getTimestamp() - $this->open_time->getTimestamp())/60;
-        if($openMinutes % $this->scheduling_increment !== 0){
-            throw new Exception("The time slots do not divide evenly into "
-                    . "the time the office is open.");
-        }else{
-            return $openMinutes / $this->scheduling_increment;
-        }
-    }
-    public function doHoursApplyToDate(DateTime $date){
+
+    public function doHoursApplyToDate(DateTime $date) {
         $recurrence_rule = $this->recurrence_rule;
-        
+
         //If the hours haven't taken effect yet bail
-        if($this->start_date > $date){
+        if ($this->start_date > $date) {
             return false;
         }
-        
+
         //If there isn't a recurrence rule associated the hours are always good
-        if(null === $recurrence_rule){
+        if (null === $recurrence_rule) {
             return true;
         }
-        
+
         return $recurrence_rule->doesRuleApplyToDate($this->start_date, $date);
     }
-    
+
 }
