@@ -36,14 +36,14 @@ class Column {
 
      * Site this column belongs to.
      * @var Site
-     * @ORM\ManyToOne(targetEntity="Site")
+     * @ORM\ManyToOne(targetEntity="Site", inversedBy="columns")
      */
     protected $site;
 
     /**
      * Regular hours of this column
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Hours", inversedBy="columns")
+     * @ORM\ManyToMany(targetEntity="Hours")
      * @ORM\OrderBy({"start_date" = "DESC"})
      */
     protected $hours; // </editor-fold>

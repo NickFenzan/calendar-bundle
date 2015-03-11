@@ -15,3 +15,7 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\SiteType
         tags:
             - { name: form.type, alias: site }
+    millervein.calendar.form.type.calendar:
+        class: MillerVein\CalendarBundle\Form\Type\CalendarType
+        tags:
+            - { name: form.type, alias: calendar }

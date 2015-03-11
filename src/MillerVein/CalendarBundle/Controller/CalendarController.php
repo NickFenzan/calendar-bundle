@@ -4,8 +4,8 @@ namespace MillerVein\CalendarBundle\Controller;
 
 use DateTime;
 use MillerVein\CalendarBundle\Model\Calendar;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,28 +22,59 @@ class CalendarController extends Controller {
      */
     public function calendarAction(Request $request) {
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getManager();
-        
-        $date = $session->get('calendar_date', new DateTime());
-        $columns = $em->getRepository("MillerVeinCalendarBundle:Column")->findAll();
-        $sites = $em->getRepository("MillerVeinCalendarBundle:Site")->findAll();
+        $calendar = $this->getCalendarFromSession($session);
 
-        $calendar = new Calendar($date, $columns);
-        return array('calendar' => $calendar, 'sites' => $sites);
+        $controls = $this->createForm('calendar',$calendar,[
+            'action' => $this->generateUrl('calendar_post')
+        ]);
+
+        return [
+            'calendar' => $calendar,
+            'controls' => $controls->createView()
+        ];
     }
-    
+
     /**
      * @Route("/post", name="calendar_post")
      * @Method({"POST"})
      */
-    public function postAction(Request $request){
+    public function postAction(Request $request) {
         $session = $request->getSession();
-        
-        if($request->request->get('date')){
-            $session->set('calendar_date', new DateTime($request->request->get('date')));
+        $calendar = $this->getCalendarFromSession($session);
+
+        $controls = $this->createForm('calendar',$calendar);
+        $controls->handleRequest($request);
+        if($controls->isValid()){
+            $clicked = $controls->getClickedButton();
+            if($clicked){
+                switch($clicked->getName()){
+                    case "previous";
+                        $calendar->getDate()->sub(new \DateInterval("P1D"));
+                        break;
+                    case "next";
+                        $calendar->getDate()->add(new \DateInterval("P1D"));
+                        break;
+                }
+            }
+            
+            $session->set('calendar_date',$calendar->getDate());
+            $session->set('calendar_site_id',$calendar->getSite()->getId());
         }
         
+//        return new \Symfony\Component\HttpFoundation\Response();
         return $this->redirectToRoute("calendar");
     }
-    
+
+    protected function getCalendarFromSession(Session $session){
+        $em = $this->getDoctrine()->getManager();
+
+        $siteRepo = $em->getRepository("MillerVeinCalendarBundle:Site");
+
+        $date = $session->get('calendar_date', new DateTime());
+        $site = $session->get('calendar_site_id') ?
+                $siteRepo->find($session->get('calendar_site_id')) :
+                $siteRepo->findOneBy([]);
+
+        return new Calendar($date, $site);
+    }
 }

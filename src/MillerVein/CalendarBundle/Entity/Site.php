@@ -2,7 +2,9 @@
 
 namespace MillerVein\CalendarBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -41,13 +43,22 @@ class Site {
      */
     protected $state;
     /**
-     * State
+     * Zip
      * @var string
      * @ORM\Column(length=10)
      * @Assert\Length(min = 5,max = 10)
      * @Assert\NotBlank()
      */
     protected $zip;
+    /**
+     * @OneToMany(targetEntity="Column", mappedBy="site" )
+     * @var ArrayCollection 
+     */
+    protected $columns;
+    
+    public function __construct() {
+        $this->columns = new ArrayCollection();
+    }
     
     public function getId() {
         return $this->id;
@@ -67,6 +78,10 @@ class Site {
 
     public function getZip() {
         return $this->zip;
+    }
+    
+    public function getColumns() {
+        return $this->columns;
     }
 
     public function setId($id) {
@@ -89,5 +104,8 @@ class Site {
         $this->zip = $zip;
     }
 
+    public function setColumns(ArrayCollection $columns) {
+        $this->columns = $columns;
+    }
 
 }

@@ -5,4 +5,7 @@ $(function() {
     $('#calendar-dateinput').change(function(){
         $(this).parents('form').submit();
     });
+    $('#calendar-siteinput').change(function(){
+        $(this).parents('form').submit();
+    });
 });

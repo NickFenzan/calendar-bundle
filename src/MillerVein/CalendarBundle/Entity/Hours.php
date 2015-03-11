@@ -85,9 +85,6 @@ class Hours {
      */
     protected $recurrence_rule; // </editor-fold>
 
-    public function __construct() {
-        $this->columns = new ArrayCollection();
-    }
 
 // <editor-fold defaultstate="collapsed" desc="Property Getters">
     public function getId() {

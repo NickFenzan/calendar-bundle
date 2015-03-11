@@ -1,24 +1,17 @@
 <div id="controls">
-    <form method='post' action='{{path("calendar_post")}}'>
+    {{ form_start(controls) }}
         <div id="previousDay">
-            <button><<</button>
+            {{ form_widget(controls.previous)}}
         </div>
         <div id="currentDate">
-            <input type="hidden" id='calendar-dateinput' name='date' 
-                   value="{{ calendar.date | date('m/d/Y') }}">
-            <span id="calendar-datespan">{{ calendar.date | date('m/d/Y') }}</span>
+            {{ form_widget(controls.date, { 'id' : 'calendar-dateinput'}) }}
+            <span id="calendar-datespan">{{ calendar.date | date('l n/d/Y') }}</span>
         </div>
         <div id="currentSite">
-            <select>
-                {% for site in sites %}
-                <option>
-                    {{site.City}}
-                </option>
-                {% endfor %}
-            </select>
+            {{ form_widget(controls.site, { 'id' : 'calendar-siteinput'}) }}
         </div>
         <div id="nextDay">
-            <button>>></button>
+            {{ form_widget(controls.next)}}
         </div>
-    </form>
+    {{ form_end(controls) }}
 </div>
