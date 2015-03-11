@@ -15,6 +15,7 @@ class HoursIterator implements Iterator {
     protected $position;
     protected $hours;
     protected $offset;
+    protected $lunch = false;
 
     public function __construct(Hours $hours) {
         $this->hours = $hours;

@@ -3,9 +3,11 @@
 namespace MillerVein\CalendarBundle\Entity;
 
 use DateTime;
-use Exception;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Reader;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -18,6 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Hours {
 
+// <editor-fold defaultstate="collapsed" desc="Properties">
     /**
      * Object Id
      * @var int ID
@@ -37,7 +40,8 @@ class Hours {
      * )
      */
     protected $name;
-    
+
+
     /**
      * Date hours take effect
      * @var DateTime 
@@ -97,11 +101,11 @@ class Hours {
 
     /**
      * The Recurrance Rule
-     * @var MillerVein\CalendarBundle\Entity\RecurranceRule
+     * @var RecurranceRule
      * @Assert\Valid
-     * @ORM\ManyToOne(targetEntity="MillerVein\CalendarBundle\Entity\RecurranceRule", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="RecurranceRule", cascade={"persist"})
      */
-    protected $recurrance_rule;
+    protected $recurrance_rule; // </editor-fold>
 
     public function __construct() {
         $this->columns = new ArrayCollection();
@@ -205,8 +209,19 @@ class Hours {
         }
     }
     public function doHoursApplyToDate(DateTime $date){
-            
-        return true;
+        $recurrance_rule = $this->recurrance_rule;
+        
+        //If the hours haven't taken effect yet bail
+        if($this->start_date > $date){
+            return false;
+        }
+        
+        //If there isn't a recurrance rule associated the hours are always good
+        if(null === $recurrance_rule){
+            return true;
+        }
+        
+        return $recurrance_rule->doesRuleApplyToDate($this->start_date, $date);
     }
     
 }

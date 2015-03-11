@@ -2,8 +2,11 @@
 
 namespace MillerVein\CalendarBundle\Entity;
 
-use Eluceo\iCal\Property\Event\RecurrenceRule as EluceoRecurranceRule;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Eluceo\iCal\Property\Event\RecurrenceRule as EluceoRecurranceRule;
+use ReflectionClass;
+use Sabre\VObject\Recur\RRuleIterator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -33,7 +36,7 @@ class RecurranceRule extends EluceoRecurranceRule {
      * )
      */
     protected $name;
-    
+
     /**
      * The frequency of an Event
      *
@@ -52,7 +55,7 @@ class RecurranceRule extends EluceoRecurranceRule {
 
     /**
      *
-     * @var \DateTime
+     * @var DateTime
      * @Assert\Date()
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -93,12 +96,12 @@ class RecurranceRule extends EluceoRecurranceRule {
     public function getName() {
         return $this->name;
     }
-    
+
     public function getUntil() {
         return $this->until;
     }
 
-    public function setUntil(\DateTime $until = null) {
+    public function setUntil(DateTime $until = null) {
         $this->until = $until;
     }
 
@@ -135,12 +138,12 @@ class RecurranceRule extends EluceoRecurranceRule {
     }
 
     // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="Setters">
-    public function setName($name){
+    public function setName($name) {
         $this->name = $name;
         return $this;
     }
+
     public function setByMonth($month) {
 
 //        if (!is_integer($month) || $month < 0 || $month > 12) {
@@ -152,7 +155,6 @@ class RecurranceRule extends EluceoRecurranceRule {
     }
 
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="Validation Checks">
     /**
      * @Assert\True(message="By month contains an invalid value")
@@ -207,7 +209,7 @@ class RecurranceRule extends EluceoRecurranceRule {
         }
         return true;
     }
-    
+
     /**
      * @Assert\True(message="By day contains an invalid value")
      */
@@ -217,23 +219,21 @@ class RecurranceRule extends EluceoRecurranceRule {
         }
         $array = split(",", $this->byDay);
         foreach ($array as $val) {
-            if ( in_array($this->freq, [self::FREQ_YEARLY, self::FREQ_MONTHLY])) {
+            if (in_array($this->freq, [self::FREQ_YEARLY, self::FREQ_MONTHLY])) {
                 if (!preg_match("/^(\+\d|\-\d)?(MO|TU|WE|TH|FR|SA|SU)$/", $val)) {
                     return false;
                 }
-            }else{
+            } else {
                 if (!preg_match("/^(MO|TU|WE|TH|FR|SA|SU)$/", $val)) {
                     return false;
                 }
             }
         }
-            
+
         return true;
     }
 
-    
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="Overrides">
     protected function buildParameterBag() {
         $parameterBag = parent::buildParameterBag();
@@ -245,9 +245,15 @@ class RecurranceRule extends EluceoRecurranceRule {
 
 // </editor-fold>
 
+    public function doesRuleApplyToDate(DateTime $startDate, DateTime $date) {
+        $iter = new RRuleIterator($this->getEscapedValue(), $startDate);
+        $iter->fastForward($date);
+        return ($iter->current() == $date);
+    }
+
 // <editor-fold defaultstate="collapsed" desc="Statics">
     public static function getFreqChoices() {
-        $refl = new \ReflectionClass('MillerVein\CalendarBundle\Entity\RecurranceRule');
+        $refl = new ReflectionClass('MillerVein\CalendarBundle\Entity\RecurranceRule');
         $array = array();
         foreach ($refl->getConstants() as $constant => $value) {
             if (preg_match("/^FREQ/", $constant)) {
