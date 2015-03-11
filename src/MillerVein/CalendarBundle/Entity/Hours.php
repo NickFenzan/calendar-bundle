@@ -100,12 +100,12 @@ class Hours {
     protected $scheduling_increment;
 
     /**
-     * The Recurrance Rule
-     * @var RecurranceRule
+     * The Recurrence Rule
+     * @var RecurrenceRule
      * @Assert\Valid
-     * @ORM\ManyToOne(targetEntity="RecurranceRule", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="RecurrenceRule", cascade={"persist"})
      */
-    protected $recurrance_rule; // </editor-fold>
+    protected $recurrence_rule; // </editor-fold>
 
     public function __construct() {
         $this->columns = new ArrayCollection();
@@ -145,8 +145,8 @@ class Hours {
         return $this->scheduling_increment;
     }
 
-    public function getRecurranceRule() {
-        return $this->recurrance_rule;
+    public function getRecurrenceRule() {
+        return $this->recurrence_rule;
     }
 
 // </editor-fold>
@@ -183,8 +183,8 @@ class Hours {
         $this->scheduling_increment = $scheduling_increment;
     }
 
-    public function setRecurranceRule(RecurranceRule $recurrance_rule) {
-        $this->recurrance_rule = $recurrance_rule;
+    public function setRecurrenceRule(RecurrenceRule $recurrence_rule) {
+        $this->recurrence_rule = $recurrence_rule;
     }
 
 
@@ -209,19 +209,19 @@ class Hours {
         }
     }
     public function doHoursApplyToDate(DateTime $date){
-        $recurrance_rule = $this->recurrance_rule;
+        $recurrence_rule = $this->recurrence_rule;
         
         //If the hours haven't taken effect yet bail
         if($this->start_date > $date){
             return false;
         }
         
-        //If there isn't a recurrance rule associated the hours are always good
-        if(null === $recurrance_rule){
+        //If there isn't a recurrence rule associated the hours are always good
+        if(null === $recurrence_rule){
             return true;
         }
         
-        return $recurrance_rule->doesRuleApplyToDate($this->start_date, $date);
+        return $recurrence_rule->doesRuleApplyToDate($this->start_date, $date);
     }
     
 }

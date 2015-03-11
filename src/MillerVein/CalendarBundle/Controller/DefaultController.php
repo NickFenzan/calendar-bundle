@@ -4,9 +4,8 @@ namespace MillerVein\CalendarBundle\Controller;
 
 use MillerVein\CalendarBundle\Entity\Column;
 use MillerVein\CalendarBundle\Entity\Hours;
-use MillerVein\CalendarBundle\Entity\RecurranceRule;
+use MillerVein\CalendarBundle\Entity\RecurrenceRule;
 use MillerVein\CalendarBundle\Entity\Site;
-use MillerVein\CalendarBundle\Model\Calendar;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -34,13 +33,13 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/recurrance_rule")
+     * @Route("/recurrence_rule")
      * @Template()
      */
-    public function recurranceRuleAction(Request $request) {
-        $rule = new RecurranceRule();
+    public function recurrenceRuleAction(Request $request) {
+        $rule = new RecurrenceRule();
 
-        $form = $this->createForm('recurrance_rule', $rule)->add('save', 'submit');
+        $form = $this->createForm('recurrence_rule', $rule)->add('save', 'submit');
         $form->handleRequest($request);
 
         if ($form->isValid()) {

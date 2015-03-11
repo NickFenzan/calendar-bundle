@@ -1,8 +1,8 @@
 services:
-    millervein.calendar.form.type.recurrance_rule:
-        class: MillerVein\CalendarBundle\Form\Type\RecurranceRuleType
+    millervein.calendar.form.type.recurrence_rule:
+        class: MillerVein\CalendarBundle\Form\Type\RecurrenceRuleType
         tags:
-            - { name: form.type, alias: recurrance_rule }
+            - { name: form.type, alias: recurrence_rule }
     millervein.calendar.form.type.hours:
         class: MillerVein\CalendarBundle\Form\Type\HoursType
         tags:

@@ -5,21 +5,21 @@ namespace MillerVein\CalendarBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use MillerVein\CalendarBundle\Entity\RecurranceRule;
+use MillerVein\CalendarBundle\Entity\RecurrenceRule;
 
 /**
  * Description of ColumnType
  *
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class RecurranceRuleType extends AbstractType {
+class RecurrenceRuleType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('name', 'text')
                 ->add('freq', 'choice', array(
                     'label' => 'Repeats',
-                    'choices' => RecurranceRule::getFreqChoices()
+                    'choices' => RecurrenceRule::getFreqChoices()
 //                    'choices' => $this->getFrequencies()
                 ))
                 ->add('interval', 'number', array(
@@ -95,7 +95,7 @@ class RecurranceRuleType extends AbstractType {
     }
 
     protected function getFrequencies() {
-        $refl = new \ReflectionClass('MillerVein\CalendarBundle\Entity\RecurranceRule');
+        $refl = new \ReflectionClass('MillerVein\CalendarBundle\Entity\RecurrenceRule');
         $array = array();
         foreach ($refl->getConstants() as $constant => $value) {
             if (preg_match("/^FREQ/", $constant)) {
@@ -106,7 +106,7 @@ class RecurranceRuleType extends AbstractType {
     }
 
     protected function getDaysOfWeek() {
-        $refl = new \ReflectionClass('MillerVein\CalendarBundle\Entity\RecurranceRule');
+        $refl = new \ReflectionClass('MillerVein\CalendarBundle\Entity\RecurrenceRule');
         $array = array();
         foreach ($refl->getConstants() as $constant => $value) {
             $matches = array();
@@ -148,12 +148,12 @@ class RecurranceRuleType extends AbstractType {
     }
 
     public function getName() {
-        return "recurrance_rule";
+        return "recurrence_rule";
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'MillerVein\CalendarBundle\Entity\RecurranceRule',
+            'data_class' => 'MillerVein\CalendarBundle\Entity\RecurrenceRule',
         ));
     }
 

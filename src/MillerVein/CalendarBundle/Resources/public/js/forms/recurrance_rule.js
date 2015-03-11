@@ -135,7 +135,7 @@ $.widget("millervein.by_day", {
     
     
 });
-$.widget("millervein.recurrance_rule", {
+$.widget("millervein.recurrence_rule", {
     inputs: {
         freq: null,
         endMethod: null,
@@ -297,5 +297,5 @@ $.widget("millervein.recurrance_rule", {
     }
 });
 $(function() {
-    $('form .recurrance_rule_widget').recurrance_rule();
+    $('form .recurrence_rule_widget').recurrence_rule();
 });

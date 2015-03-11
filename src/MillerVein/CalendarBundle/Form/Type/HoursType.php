@@ -24,9 +24,9 @@ class HoursType extends AbstractType {
                 ->add('lunch_start', 'time')
                 ->add('lunch_end', 'time')
                 ->add('scheduling_increment', 'number')
-                ->add('recurrance_rule', 'entity', array(
+                ->add('recurrence_rule', 'entity', array(
                     'required' => false,
-                    'class' => 'MillerVeinCalendarBundle:RecurranceRule',
+                    'class' => 'MillerVeinCalendarBundle:RecurrenceRule',
                     'property' => 'name'
         ));
     }

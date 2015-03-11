@@ -10,13 +10,13 @@ use Sabre\VObject\Recur\RRuleIterator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Rule that describes recurrance pattern based on 
+ * Rule that describes recurrence pattern based on 
  * @link https://tools.ietf.org/html/rfc5545 RFC5545
  *
  * @ORM\Entity()
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class RecurranceRule extends EluceoRecurranceRule {
+class RecurrenceRule extends EluceoRecurranceRule {
 
     /**
      * @var int 
@@ -253,7 +253,7 @@ class RecurranceRule extends EluceoRecurranceRule {
 
 // <editor-fold defaultstate="collapsed" desc="Statics">
     public static function getFreqChoices() {
-        $refl = new ReflectionClass('MillerVein\CalendarBundle\Entity\RecurranceRule');
+        $refl = new ReflectionClass('MillerVein\CalendarBundle\Entity\RecurrenceRule');
         $array = array();
         foreach ($refl->getConstants() as $constant => $value) {
             if (preg_match("/^FREQ/", $constant)) {
