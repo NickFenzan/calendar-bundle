@@ -2,13 +2,14 @@
 
 namespace MillerVein\CalendarBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Description of Appointment
  *
- * @ORM\Entity(repositoryClass="MillerVein\CalendarBundle\Entity\AppointmentRepository")
+ * @ORM\Entity(repositoryClass="AppointmentRepository")
  * @author Nick Fenzan <nickf@millervein.com>
  */
 class Appointment {
@@ -54,13 +55,12 @@ class Appointment {
      * Column Appointment is associated with
      * @ORM\ManyToOne(targetEntity="Column")
      * @Assert\NotBlank()
-     * @var MillerVein\CalendarBundle\Entity\Column
+     * @var Column
      */
     protected $column;
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Getters">
-
     public function getId() {
         return $this->id;
     }
@@ -75,6 +75,10 @@ class Appointment {
 
     public function getDuration() {
         return $this->duration;
+    }
+    
+    public function getColumn(){
+        return $this->column;
     }
 
 // </editor-fold>
@@ -94,6 +98,10 @@ class Appointment {
 
     public function setDuration($duration) {
         $this->duration = $duration;
+    }
+    
+    public function setColumn(Column $column) {
+        $this->column = $column;
     }
 // </editor-fold>
 

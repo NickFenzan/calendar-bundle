@@ -1,8 +1,11 @@
 <div class="timeslot">
-    <div class="time">{{timeSlot.time | date('h:i')}}</div>
+    <div class="time" 
+         data-column="{{calendarColumn.column.id}}"
+         data-datetime="{{calendar.date | date('Y-m-d')}} {{timeSlot.time | date('H:i')}}"
+         >{{timeSlot.time | date('h:i')}}</div>
     <div class="appts">
         {% for appt in timeSlot.Appointments %}
-        <div class="appt">
+        <div class="appt" data-id="{{appt.id}}">
             {{ appt.title }}
         </div>
         {% endfor %}

@@ -19,3 +19,7 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\CalendarType
         tags:
             - { name: form.type, alias: calendar }
+    millervein.calendar.form.type.appointment:
+        class: MillerVein\CalendarBundle\Form\Type\AppointmentType
+        tags:
+            - { name: form.type, alias: appointment }

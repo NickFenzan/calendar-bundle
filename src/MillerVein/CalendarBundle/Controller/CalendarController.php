@@ -2,6 +2,7 @@
 
 namespace MillerVein\CalendarBundle\Controller;
 
+use DateInterval;
 use DateTime;
 use MillerVein\CalendarBundle\Model\Calendar;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -24,7 +25,7 @@ class CalendarController extends Controller {
         $session = $request->getSession();
         $calendar = $this->getCalendarFromSession($session);
 
-        $controls = $this->createForm('calendar',$calendar,[
+        $controls = $this->createForm('calendar', $calendar, [
             'action' => $this->generateUrl('calendar_post')
         ]);
 
@@ -42,30 +43,30 @@ class CalendarController extends Controller {
         $session = $request->getSession();
         $calendar = $this->getCalendarFromSession($session);
 
-        $controls = $this->createForm('calendar',$calendar);
+        $controls = $this->createForm('calendar', $calendar);
         $controls->handleRequest($request);
-        if($controls->isValid()){
+        if ($controls->isValid()) {
             $clicked = $controls->getClickedButton();
-            if($clicked){
-                switch($clicked->getName()){
+            if ($clicked) {
+                switch ($clicked->getName()) {
                     case "previous";
-                        $calendar->getDate()->sub(new \DateInterval("P1D"));
+                        $calendar->getDate()->sub(new DateInterval("P1D"));
                         break;
                     case "next";
-                        $calendar->getDate()->add(new \DateInterval("P1D"));
+                        $calendar->getDate()->add(new DateInterval("P1D"));
                         break;
                 }
             }
-            
-            $session->set('calendar_date',$calendar->getDate());
-            $session->set('calendar_site_id',$calendar->getSite()->getId());
+
+            $session->set('calendar_date', $calendar->getDate());
+            $session->set('calendar_site_id', $calendar->getSite()->getId());
         }
-        
+
 //        return new \Symfony\Component\HttpFoundation\Response();
         return $this->redirectToRoute("calendar");
     }
 
-    protected function getCalendarFromSession(Session $session){
+    protected function getCalendarFromSession(Session $session) {
         $em = $this->getDoctrine()->getManager();
 
         $siteRepo = $em->getRepository("MillerVeinCalendarBundle:Site");
@@ -78,4 +79,7 @@ class CalendarController extends Controller {
 
         return new Calendar($date, $site, $apptRepo);
     }
+
+ 
+
 }
