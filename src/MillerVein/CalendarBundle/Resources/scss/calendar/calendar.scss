@@ -2,14 +2,14 @@
     display: inline-flex;
     overflow-x: auto;
     white-space: nowrap;
-    
+
     .calendar-column{
         flex: 1 0 auto;
         display: flex;
         flex-direction: column;
         border-right:1px solid grey;
         min-width:500px;
-        
+
         .column-header{
             flex: 0 1 0;
             text-align: center;
@@ -19,27 +19,34 @@
             background-color: #8ca3d2;
             color: white;
         }
-        
+
         .column-body{
             flex: 1 0 0;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            
+
             .timeslot{
                 width:100%;
                 display:flex;
-                
+
                 .time{
                     padding:5px;
                     border-right:1px solid grey;
                     border-bottom:1px solid grey;
                 }
-                
+
                 .appts{
                     flex: 1 0 0;
-                    padding:5px;
                     border-bottom:1px solid grey;
+                    display: flex;
+                        
+                    .appt{
+                        flex: 1 0 0;
+                        background-color: white;
+                        padding: 5px;
+                        border: 1px solid black;
+                    }
                 }
             }
         }

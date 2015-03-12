@@ -14,9 +14,9 @@ use MillerVein\CalendarBundle\Entity\Hours;
 class CalendarColumn {
     /**
      *
-     * @var DateTime
+     * @var Calendar
      */
-    protected $date;
+    protected $calendar;
     /**
      *
      * @var Column
@@ -34,10 +34,10 @@ class CalendarColumn {
     /**
      * 
      * @param Column $column
-     * @param DateTime $date
+     * @param Calendar $calendar
      */
-    public function __construct(Column $column, DateTime $date) {
-        $this->date = $date;
+    public function __construct(Calendar $calendar, Column $column) {
+        $this->calendar = $calendar;
         $this->column = $column;
         $this->findHours();
         $this->buildTimeSlots();
@@ -45,7 +45,7 @@ class CalendarColumn {
     
     protected function findHours(){
         foreach($this->column->getHours() as $hours){
-            if($hours->doHoursApplyToDate($this->date)){
+            if($hours->doHoursApplyToDate($this->calendar->getDate())){
                 $this->hours = $hours;
             }
         }
@@ -56,13 +56,13 @@ class CalendarColumn {
             $this->time_slots = array();
             $hours = new HoursIterator($this->hours);
             foreach($hours as $time){
-                $this->time_slots[] = new TimeSlot($time);
+                $this->time_slots[] = new TimeSlot($time, $this);
             }
         }
     }
     
-    public function getDate() {
-        return $this->date;
+    public function getCalendar() {
+        return $this->calendar;
     }
 
     public function getColumn() {
@@ -77,4 +77,12 @@ class CalendarColumn {
         return $this->time_slots;
     }
     
+    public function getTimeSlot(DateTime $time){
+        foreach($this->time_slots as $time_slot){
+            if ($time_slot->getTime() == $time){
+                return $time_slot;
+            }
+        }
+        return null;
+    }
 }

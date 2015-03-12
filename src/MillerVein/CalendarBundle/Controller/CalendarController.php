@@ -69,12 +69,13 @@ class CalendarController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $siteRepo = $em->getRepository("MillerVeinCalendarBundle:Site");
+        $apptRepo = $em->getRepository("MillerVeinCalendarBundle:Appointment");
 
         $date = $session->get('calendar_date', new DateTime());
         $site = $session->get('calendar_site_id') ?
                 $siteRepo->find($session->get('calendar_site_id')) :
                 $siteRepo->findOneBy([]);
 
-        return new Calendar($date, $site);
+        return new Calendar($date, $site, $apptRepo);
     }
 }

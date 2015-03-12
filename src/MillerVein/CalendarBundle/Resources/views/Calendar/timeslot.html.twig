@@ -1,4 +1,10 @@
 <div class="timeslot">
     <div class="time">{{timeSlot.time | date('h:i')}}</div>
-    <div class="appts"></div>
+    <div class="appts">
+        {% for appt in timeSlot.Appointments %}
+        <div class="appt">
+            {{ appt.title }}
+        </div>
+        {% endfor %}
+    </div>
 </div>

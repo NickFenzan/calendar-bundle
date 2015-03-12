@@ -30,8 +30,13 @@
           border-bottom: 1px solid grey; }
         #calendar .calendar-column .column-body .timeslot .appts {
           flex: 1 0 0;
-          padding: 5px;
-          border-bottom: 1px solid grey; }
+          border-bottom: 1px solid grey;
+          display: flex; }
+          #calendar .calendar-column .column-body .timeslot .appts .appt {
+            flex: 1 0 0;
+            background-color: white;
+            padding: 5px;
+            border: 1px solid black; }
   #calendar .calendar-column:last-of-type {
     border-right: none; }
 

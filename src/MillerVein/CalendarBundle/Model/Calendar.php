@@ -4,6 +4,7 @@ namespace MillerVein\CalendarBundle\Model;
 
 use DateTime;
 use Exception;
+use MillerVein\CalendarBundle\Entity\AppointmentRepository;
 use MillerVein\CalendarBundle\Entity\Site;
 
 /**
@@ -30,9 +31,16 @@ class Calendar {
      * @var Site
      */
     protected $site;
+    
+    /**
+     *
+     * @var AppointmentRepository
+     */
+    protected $appt_repo;
 
-    public function __construct(DateTime $date, $display) {
+    public function __construct(DateTime $date, $display, AppointmentRepository $apptRepo) {
         $this->date = $date;
+        $this->appt_repo = $apptRepo;
         if (is_a($display, "MillerVein\CalendarBundle\Entity\Site")) {
             $this->setSite($display);
         } else {
@@ -51,7 +59,12 @@ class Calendar {
     public function getSite() {
         return $this->site;
     }
+    
+    public function getAppointmentRepository() {
+        return $this->appt_repo;
+    }
 
+    
     public function setDate(DateTime $date) {
         $this->date = $date;
     }
@@ -64,7 +77,7 @@ class Calendar {
         $this->columns = array();
         foreach ($columns as $column) {
             if (is_a($column, "MillerVein\CalendarBundle\Entity\Column")) {
-                $this->columns[] = new CalendarColumn($column, $this->date);
+                $this->columns[] = new CalendarColumn($this, $column);
             } else {
                 throw new Exception("Columns array contains non-column objects");
             }
