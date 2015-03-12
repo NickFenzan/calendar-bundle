@@ -10,6 +10,16 @@ use Doctrine\ORM\EntityRepository;
  * @author Nick Fenzan <nickf@millervein.com>
  */
 class AppointmentRepository extends EntityRepository{
+    public function findAppointmentsByColumn(Column $column){
+        $query = $this->getEntityManager()->createQuery(
+                'SELECT a '
+                . ' FROM MillerVeinCalendarBundle:Appointment a '
+                . ' WHERE a.column = :column '
+        )
+        ->setParameter('column', $column);
+        return $query->getResult();
+    }
+    
     public function findAppointmentsByColumnDateTime(Column $column, \DateTime $datetime){
         $query = $this->getEntityManager()->createQuery(
                 'SELECT a '

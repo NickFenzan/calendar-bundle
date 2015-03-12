@@ -30,6 +30,11 @@ class CalendarColumn {
      * @var Array
      */
     protected $time_slots = null;
+    /**
+     *
+     * @var Array
+     */
+    protected $appointments;
     
     /**
      * 
@@ -41,6 +46,7 @@ class CalendarColumn {
         $this->column = $column;
         $this->findHours();
         $this->buildTimeSlots();
+        $this->buildAppointments();
     }
     
     protected function findHours(){
@@ -59,6 +65,31 @@ class CalendarColumn {
                 $this->time_slots[] = new TimeSlot($time, $this);
             }
         }
+    }
+    
+    protected function buildAppointments(){
+        $rep = $this->getCalendar()->getAppointmentRepository();
+        $appts = $rep->findAppointmentsByColumn($this->getColumn());
+        foreach ($appts as $appt){
+            //Strip the date
+            $time = new DateTime($appt->getDateTime()->format('H:i'));
+            //Get the Time Slot
+            $timeSlot = $this->getTimeSlot($time);
+            //Set this appointment on the timeslot
+            $timeSlot->setAppointment($appt);
+            //Look for overflow
+            $apptDur = $appt->getDuration();
+            $colInc = $this->getHours()->getSchedulingIncrement();
+            
+            for($i=$colInc;$i<$apptDur;$i+=$colInc){
+                $time->add(new \DateInterval("PT{$colInc}M"));
+                $overflowSlot = $this->getTimeSlot($time);
+                if($overflowSlot){
+                    $overflowSlot->setAppointment($appt);
+                }
+            }
+        }
+        return $this->appointments;
     }
     
     public function getCalendar() {

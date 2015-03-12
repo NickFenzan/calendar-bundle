@@ -27,7 +27,10 @@
         #calendar .calendar-column .column-body .timeslot .time {
           padding: 5px;
           border-right: 1px solid grey;
-          border-bottom: 1px solid grey; }
+          border-bottom: 1px solid grey;
+          cursor: pointer; }
+        #calendar .calendar-column .column-body .timeslot .time:hover {
+          font-weight: bold; }
         #calendar .calendar-column .column-body .timeslot .appts {
           flex: 1 0 0;
           border-bottom: 1px solid grey;
