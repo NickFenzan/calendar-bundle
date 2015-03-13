@@ -17,6 +17,8 @@ class PatientType extends AppointmentType {
             'class' => 'MillerVeinCalendarBundle:Patient',
             'property' => 'lname'
         ]);
+        
+        $this->submitButtons($builder);
     }
 
         public function getName() {
@@ -24,6 +26,7 @@ class PatientType extends AppointmentType {
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'MillerVein\CalendarBundle\Entity\Appointment\Patient',
         ));

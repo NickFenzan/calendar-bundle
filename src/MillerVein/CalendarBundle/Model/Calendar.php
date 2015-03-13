@@ -3,9 +3,12 @@
 namespace MillerVein\CalendarBundle\Model;
 
 use DateTime;
+use Doctrine\ORM\EntityManager;
 use Exception;
 use MillerVein\CalendarBundle\Entity\Appointment\AppointmentRepository;
+use MillerVein\CalendarBundle\Entity\Column;
 use MillerVein\CalendarBundle\Entity\Site;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Description of Calendar
@@ -88,6 +91,31 @@ class Calendar {
         $this->site = $site;
         $columns = $site->getColumns();
         $this->buildColumns($columns);
+    }
+    
+    /**
+     * 
+     * @param \MillerVein\CalendarBundle\Entity\Column $column
+     * @return \MillerVein\CalendarBundle\Model\CalendarColumn
+     */
+    public function getCalendarColumnByColumn(Column $column){
+        foreach($this->columns as $calCol ){
+            if($calCol->getColumn() == $column){
+                return $calCol;
+            }
+        }
+    }
+    
+    static public function getCalendarFromSession(EntityManager $em, Session $session){
+        $siteRepo = $em->getRepository("MillerVeinCalendarBundle:Site");
+        $apptRepo = $em->getRepository("MillerVeinCalendarBundle:Appointment\Appointment");
+
+        $date = $session->get('calendar_date', new DateTime());
+        $site = $session->get('calendar_site_id') ?
+                $siteRepo->find($session->get('calendar_site_id')) :
+                $siteRepo->findOneBy([]);
+
+        return new Calendar($date, $site, $apptRepo);
     }
 
 }

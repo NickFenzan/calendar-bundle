@@ -1,7 +1,8 @@
 <?php
 
-namespace MillerVein\CalendarBundle\Form\Type\Appointment;
+namespace MillerVein\CalendarBundle\Form\Type;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -9,21 +10,23 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class ProviderType extends AppointmentType {
+class PatientType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        parent::buildForm($builder, $options);
-        $this->submitButtons($builder);
+        $builder->add('fname', 'text')
+                ->add('lname', 'text')
+                ->add('dob', 'date', [
+                    'widget' => 'single_text'
+                ]);
     }
 
     public function getName() {
-        return "appointment_provider";
+        return "patient";
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
-        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'MillerVein\CalendarBundle\Entity\Appointment\Provider',
+            'data_class' => 'MillerVein\CalendarBundle\Entity\Patient',
         ));
     }
 

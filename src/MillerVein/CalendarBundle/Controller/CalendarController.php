@@ -65,21 +65,9 @@ class CalendarController extends Controller {
 //        return new \Symfony\Component\HttpFoundation\Response();
         return $this->redirectToRoute("calendar");
     }
-
-    protected function getCalendarFromSession(Session $session) {
+    
+    protected function getCalendarFromSession(Session $session){
         $em = $this->getDoctrine()->getManager();
-
-        $siteRepo = $em->getRepository("MillerVeinCalendarBundle:Site");
-        $apptRepo = $em->getRepository("MillerVeinCalendarBundle:Appointment\Appointment");
-
-        $date = $session->get('calendar_date', new DateTime());
-        $site = $session->get('calendar_site_id') ?
-                $siteRepo->find($session->get('calendar_site_id')) :
-                $siteRepo->findOneBy([]);
-
-        return new Calendar($date, $site, $apptRepo);
+        return Calendar::getCalendarFromSession($em,$session);
     }
-
- 
-
 }

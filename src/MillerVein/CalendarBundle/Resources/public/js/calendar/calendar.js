@@ -9,16 +9,29 @@ $(function(){
             datetime: $(this).data('datetime'),
             column: $(this).data('column')
         };
-        $.get('calendar/appointment/new',data,function(data){
+        $apptDialog.data('apptInfo',data);
+        var route = Routing.generate('appointment_patient_new_form');
+        $.get(route,data,function(data){
             $apptDialog.html(data);
             $apptDialog.dialog('open');
         });
     });
     $('.appt').click(function(){
         var id = $(this).data('id');
-        $.get('calendar/appointment/edit/'+id,function(data){
-            $apptDialog.html(data.form);
+        var type = $(this).data('type');
+        var route = Routing.generate('appointment_'+type+'_edit_form');
+        $.get(route+'/'+id,function(data){
+            $apptDialog.html(data);
             $apptDialog.dialog('open');
+        });
+    });
+    
+    $apptDialog.on('change','#appointment-type',function(){
+        var type = $(this).val();
+        var data = $apptDialog.data('apptInfo');
+        var route = Routing.generate('appointment_'+type+'_new_form');
+        $.get(route,data,function(data){
+            $apptDialog.find('.appt_form').html($(data).find('.appt_form').html());
         });
     });
 });

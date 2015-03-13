@@ -19,12 +19,36 @@ abstract class AppointmentType extends AbstractType {
         
         $builder->add('title', 'text')
                 ->add('date_time', 'datetime')
-                ->add('duration', 'number')
-                ->add('column', 'entity',[
-                    'class' => 'MillerVeinCalendarBundle:Column',
-                    'property' => 'name'
+                ->add('duration', 'choice',[
+                    'choices' => $this->durationChoices($options['scheduling_increment'])
                 ])
-            ;
+                ->add('column', 'entity', [
+                    'property' => 'name',
+                    'class' => 'MillerVeinCalendarBundle:Column'
+                ]);
+        
+    }
+    
+    protected function submitButtons(FormBuilderInterface $builder){
+        $builder->add('submit', 'submit');
+    }
+    
+    protected function durationChoices($increment = 15){
+        $choices = array();
+        for($i=$increment;$i<480;$i+=$increment){
+            $hoursString = ($i>=120)?'\h\o\u\r\s':'\h\o\u\r';
+            if($i < 60){
+                $description = date('i \m\i\n\u\t\e\s', mktime(0,$i));
+            }elseif($i%60 == 0){
+                $description = date('G '.$hoursString, mktime(0,$i));
+            }else{
+                $description = date('G '.$hoursString.' i \m\i\n\u\t\e\s', mktime(0,$i));
+            }
+                    
+                
+            $choices[$i] = $description;
+        }
+        return $choices;
     }
 
     public function getName() {
@@ -32,8 +56,10 @@ abstract class AppointmentType extends AbstractType {
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
+        $resolver->setRequired('scheduling_increment');
         $resolver->setDefaults(array(
             'data_class' => 'MillerVein\CalendarBundle\Entity\Appointment\Appointment',
+            'scheduling_increment' => 15,
         ));
     }
 

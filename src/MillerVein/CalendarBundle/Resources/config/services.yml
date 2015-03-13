@@ -19,6 +19,10 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\CalendarType
         tags:
             - { name: form.type, alias: calendar }
+    millervein.calendar.form.type.patient:
+        class: MillerVein\CalendarBundle\Form\Type\PatientType
+        tags:
+            - { name: form.type, alias: patient }
             
 #-- Appointment -- #
     millervein.calendar.form.type.appointment.patient:

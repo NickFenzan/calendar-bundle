@@ -5,7 +5,7 @@
          >{{timeSlot.time | date('h:i')}}</div>
     <div class="appts">
         {% for appt in timeSlot.Appointments %}
-        <div class="appt" data-id="{{appt.id}}">
+        <div class="appt" data-id="{{appt.id}}" data-type="{{appt.type}}">
             {{ appt.title }}
             {% if appt.type == 'patient' %}
                 {{ appt.patient.fname }}

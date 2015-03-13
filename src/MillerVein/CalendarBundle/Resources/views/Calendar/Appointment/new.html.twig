@@ -1,10 +1,14 @@
 <div>
-    <div>Appointment Type</div>
-    <select>
-        <option>Patient</option>
-        <option>Provider</option>
-    </select>
-</div>
-<div class='appt_form'>
-    {{form(form)}}
+    <div>
+        <div>Appointment Type</div>
+        <select id='appointment-type'>
+            <option value='patient'>Patient</option>
+            <option value='provider'>Provider</option>
+        </select>
+    </div>
+    <div class='appt_form'>
+        {{form_start(form)}}
+            {% include 'MillerVeinCalendarBundle:Calendar:Appointment/commonFormFields.html.twig' %}
+        {{form_end(form)}}
+    </div>
 </div>

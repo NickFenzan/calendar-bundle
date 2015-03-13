@@ -58,6 +58,7 @@ class CalendarColumn {
     }
     
     protected function buildTimeSlots(){
+        $this->time_slots = array();
         if(null !== $this->hours){
             $this->time_slots = array();
             $hours = new HoursIterator($this->hours);
@@ -69,7 +70,7 @@ class CalendarColumn {
     
     protected function buildAppointments(){
         $rep = $this->getCalendar()->getAppointmentRepository();
-        $appts = $rep->findAppointmentsByColumn($this->getColumn());
+        $appts = $rep->findAppointmentsByColumnDate($this->getColumn(),$this->calendar->getDate());
         foreach ($appts as $appt){
             //Strip the date
             $time = new DateTime($appt->getDateTime()->format('H:i'));
