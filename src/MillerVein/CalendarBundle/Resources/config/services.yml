@@ -27,6 +27,10 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\Category\PatientType
         tags:
             - { name: form.type, alias: category_patient }
+    millervein.calendar.form.type.category.provider:
+        class: MillerVein\CalendarBundle\Form\Type\Category\ProviderType
+        tags:
+            - { name: form.type, alias: category_provider }
             
 #   Form Fields
     millervein.calendar.form.type.fields.color:
