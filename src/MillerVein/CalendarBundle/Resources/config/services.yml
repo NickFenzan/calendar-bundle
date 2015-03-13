@@ -23,3 +23,13 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\AppointmentType
         tags:
             - { name: form.type, alias: appointment }
+    millervein.calendar.form.type.category.patient:
+        class: MillerVein\CalendarBundle\Form\Type\Category\PatientType
+        tags:
+            - { name: form.type, alias: category_patient }
+            
+#   Form Fields
+    millervein.calendar.form.type.fields.color:
+        class: MillerVein\CalendarBundle\Form\Type\Fields\ColorType
+        tags:
+            - { name: form.type, alias: color }

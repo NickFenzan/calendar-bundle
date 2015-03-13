@@ -93,6 +93,10 @@ class RecurrenceRule extends EluceoRecurranceRule {
     protected $byDay;
 
 // <editor-fold defaultstate="collapsed" desc="Getters">
+    public function getId() {
+        return $this->id;
+    }
+
     public function getName() {
         return $this->name;
     }

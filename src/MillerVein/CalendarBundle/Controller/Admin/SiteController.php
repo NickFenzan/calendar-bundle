@@ -6,15 +6,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Description of HoursController
+ * Description of SiteController
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @Route("/admin/hours")
+ * @Route("/admin/site")
  */
-class HoursController extends DefaultController{
-    const CLASS_NAME = "Hours";
-    const FORM_SERVICE = "hours";
-    const DISPLAY_PROPERTY = "name";
+class SiteController extends DefaultController{
+    const CLASS_NAME = "Site";
+    const FORM_SERVICE = "site";
+    const DISPLAY_PROPERTY = "city";
     
     /**
      * @Route("/")

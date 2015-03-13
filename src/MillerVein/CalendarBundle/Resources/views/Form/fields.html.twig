@@ -148,3 +148,7 @@
     </table>
 </div>
 {%- endblock recurrence_rule_widget -%}
+{% block color_widget -%}
+    {% set type = type|default('color') %}
+    {{- block('form_widget_simple') -}}
+{%- endblock color_widget %}

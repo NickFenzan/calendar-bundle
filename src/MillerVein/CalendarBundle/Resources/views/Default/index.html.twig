@@ -1,36 +1,40 @@
 {% extends 'MillerVeinCalendarBundle::base.html.twig' %}
 {% block title %}{{classname}}{% endblock%}
 {% block body %}
-{{classname}}
-<a href='new'>New</a>
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            {% if displayProperty %}
-            <th>Name</th>
-            {% endif %}
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for entity in entities %}
-        <tr>
-            <td>
-                {{entity.id}} 
-            </td>
-            {% if displayProperty %}
-            <td>
-                {{attribute(entity,displayProperty)}}
-            </td>
-            {% endif %}
-            <td>
-                <a href='edit/{{entity.id}}'>Edit</a>
-                <a href='delete'>Delete</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
+<h2>{{classname}}</h2>
+<div>
+    <a href='{{ path('admin_menu') }}'>Admin Menu</a>
+    <a href='new'>New</a>
+</div>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                {% if displayProperty %}
+                <th>Name</th>
+                {% endif %}
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in entities %}
+            <tr>
+                <td>
+                    {{entity.id}} 
+                </td>
+                {% if displayProperty %}
+                <td>
+                    {{attribute(entity,displayProperty)}}
+                </td>
+                {% endif %}
+                <td>
+                    <a href='edit/{{entity.id}}'>Edit</a>
+                    <a href='delete'>Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

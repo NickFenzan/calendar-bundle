@@ -1,7 +1,11 @@
 {% extends 'MillerVeinCalendarBundle::base.html.twig' %}
 {% block title %}{{classname}}{% endblock%}
 {% block body %}
-{{classname}}
-<a href='../'>Index</a>
-{{form(form)}}
+<h2>{{classname}}</h2>
+<div>
+    <a href='{{indexPath}}'>Index</a>
+</div>
+<div>
+    {{form(form)}}
+</div>
 {% endblock %}

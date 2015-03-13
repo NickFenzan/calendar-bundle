@@ -6,14 +6,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Description of HoursController
+ * Description of ColumnController
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @Route("/admin/hours")
+ * @Route("/admin/column")
  */
-class HoursController extends DefaultController{
-    const CLASS_NAME = "Hours";
-    const FORM_SERVICE = "hours";
+class ColumnController extends DefaultController{
+    const CLASS_NAME = "Column";
+    const FORM_SERVICE = "columns";
     const DISPLAY_PROPERTY = "name";
     
     /**

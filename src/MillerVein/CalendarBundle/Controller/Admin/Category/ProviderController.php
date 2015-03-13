@@ -1,19 +1,19 @@
 <?php
-namespace MillerVein\CalendarBundle\Controller\Admin;
+namespace MillerVein\CalendarBundle\Controller\Admin\Category;
 
 use MillerVein\CalendarBundle\Controller\DefaultController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Description of HoursController
+ * Description of CategoryPatientController
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @Route("/admin/hours")
+ * @Route("/admin/category/provider")
  */
-class HoursController extends DefaultController{
-    const CLASS_NAME = "Hours";
-    const FORM_SERVICE = "hours";
+class ProviderController extends DefaultController{
+    const CLASS_NAME = "Category\Provider";
+    const FORM_SERVICE = "category_provider";
     const DISPLAY_PROPERTY = "name";
     
     /**

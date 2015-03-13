@@ -6,14 +6,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Description of HoursController
+ * Description of RecurrenceRuleController
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @Route("/admin/hours")
+ * @Route("/admin/recurrence_rule")
  */
-class HoursController extends DefaultController{
-    const CLASS_NAME = "Hours";
-    const FORM_SERVICE = "hours";
+class RecurrenceRuleController extends DefaultController{
+    const CLASS_NAME = "RecurrenceRule";
+    const FORM_SERVICE = "recurrence_rule";
     const DISPLAY_PROPERTY = "name";
     
     /**
