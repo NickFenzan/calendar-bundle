@@ -20,7 +20,8 @@
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "eluceo/ical": "0.6.1",
-        "sabre/vobject": "3.4.2"
+        "sabre/vobject": "3.4.2",
+        "friendsofsymfony/jsrouting-bundle": "~1.5"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

@@ -4,7 +4,7 @@ namespace MillerVein\CalendarBundle\Model;
 
 use DateTime;
 use Exception;
-use MillerVein\CalendarBundle\Entity\AppointmentRepository;
+use MillerVein\CalendarBundle\Entity\Appointment\AppointmentRepository;
 use MillerVein\CalendarBundle\Entity\Site;
 
 /**

@@ -70,7 +70,7 @@ class CalendarController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $siteRepo = $em->getRepository("MillerVeinCalendarBundle:Site");
-        $apptRepo = $em->getRepository("MillerVeinCalendarBundle:Appointment");
+        $apptRepo = $em->getRepository("MillerVeinCalendarBundle:Appointment\Appointment");
 
         $date = $session->get('calendar_date', new DateTime());
         $site = $session->get('calendar_site_id') ?

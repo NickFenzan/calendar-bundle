@@ -7,6 +7,10 @@
         {% for appt in timeSlot.Appointments %}
         <div class="appt" data-id="{{appt.id}}">
             {{ appt.title }}
+            {% if appt.type == 'patient' %}
+                {{ appt.patient.fname }}
+                {{ appt.patient.lname }}
+            {% endif %}
         </div>
         {% endfor %}
     </div>

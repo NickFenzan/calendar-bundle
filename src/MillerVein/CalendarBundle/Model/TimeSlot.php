@@ -1,9 +1,8 @@
 <?php
 namespace MillerVein\CalendarBundle\Model;
 
-use DateInterval;
 use DateTime;
-use MillerVein\CalendarBundle\Entity\Appointment;
+use MillerVein\CalendarBundle\Entity\Appointment\Appointment;
 /**
  * Description of TimeSlot
  *

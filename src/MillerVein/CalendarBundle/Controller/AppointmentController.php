@@ -3,9 +3,9 @@
 namespace MillerVein\CalendarBundle\Controller;
 
 use DateTime;
-use MillerVein\CalendarBundle\Entity\Appointment;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use MillerVein\CalendarBundle\Entity\Appointment\Appointment as Appointment;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,11 +19,11 @@ use Symfony\Component\HttpFoundation\Request;
 class AppointmentController extends Controller {
 
     /**
-     * @Route("/new", name="appointment_new_form")
+     * @Route("/patient/new", name="appointment_patient_new_form")
      * @Template("MillerVeinCalendarBundle:Calendar/Appointment:new.html.twig")
      */
     public function newFormAction(Request $request) {
-        $appt = new Appointment();
+        $appt = new Appointment\Patient();
         
         $appt->setDateTime(new DateTime($request->get('datetime')));
         
@@ -39,16 +39,13 @@ class AppointmentController extends Controller {
         return ['form' => $form];
     }
     
-    public function newSaveAction(Request $request){
-        
-    }
 
     /**
-     * @Route("/edit/{id}", name="appointment_edit_form")
+     * @Route("/edit/{id}", name="appointment_patient_edit_form")
      * @Template("MillerVeinCalendarBundle:Calendar/Appointment:edit.html.twig")
      */
     public function editFormAction($id) {
-        $appt = $this->getDoctrine()->getManager()->find("MillerVeinCalendarBundle:Appointment", $id);
+        $appt = $this->getDoctrine()->getManager()->find("MillerVeinCalendarBundle:Appointment/Patient", $id);
         $form = $this->createForm('appointment', $appt)->createView();
         $response = new JsonResponse();
         $response->setData(array(

@@ -19,10 +19,19 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\CalendarType
         tags:
             - { name: form.type, alias: calendar }
-    millervein.calendar.form.type.appointment:
-        class: MillerVein\CalendarBundle\Form\Type\AppointmentType
+            
+#-- Appointment -- #
+    millervein.calendar.form.type.appointment.patient:
+        class: MillerVein\CalendarBundle\Form\Type\Appointment\PatientType
         tags:
-            - { name: form.type, alias: appointment }
+            - { name: form.type, alias: appointment_patient }
+    millervein.calendar.form.type.appointment.provider:
+        class: MillerVein\CalendarBundle\Form\Type\Appointment\ProviderType
+        tags:
+            - { name: form.type, alias: appointment_provider }
+#-- End Appointment -- #
+            
+#-- Category -- #
     millervein.calendar.form.type.category.patient:
         class: MillerVein\CalendarBundle\Form\Type\Category\PatientType
         tags:
@@ -31,6 +40,7 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\Category\ProviderType
         tags:
             - { name: form.type, alias: category_provider }
+#-- End Category -- #
             
 #   Form Fields
     millervein.calendar.form.type.fields.color:

@@ -1,18 +1,22 @@
 <?php
 
-namespace MillerVein\CalendarBundle\Entity;
+namespace MillerVein\CalendarBundle\Entity\Appointment;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use MillerVein\CalendarBundle\Entity\AppointmentRepository;
+use MillerVein\CalendarBundle\Entity\Column;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Description of Appointment
  *
  * @ORM\Entity(repositoryClass="AppointmentRepository")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class Appointment {
+abstract class Appointment {
 
 // <editor-fold defaultstate="collapsed" desc="Properties">
     /**
@@ -53,7 +57,7 @@ class Appointment {
     
     /**
      * Column Appointment is associated with
-     * @ORM\ManyToOne(targetEntity="Column")
+     * @ORM\ManyToOne(targetEntity="MillerVein\CalendarBundle\Entity\Column")
      * @Assert\NotBlank()
      * @var Column
      */
