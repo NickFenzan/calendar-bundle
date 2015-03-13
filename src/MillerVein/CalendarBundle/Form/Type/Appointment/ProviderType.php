@@ -13,6 +13,10 @@ class ProviderType extends AppointmentType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         parent::buildForm($builder, $options);
+        $builder->add('category', 'entity', [
+                    'class' => 'MillerVeinCalendarBundle:Category\Provider',
+                    'property' => 'name'
+                ]);
         $this->submitButtons($builder);
     }
 

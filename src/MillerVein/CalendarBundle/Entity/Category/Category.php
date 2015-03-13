@@ -1,6 +1,6 @@
 <?php
 
-namespace MillerVein\CalendarBundle\Model;
+namespace MillerVein\CalendarBundle\Entity\Category;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * Description of Category
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @ORM\MappedSuperclass 
+ * @ORM\Entity()
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
  */
 class Category {
     /**

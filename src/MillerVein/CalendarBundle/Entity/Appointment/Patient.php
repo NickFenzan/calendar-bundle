@@ -5,6 +5,7 @@ namespace MillerVein\CalendarBundle\Entity\Appointment;
 use Doctrine\ORM\Mapping as ORM;
 use MillerVein\CalendarBundle\Entity\Patient as EMRPatient;
 use Symfony\Component\Validator\Constraints as Assert;
+use MillerVein\CalendarBundle\Entity\Category as Category;
 
 /**
  * Description of Patient
@@ -20,6 +21,7 @@ class Patient extends Appointment{
      **/
     protected $patient;
     
+    
     public function getType() {
         return "patient";
     }
@@ -27,7 +29,7 @@ class Patient extends Appointment{
     public function getPatient() {
         return $this->patient;
     }
-
+    
     public function setPatient(EMRPatient $patient) {
         $this->patient = $patient;
     }

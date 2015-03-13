@@ -54,14 +54,15 @@ class AppointmentController extends Controller {
         $fullClassName = static::CLASS_PATH . $classname;
         
         $formOptions['action'] = $this->generateUrl($form.'_new_form');
+        $formOptions['type'] = $classname;
         
         $appt = new $fullClassName();
         $appt->setDateTime(new DateTime($request->get('datetime')));
         if($request->get('column')){
             $em = $this->getDoctrine()->getManager();
-            $col = $em->find("MillerVeinCalendarBundle:Column", $request->get('column'));
-            $appt->setColumn($col);
-            $formOptions['scheduling_increment'] = $this->getSchedulingIncrement($session, $col);
+            $column = $em->find("MillerVeinCalendarBundle:Column", $request->get('column'));
+            $appt->setColumn($column);
+            $formOptions['calendar_column'] = $this->getCalendarColumn($session, $column);
         }
         
         $form = $this->createForm($form, $appt,$formOptions);
@@ -90,7 +91,8 @@ class AppointmentController extends Controller {
         
         $formOptions = array();
         $formOptions['action'] = $this->generateUrl($form.'_edit_form',['id'=>$id]);
-        $formOptions['scheduling_increment'] = $this->getSchedulingIncrement($session, $column);
+        $formOptions['calendar_column'] = $this->getCalendarColumn($session, $column);
+        $formOptions['type'] = $classname;
         
         $form = $this->createForm($form, $appt, $formOptions);
         
@@ -105,10 +107,13 @@ class AppointmentController extends Controller {
         return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:edit.html.twig",['form' => $form->createView()]);
     }
     
-    protected function getSchedulingIncrement(Session $session, Column $column){
+    protected function getCalendarColumn(Session $session, Column $column){
         $em = $this->getDoctrine()->getManager();
         $calendar = Calendar::getCalendarFromSession($em, $session);
-        $calCol = $calendar->getCalendarColumnByColumn($column);
+        return $calendar->getCalendarColumnByColumn($column);
+    }
+    protected function getSchedulingIncrement(Session $session, Column $column){
+        $calCol = $this->getCalendarColumn($session, $column);
         return $calCol->getHours()->getSchedulingIncrement();
     }
 }

@@ -5,6 +5,7 @@ namespace MillerVein\CalendarBundle\Entity\Appointment;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use MillerVein\CalendarBundle\Entity\AppointmentRepository;
+use MillerVein\CalendarBundle\Entity\Category\Category;
 use MillerVein\CalendarBundle\Entity\Column;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -62,6 +63,15 @@ abstract class Appointment {
      * @var Column
      */
     protected $column;
+    
+    /**
+     * Category Appointment is associated with
+     * @ORM\ManyToOne(targetEntity="MillerVein\CalendarBundle\Entity\Category\Category")
+     * @Assert\NotBlank()
+     * @var Category
+     */
+    protected $category;
+    
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Getters">
@@ -84,6 +94,10 @@ abstract class Appointment {
     public function getColumn(){
         return $this->column;
     }
+    public function getCategory() {
+        return $this->category;
+    }
+
 
 // </editor-fold>
 
@@ -107,6 +121,12 @@ abstract class Appointment {
     public function setColumn(Column $column) {
         $this->column = $column;
     }
+    
+    public function setCategory(Category $category) {
+        $this->category = $category;
+    }
+
+
 // </editor-fold>
 
 

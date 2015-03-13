@@ -13,15 +13,19 @@ class PatientType extends AppointmentType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         parent::buildForm($builder, $options);
-        $builder->add('patient','entity',[
-            'class' => 'MillerVeinCalendarBundle:Patient',
-            'property' => 'lname'
+        $builder->add('category', 'entity', [
+                    'class' => 'MillerVeinCalendarBundle:Category\Patient',
+                    'property' => 'name'
+                ])
+                ->add('patient', 'entity', [
+                    'class' => 'MillerVeinCalendarBundle:Patient',
+                    'property' => 'lname'
         ]);
-        
+
         $this->submitButtons($builder);
     }
 
-        public function getName() {
+    public function getName() {
         return "appointment_patient";
     }
 
