@@ -3,9 +3,8 @@
 namespace MillerVein\CalendarBundle\Entity\Appointment;
 
 use Doctrine\ORM\Mapping as ORM;
-use MillerVein\CalendarBundle\Entity\Patient as EMRPatient;
+use MillerVein\CalendarBundle\Entity\Patient;
 use Symfony\Component\Validator\Constraints as Assert;
-use MillerVein\CalendarBundle\Entity\Category as Category;
 
 /**
  * Description of Patient
@@ -13,7 +12,7 @@ use MillerVein\CalendarBundle\Entity\Category as Category;
  * @author Nick Fenzan <nickf@millervein.com>
  * @ORM\Entity
  */
-class Patient extends Appointment{
+class PatientAppointment extends Appointment{
     /**
      * @var EMRPatient
      * @Assert\NotBlank()
@@ -30,7 +29,7 @@ class Patient extends Appointment{
         return $this->patient;
     }
     
-    public function setPatient(EMRPatient $patient) {
+    public function setPatient(Patient $patient) {
         $this->patient = $patient;
     }
 

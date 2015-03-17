@@ -9,30 +9,25 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class PatientType extends AppointmentType {
+class ProviderAppointmentType extends AppointmentType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         parent::buildForm($builder, $options);
         $builder->add('category', 'entity', [
-                    'class' => 'MillerVeinCalendarBundle:Category\Patient',
+                    'class' => 'MillerVeinCalendarBundle:Category\ProviderCategory',
                     'property' => 'name'
-                ])
-                ->add('patient', 'entity', [
-                    'class' => 'MillerVeinCalendarBundle:Patient',
-                    'property' => 'lname'
-        ]);
-
+                ]);
         $this->submitButtons($builder);
     }
 
     public function getName() {
-        return "appointment_patient";
+        return "appointment_provider";
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'MillerVein\CalendarBundle\Entity\Appointment\Patient',
+            'data_class' => 'MillerVein\CalendarBundle\Entity\Appointment\ProviderAppointment',
         ));
     }
 

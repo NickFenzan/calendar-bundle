@@ -2,15 +2,17 @@
 
 namespace MillerVein\CalendarBundle\Entity\Category;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Description of Category
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="CategoryRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({"patient" = "PatientCategory", "provider" = "ProviderCategory"})
  */
 class Category {
     /**
@@ -42,6 +44,17 @@ class Category {
      */
     protected $default_duration;
     
+    /**
+     * Required Column Tags
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="MillerVein\CalendarBundle\Entity\ColumnTag")
+     */
+    protected $required_column_tags;
+    
+    public function __construct() {
+        $this->required_column_tags = new ArrayCollection();
+    }
+    
 // <editor-fold defaultstate="collapsed" desc="Getters">
     public function getId() {
         return $this->id;
@@ -57,6 +70,10 @@ class Category {
 
     public function getDefaultDuration() {
         return $this->default_duration;
+    }
+    
+    public function getRequiredColumnTags() {
+        return $this->required_column_tags;
     }
 
 // </editor-fold>
@@ -77,6 +94,12 @@ class Category {
     public function setDefaultDuration($default_duration) {
         $this->default_duration = $default_duration;
     }
+    
+    public function setRequiredColumnTags(ArrayCollection $required_column_tags) {
+        $this->required_column_tags = $required_column_tags;
+    }
+
+
 // </editor-fold>
 
 }

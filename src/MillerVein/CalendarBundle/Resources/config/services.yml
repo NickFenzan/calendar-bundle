@@ -11,6 +11,10 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\ColumnType
         tags:
             - { name: form.type, alias: column }
+    millervein.calendar.form.type.column_tag:
+        class: MillerVein\CalendarBundle\Form\Type\ColumnTagType
+        tags:
+            - { name: form.type, alias: column_tag }
     millervein.calendar.form.type.site:
         class: MillerVein\CalendarBundle\Form\Type\SiteType
         tags:
@@ -23,25 +27,31 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\PatientType
         tags:
             - { name: form.type, alias: patient }
+    millervein.calendar.form.type.patient_selector:
+        class: MillerVein\CalendarBundle\Form\Type\PatientSelectorType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type, alias: patient_selector }
             
 #-- Appointment -- #
     millervein.calendar.form.type.appointment.patient:
-        class: MillerVein\CalendarBundle\Form\Type\Appointment\PatientType
+        class: MillerVein\CalendarBundle\Form\Type\Appointment\PatientAppointmentType
+        arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type, alias: appointment_patient }
     millervein.calendar.form.type.appointment.provider:
-        class: MillerVein\CalendarBundle\Form\Type\Appointment\ProviderType
+        class: MillerVein\CalendarBundle\Form\Type\Appointment\ProviderAppointmentType
         tags:
             - { name: form.type, alias: appointment_provider }
 #-- End Appointment -- #
             
 #-- Category -- #
     millervein.calendar.form.type.category.patient:
-        class: MillerVein\CalendarBundle\Form\Type\Category\PatientType
+        class: MillerVein\CalendarBundle\Form\Type\Category\PatientCategoryType
         tags:
             - { name: form.type, alias: category_patient }
     millervein.calendar.form.type.category.provider:
-        class: MillerVein\CalendarBundle\Form\Type\Category\ProviderType
+        class: MillerVein\CalendarBundle\Form\Type\Category\ProviderCategoryType
         tags:
             - { name: form.type, alias: category_provider }
 #-- End Category -- #

@@ -23,6 +23,11 @@ class ColumnType extends AbstractType {
                     'property' => 'name',
                     'multiple' => 'true'
                 ])
+                ->add('tags','entity',[
+                    'class' => 'MillerVeinCalendarBundle:ColumnTag',
+                    'property' => 'name',
+                    'multiple' => 'true'
+                ])
         ;
     }
 

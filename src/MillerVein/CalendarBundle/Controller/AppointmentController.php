@@ -51,7 +51,7 @@ class AppointmentController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
         $formOptions = array();
-        $fullClassName = static::CLASS_PATH . $classname;
+        $fullClassName = static::CLASS_PATH . $classname."Appointment";
         
         $formOptions['action'] = $this->generateUrl($form.'_new_form');
         $formOptions['type'] = $classname;
@@ -84,7 +84,7 @@ class AppointmentController extends Controller {
     protected function editFormAction(Request $request, $id, $classname, $form) {
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
-        $fullClassName = static::CLASS_PATH . $classname;
+        $fullClassName = static::CLASS_PATH . $classname."Appointment";
         $appt = $this->getDoctrine()->getManager()->find($fullClassName, $id);
         $column = $appt->getColumn();
         

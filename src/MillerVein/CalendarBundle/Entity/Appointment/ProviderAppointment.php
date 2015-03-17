@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @author Nick Fenzan <nickf@millervein.com>
  * @ORM\Entity
  */
-class Provider extends Appointment{
+class ProviderAppointment extends Appointment{
     
     public function getType() {
         return "provider";

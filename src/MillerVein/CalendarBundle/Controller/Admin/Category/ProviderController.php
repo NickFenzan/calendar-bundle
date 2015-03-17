@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @Route("/admin/category/provider")
  */
 class ProviderController extends DefaultController{
-    const CLASS_NAME = "Category\Provider";
+    const CLASS_NAME = "Category\ProviderCategory";
     const FORM_SERVICE = "category_provider";
     const DISPLAY_PROPERTY = "name";
     

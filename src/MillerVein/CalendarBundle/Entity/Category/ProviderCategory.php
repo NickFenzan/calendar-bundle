@@ -9,6 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @author Nick Fenzan <nickf@millervein.com>
  * @ORM\Entity()
  */
-class Provider extends Category {
+class ProviderCategory extends Category {
 
 }

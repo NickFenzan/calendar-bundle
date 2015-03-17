@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ColumnController extends DefaultController{
     const CLASS_NAME = "Column";
-    const FORM_SERVICE = "columns";
+    const FORM_SERVICE = "column";
     const DISPLAY_PROPERTY = "name";
     
     /**

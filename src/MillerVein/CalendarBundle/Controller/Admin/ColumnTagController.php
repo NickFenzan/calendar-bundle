@@ -1,19 +1,19 @@
 <?php
-namespace MillerVein\CalendarBundle\Controller\Admin\Category;
+namespace MillerVein\CalendarBundle\Controller\Admin;
 
 use MillerVein\CalendarBundle\Controller\DefaultController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Description of CategoryPatientController
+ * Description of ColumnTagController
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @Route("/admin/category/patient")
+ * @Route("/admin/column_tag")
  */
-class PatientController extends DefaultController{
-    const CLASS_NAME = "Category\PatientCategory";
-    const FORM_SERVICE = "category_patient";
+class ColumnTagController extends DefaultController{
+    const CLASS_NAME = "ColumnTag";
+    const FORM_SERVICE = "column_tag";
     const DISPLAY_PROPERTY = "name";
     
     /**

@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Description of Patient
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MillerVein\CalendarBundle\Entity\PatientRepository")
  */
 class Patient {
     /**

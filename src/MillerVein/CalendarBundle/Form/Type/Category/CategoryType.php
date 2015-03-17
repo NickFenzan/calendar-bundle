@@ -19,6 +19,11 @@ abstract class CategoryType extends AbstractType {
         $builder->add('name', 'text')
                 ->add('color', 'color')
                 ->add('default_duration', 'number')
+                ->add('required_column_tags', 'entity', [
+                    'property' => 'name',
+                    'class' => 'MillerVeinCalendarBundle:ColumnTag',
+                    'multiple' => 'true'
+                ])
             ;
     }
 }

@@ -46,10 +46,19 @@ class Column {
      * @ORM\ManyToMany(targetEntity="Hours")
      * @ORM\OrderBy({"start_date" = "DESC"})
      */
-    protected $hours; // </editor-fold>
+    protected $hours; 
+
+    /**
+     * Collection of tags that apply to the column
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="ColumnTag")
+     */
+    protected $tags;
+// </editor-fold>
 
     public function __construct() {
         $this->hours = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
 // <editor-fold defaultstate="collapsed" desc="Getters">
@@ -63,6 +72,10 @@ class Column {
 
     public function getHours() {
         return $this->hours;
+    }
+    
+    public function getTags() {
+        return $this->tags;
     }
 
     public function getSite() {
@@ -82,6 +95,10 @@ class Column {
 
     public function setHours(ArrayCollection $hours) {
         $this->hours = $hours;
+    }
+    
+    public function setTags(ArrayCollection $tags) {
+        $this->tags = $tags;
     }
 
     public function setSite(Site $site) {

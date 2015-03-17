@@ -152,3 +152,12 @@
     {% set type = type|default('color') %}
     {{- block('form_widget_simple') -}}
 {%- endblock color_widget %}
+{% block patient_selector_widget -%}
+    {% set type = type|default('text') %}
+    <input type="{{ type }}" autocomplete='off'
+            class='patient_selector
+            {% if attr.class is defined -%}
+                {{attr.class-}}
+            {% endif -%}'
+    {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock patient_selector_widget %}
