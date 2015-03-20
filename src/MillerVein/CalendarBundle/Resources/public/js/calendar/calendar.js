@@ -33,6 +33,7 @@ $(function() {
         var route = Routing.generate('appointment_' + type + '_new_form');
         $.get(route, data, function(data) {
             $apptDialog.find('.appt_form').html($(data).find('.appt_form').html());
+            runGlobalEnhancements();
         });
     });
     

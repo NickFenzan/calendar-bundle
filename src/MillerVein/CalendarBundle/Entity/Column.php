@@ -33,7 +33,6 @@ class Column {
     protected $name;
 
     /**
-
      * Site this column belongs to.
      * @var Site
      * @ORM\ManyToOne(targetEntity="\MillerVein\EMRBundle\Entity\Site", inversedBy="columns")

@@ -2,7 +2,9 @@
 
 namespace MillerVein\EMRBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use MillerVein\CalendarBundle\Entity\Column;
 
 /**
  * Site
@@ -12,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Site
 {
+// <editor-fold defaultstate="collapsed" desc="Legacy Property">
     /**
      * @var integer
      *
@@ -166,17 +169,26 @@ class Site
      *
      * @ORM\Column(name="primary_physician", type="boolean", nullable=true)
      */
-    private $primaryPhysician;
+    private $primaryPhysician; // </editor-fold>
 
+        /**
+     * Site this column belongs to.
+     * @var \MillerVein\CalendarBundle\Entity\Column
+     * @ORM\OneToMany(targetEntity="MillerVein\CalendarBundle\Entity\Column", mappedBy="site")
+     */
+    protected $columns;
+    
+    public function __construct() {
+        $this->columns = new ArrayCollection();
+    }
 
-
+// <editor-fold defaultstate="collapsed" desc="Legacy Property Getter/Setter">
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId()     {
         return $this->id;
     }
 
@@ -184,10 +196,9 @@ class Site
      * Set name
      *
      * @param string $name
-     * @return Facility
+     * @return Site
      */
-    public function setName($name)
-    {
+    public function setName($name)     {
         $this->name = $name;
 
         return $this;
@@ -198,8 +209,7 @@ class Site
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName()     {
         return $this->name;
     }
 
@@ -207,10 +217,9 @@ class Site
      * Set phone
      *
      * @param string $phone
-     * @return Facility
+     * @return Site
      */
-    public function setPhone($phone)
-    {
+    public function setPhone($phone)     {
         $this->phone = $phone;
 
         return $this;
@@ -221,8 +230,7 @@ class Site
      *
      * @return string 
      */
-    public function getPhone()
-    {
+    public function getPhone()     {
         return $this->phone;
     }
 
@@ -230,10 +238,9 @@ class Site
      * Set fax
      *
      * @param string $fax
-     * @return Facility
+     * @return Site
      */
-    public function setFax($fax)
-    {
+    public function setFax($fax)     {
         $this->fax = $fax;
 
         return $this;
@@ -244,8 +251,7 @@ class Site
      *
      * @return string 
      */
-    public function getFax()
-    {
+    public function getFax()     {
         return $this->fax;
     }
 
@@ -253,10 +259,9 @@ class Site
      * Set street
      *
      * @param string $street
-     * @return Facility
+     * @return Site
      */
-    public function setStreet($street)
-    {
+    public function setStreet($street)     {
         $this->street = $street;
 
         return $this;
@@ -267,8 +272,7 @@ class Site
      *
      * @return string 
      */
-    public function getStreet()
-    {
+    public function getStreet()     {
         return $this->street;
     }
 
@@ -276,10 +280,9 @@ class Site
      * Set city
      *
      * @param string $city
-     * @return Facility
+     * @return Site
      */
-    public function setCity($city)
-    {
+    public function setCity($city)     {
         $this->city = $city;
 
         return $this;
@@ -290,8 +293,7 @@ class Site
      *
      * @return string 
      */
-    public function getCity()
-    {
+    public function getCity()     {
         return $this->city;
     }
 
@@ -299,10 +301,9 @@ class Site
      * Set state
      *
      * @param string $state
-     * @return Facility
+     * @return Site
      */
-    public function setState($state)
-    {
+    public function setState($state)     {
         $this->state = $state;
 
         return $this;
@@ -313,8 +314,7 @@ class Site
      *
      * @return string 
      */
-    public function getState()
-    {
+    public function getState()     {
         return $this->state;
     }
 
@@ -322,10 +322,9 @@ class Site
      * Set postalCode
      *
      * @param string $postalCode
-     * @return Facility
+     * @return Site
      */
-    public function setPostalCode($postalCode)
-    {
+    public function setPostalCode($postalCode)     {
         $this->postalCode = $postalCode;
 
         return $this;
@@ -336,8 +335,7 @@ class Site
      *
      * @return string 
      */
-    public function getPostalCode()
-    {
+    public function getPostalCode()     {
         return $this->postalCode;
     }
 
@@ -345,10 +343,9 @@ class Site
      * Set countryCode
      *
      * @param string $countryCode
-     * @return Facility
+     * @return Site
      */
-    public function setCountryCode($countryCode)
-    {
+    public function setCountryCode($countryCode)     {
         $this->countryCode = $countryCode;
 
         return $this;
@@ -359,8 +356,7 @@ class Site
      *
      * @return string 
      */
-    public function getCountryCode()
-    {
+    public function getCountryCode()     {
         return $this->countryCode;
     }
 
@@ -368,10 +364,9 @@ class Site
      * Set federalEin
      *
      * @param string $federalEin
-     * @return Facility
+     * @return Site
      */
-    public function setFederalEin($federalEin)
-    {
+    public function setFederalEin($federalEin)     {
         $this->federalEin = $federalEin;
 
         return $this;
@@ -382,8 +377,7 @@ class Site
      *
      * @return string 
      */
-    public function getFederalEin()
-    {
+    public function getFederalEin()     {
         return $this->federalEin;
     }
 
@@ -391,10 +385,9 @@ class Site
      * Set serviceLocation
      *
      * @param boolean $serviceLocation
-     * @return Facility
+     * @return Site
      */
-    public function setServiceLocation($serviceLocation)
-    {
+    public function setServiceLocation($serviceLocation)     {
         $this->serviceLocation = $serviceLocation;
 
         return $this;
@@ -405,8 +398,7 @@ class Site
      *
      * @return boolean 
      */
-    public function getServiceLocation()
-    {
+    public function getServiceLocation()     {
         return $this->serviceLocation;
     }
 
@@ -414,10 +406,9 @@ class Site
      * Set billingLocation
      *
      * @param boolean $billingLocation
-     * @return Facility
+     * @return Site
      */
-    public function setBillingLocation($billingLocation)
-    {
+    public function setBillingLocation($billingLocation)     {
         $this->billingLocation = $billingLocation;
 
         return $this;
@@ -428,8 +419,7 @@ class Site
      *
      * @return boolean 
      */
-    public function getBillingLocation()
-    {
+    public function getBillingLocation()     {
         return $this->billingLocation;
     }
 
@@ -437,10 +427,9 @@ class Site
      * Set acceptsAssignment
      *
      * @param boolean $acceptsAssignment
-     * @return Facility
+     * @return Site
      */
-    public function setAcceptsAssignment($acceptsAssignment)
-    {
+    public function setAcceptsAssignment($acceptsAssignment)     {
         $this->acceptsAssignment = $acceptsAssignment;
 
         return $this;
@@ -451,8 +440,7 @@ class Site
      *
      * @return boolean 
      */
-    public function getAcceptsAssignment()
-    {
+    public function getAcceptsAssignment()     {
         return $this->acceptsAssignment;
     }
 
@@ -460,10 +448,9 @@ class Site
      * Set posCode
      *
      * @param boolean $posCode
-     * @return Facility
+     * @return Site
      */
-    public function setPosCode($posCode)
-    {
+    public function setPosCode($posCode)     {
         $this->posCode = $posCode;
 
         return $this;
@@ -474,8 +461,7 @@ class Site
      *
      * @return boolean 
      */
-    public function getPosCode()
-    {
+    public function getPosCode()     {
         return $this->posCode;
     }
 
@@ -483,10 +469,9 @@ class Site
      * Set x12SenderId
      *
      * @param string $x12SenderId
-     * @return Facility
+     * @return Site
      */
-    public function setX12SenderId($x12SenderId)
-    {
+    public function setX12SenderId($x12SenderId)     {
         $this->x12SenderId = $x12SenderId;
 
         return $this;
@@ -497,8 +482,7 @@ class Site
      *
      * @return string 
      */
-    public function getX12SenderId()
-    {
+    public function getX12SenderId()     {
         return $this->x12SenderId;
     }
 
@@ -506,10 +490,9 @@ class Site
      * Set attn
      *
      * @param string $attn
-     * @return Facility
+     * @return Site
      */
-    public function setAttn($attn)
-    {
+    public function setAttn($attn)     {
         $this->attn = $attn;
 
         return $this;
@@ -520,8 +503,7 @@ class Site
      *
      * @return string 
      */
-    public function getAttn()
-    {
+    public function getAttn()     {
         return $this->attn;
     }
 
@@ -529,10 +511,9 @@ class Site
      * Set domainIdentifier
      *
      * @param string $domainIdentifier
-     * @return Facility
+     * @return Site
      */
-    public function setDomainIdentifier($domainIdentifier)
-    {
+    public function setDomainIdentifier($domainIdentifier)     {
         $this->domainIdentifier = $domainIdentifier;
 
         return $this;
@@ -543,8 +524,7 @@ class Site
      *
      * @return string 
      */
-    public function getDomainIdentifier()
-    {
+    public function getDomainIdentifier()     {
         return $this->domainIdentifier;
     }
 
@@ -552,10 +532,9 @@ class Site
      * Set facilityNpi
      *
      * @param string $facilityNpi
-     * @return Facility
+     * @return Site
      */
-    public function setFacilityNpi($facilityNpi)
-    {
+    public function setFacilityNpi($facilityNpi)     {
         $this->facilityNpi = $facilityNpi;
 
         return $this;
@@ -566,8 +545,7 @@ class Site
      *
      * @return string 
      */
-    public function getFacilityNpi()
-    {
+    public function getFacilityNpi()     {
         return $this->facilityNpi;
     }
 
@@ -575,10 +553,9 @@ class Site
      * Set taxIdType
      *
      * @param string $taxIdType
-     * @return Facility
+     * @return Site
      */
-    public function setTaxIdType($taxIdType)
-    {
+    public function setTaxIdType($taxIdType)     {
         $this->taxIdType = $taxIdType;
 
         return $this;
@@ -589,8 +566,7 @@ class Site
      *
      * @return string 
      */
-    public function getTaxIdType()
-    {
+    public function getTaxIdType()     {
         return $this->taxIdType;
     }
 
@@ -598,10 +574,9 @@ class Site
      * Set color
      *
      * @param string $color
-     * @return Facility
+     * @return Site
      */
-    public function setColor($color)
-    {
+    public function setColor($color)     {
         $this->color = $color;
 
         return $this;
@@ -612,8 +587,7 @@ class Site
      *
      * @return string 
      */
-    public function getColor()
-    {
+    public function getColor()     {
         return $this->color;
     }
 
@@ -621,10 +595,9 @@ class Site
      * Set primaryBusinessEntity
      *
      * @param integer $primaryBusinessEntity
-     * @return Facility
+     * @return Site
      */
-    public function setPrimaryBusinessEntity($primaryBusinessEntity)
-    {
+    public function setPrimaryBusinessEntity($primaryBusinessEntity)     {
         $this->primaryBusinessEntity = $primaryBusinessEntity;
 
         return $this;
@@ -635,8 +608,7 @@ class Site
      *
      * @return integer 
      */
-    public function getPrimaryBusinessEntity()
-    {
+    public function getPrimaryBusinessEntity()     {
         return $this->primaryBusinessEntity;
     }
 
@@ -644,10 +616,9 @@ class Site
      * Set primaryPhysician
      *
      * @param boolean $primaryPhysician
-     * @return Facility
+     * @return Site
      */
-    public function setPrimaryPhysician($primaryPhysician)
-    {
+    public function setPrimaryPhysician($primaryPhysician)     {
         $this->primaryPhysician = $primaryPhysician;
 
         return $this;
@@ -658,8 +629,14 @@ class Site
      *
      * @return boolean 
      */
-    public function getPrimaryPhysician()
-    {
+    public function getPrimaryPhysician()     {
         return $this->primaryPhysician;
     }
+
+// </editor-fold>
+
+    public function getColumns() {
+        return $this->columns;
+    }
+
 }

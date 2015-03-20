@@ -24,7 +24,6 @@ class CalendarController extends Controller {
     public function calendarAction(Request $request) {
         $session = $request->getSession();
         $calendar = $this->getCalendarFromSession($session);
-
         $controls = $this->createForm('calendar', $calendar, [
             'action' => $this->generateUrl('calendar_post')
         ]);

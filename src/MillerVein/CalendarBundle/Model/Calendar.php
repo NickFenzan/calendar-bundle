@@ -44,7 +44,7 @@ class Calendar {
     public function __construct(DateTime $date, $display, AppointmentRepository $apptRepo) {
         $this->date = $date;
         $this->appt_repo = $apptRepo;
-        if (is_a($display, "MillerVein\CalendarBundle\Entity\Site")) {
+        if (is_a($display, "MillerVein\EMRBundle\Entity\Site")) {
             $this->setSite($display);
         } else {
             $this->setColumns($display);
@@ -111,12 +111,12 @@ class Calendar {
     static public function getCalendarFromSession(EntityManager $em, Session $session){
         $siteRepo = $em->getRepository("MillerVeinEMRBundle:Site");
         $apptRepo = $em->getRepository("MillerVeinCalendarBundle:Appointment\Appointment");
-
+        
         $date = $session->get('calendar_date', new DateTime());
         $site = $session->get('calendar_site_id') ?
                 $siteRepo->find($session->get('calendar_site_id')) :
                 $siteRepo->findOneBy([]);
-
+        
         return new Calendar($date, $site, $apptRepo);
     }
 

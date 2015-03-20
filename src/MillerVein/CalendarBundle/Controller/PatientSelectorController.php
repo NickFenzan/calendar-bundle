@@ -24,7 +24,7 @@ class PatientSelectorController extends Controller{
             return new JsonResponse();
         }
         
-        $patRepo = $this->getDoctrine()->getManager('openemr')->getRepository("MillerVeinEMRBundle:PatientData");
+        $patRepo = $this->getDoctrine()->getManager()->getRepository("MillerVeinEMRBundle:PatientData");
         /* @var $patRepo \MillerVein\EMRBundle\Entity\PatientRepository */
         $patients = $patRepo->findAllBySearchTerm($searchTerm);
 
