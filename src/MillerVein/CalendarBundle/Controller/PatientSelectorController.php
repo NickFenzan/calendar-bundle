@@ -24,19 +24,19 @@ class PatientSelectorController extends Controller{
             return new JsonResponse();
         }
         
-        $patRepo = $this->getDoctrine()->getManager()->getRepository("MillerVeinCalendarBundle:Patient");
-        /* @var $patRepo \MillerVein\CalendarBundle\Entity\PatientRepository */
+        $patRepo = $this->getDoctrine()->getManager('openemr')->getRepository("MillerVeinEMRBundle:PatientData");
+        /* @var $patRepo \MillerVein\EMRBundle\Entity\PatientRepository */
         $patients = $patRepo->findAllBySearchTerm($searchTerm);
 
         $patientResponse = array();
         foreach($patients as $patient){
-            /* @var $patient \MillerVein\CalendarBundle\Entity\Patient */
+            /* @var $patient \MillerVein\EMRBundle\Entity\PatientData */
             $displayFormat = '%1$s, %2$s (%3$d)';
 //        $displayFormat = '(%3$d) %2$s %1$s';
             $patientResponse[] = sprintf($displayFormat,
                     $patient->getLname(),
                     $patient->getFname(),
-                    $patient->getId());
+                    $patient->getPid());
         }
             
         return new JsonResponse($patientResponse);

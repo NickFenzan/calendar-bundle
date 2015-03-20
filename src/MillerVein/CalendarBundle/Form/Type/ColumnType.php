@@ -15,7 +15,7 @@ class ColumnType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('name', 'text')
                 ->add('site','entity',[
-                    'class' => 'MillerVeinCalendarBundle:Site',
+                    'class' => 'MillerVeinEMRBundle:Site',
                     'property' => 'city'
                 ])
                 ->add('hours','entity',[

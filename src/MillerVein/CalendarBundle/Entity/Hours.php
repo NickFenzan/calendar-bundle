@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author Nick Fenzan <nickf@millervein.com>
  * @ORM\Entity()
- * @ORM\Table("calendar_hours")
+ * @ORM\Table("calendar.hours")
  */
 class Hours {
 
@@ -64,6 +64,24 @@ class Hours {
      * @ORM\Column(type="time")
      */
     protected $close_time;
+    
+    /**
+     * Lunch start
+     * @var DateTime
+     * @Assert\NotBlank()
+     * @Assert\Time() 
+     * @ORM\Column(type="time")
+     */
+    protected $lunch_start;
+
+    /**
+     * Lunch end
+     * @var DateTime 
+     * @Assert\NotBlank()
+     * @Assert\Time()
+     * @ORM\Column(type="time")
+     */
+    protected $lunch_end;
 
     /**
      * Amount of minutes each slot takes up.
@@ -106,6 +124,14 @@ class Hours {
     public function getCloseTime() {
         return $this->close_time;
     }
+    
+    public function getLunchStart() {
+        return $this->lunch_start;
+    }
+
+    public function getLunchEnd() {
+        return $this->lunch_end;
+    }
 
     public function getSchedulingIncrement() {
         return $this->scheduling_increment;
@@ -135,6 +161,14 @@ class Hours {
 
     public function setCloseTime(DateTime $close_time) {
         $this->close_time = $close_time;
+    }
+    
+    public function setLunchStart(DateTime $lunch_start) {
+        $this->lunch_start = $lunch_start;
+    }
+
+    public function setLunchEnd(DateTime $lunch_end) {
+        $this->lunch_end = $lunch_end;
     }
 
     public function setSchedulingIncrement($scheduling_increment) {

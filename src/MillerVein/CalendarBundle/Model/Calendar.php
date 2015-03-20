@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Exception;
 use MillerVein\CalendarBundle\Entity\Appointment\AppointmentRepository;
 use MillerVein\CalendarBundle\Entity\Column;
-use MillerVein\CalendarBundle\Entity\Site;
+use MillerVein\EMRBundle\Entity\Site;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -78,11 +78,13 @@ class Calendar {
 
     protected function buildColumns($columns) {
         $this->columns = array();
-        foreach ($columns as $column) {
-            if (is_a($column, "MillerVein\CalendarBundle\Entity\Column")) {
-                $this->columns[] = new CalendarColumn($this, $column);
-            } else {
-                throw new Exception("Columns array contains non-column objects");
+        if($columns){
+            foreach ($columns as $column) {
+                if (is_a($column, "MillerVein\CalendarBundle\Entity\Column")) {
+                    $this->columns[] = new CalendarColumn($this, $column);
+                } else {
+                    throw new Exception("Columns array contains non-column objects");
+                }
             }
         }
     }
@@ -107,7 +109,7 @@ class Calendar {
     }
     
     static public function getCalendarFromSession(EntityManager $em, Session $session){
-        $siteRepo = $em->getRepository("MillerVeinCalendarBundle:Site");
+        $siteRepo = $em->getRepository("MillerVeinEMRBundle:Site");
         $apptRepo = $em->getRepository("MillerVeinCalendarBundle:Appointment\Appointment");
 
         $date = $session->get('calendar_date', new DateTime());

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Description of Column
  *
  * @ORM\Entity
- * @ORM\Table("calendar_column")
+ * @ORM\Table("calendar.column")
  * @author Nick Fenzan <nickf@millervein.com>
  */
 class Column {
@@ -36,7 +36,7 @@ class Column {
 
      * Site this column belongs to.
      * @var Site
-     * @ORM\ManyToOne(targetEntity="Site", inversedBy="columns")
+     * @ORM\ManyToOne(targetEntity="\MillerVein\EMRBundle\Entity\Site", inversedBy="columns")
      */
     protected $site;
 
@@ -101,7 +101,7 @@ class Column {
         $this->tags = $tags;
     }
 
-    public function setSite(Site $site) {
+    public function setSite(\MillerVein\EMRBundle\Entity\Site $site) {
         $this->site = $site;
     }
 

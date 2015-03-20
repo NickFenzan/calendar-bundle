@@ -23,15 +23,15 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\CalendarType
         tags:
             - { name: form.type, alias: calendar }
-    millervein.calendar.form.type.patient:
-        class: MillerVein\CalendarBundle\Form\Type\PatientType
-        tags:
-            - { name: form.type, alias: patient }
     millervein.calendar.form.type.patient_selector:
         class: MillerVein\CalendarBundle\Form\Type\PatientSelectorType
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type, alias: patient_selector }
+    millervein.calendar.form.type.appointment_status:
+        class: MillerVein\CalendarBundle\Form\Type\AppointmentStatusType
+        tags:
+            - { name: form.type, alias: appointment_status }
             
 #-- Appointment -- #
     millervein.calendar.form.type.appointment.patient:

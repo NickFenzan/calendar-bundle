@@ -10,23 +10,24 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class PatientType extends AbstractType {
+class AppointmentStatusType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('fname', 'text')
-                ->add('lname', 'text')
-                ->add('dob', 'date', [
-                    'widget' => 'single_text'
-                ]);
+        $builder->add('name', 'text')
+            ->add('legacy_id', 'text', [
+                'label' => 'Legacy ID',
+                'required' => false,
+                'attr' => ['maxlength'=>1]
+            ]);
     }
 
     public function getName() {
-        return "patient";
+        return "appointment_status";
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'MillerVein\CalendarBundle\Entity\Patient',
+            'data_class' => 'MillerVein\CalendarBundle\Entity\AppointmentStatus',
         ));
     }
 

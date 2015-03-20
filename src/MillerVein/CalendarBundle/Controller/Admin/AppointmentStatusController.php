@@ -6,15 +6,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Description of PatientController
+ * Description of AppointmentStatusController
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @Route("/admin/patient")
+ * @Route("/admin/appointment_status")
  */
-class PatientController extends DefaultController{
-    const CLASS_NAME = "Patient";
-    const FORM_SERVICE = "patient";
-    const DISPLAY_PROPERTY = "lname";
+class AppointmentStatusController extends DefaultController{
+    const CLASS_NAME = "AppointmentStatus";
+    const FORM_SERVICE = "appointment_status";
+    const DISPLAY_PROPERTY = "name";
     
     /**
      * @Route("/")

@@ -12,30 +12,35 @@ use MillerVein\CalendarBundle\Entity\Hours;
  * @author Nick Fenzan <nickf@millervein.com>
  */
 class CalendarColumn {
+
     /**
      *
      * @var Calendar
      */
     protected $calendar;
+
     /**
      *
      * @var Column
      */
     protected $column;
+
     /**
      * @var Hours
      */
     protected $hours = null;
+
     /**
      * @var Array
      */
     protected $time_slots = null;
+
     /**
      *
      * @var Array
      */
-    protected $appointments;
-    
+    protected $appointment_bank;
+
     /**
      * 
      * @param Column $column
@@ -45,54 +50,53 @@ class CalendarColumn {
         $this->calendar = $calendar;
         $this->column = $column;
         $this->findHours();
-        $this->buildTimeSlots();
-        $this->buildAppointments();
+        if (null !== $this->hours) {
+            $this->buildTimeSlots();
+            $this->buildAppointmentBank();
+            $this->fillInAppointments();
+        }
     }
-    
-    protected function findHours(){
-        foreach($this->column->getHours() as $hours){
-            if($hours->doHoursApplyToDate($this->calendar->getDate())){
+
+    protected function findHours() {
+        foreach ($this->column->getHours() as $hours) {
+            if ($hours->doHoursApplyToDate($this->calendar->getDate())) {
                 $this->hours = $hours;
             }
         }
     }
     
-    protected function buildTimeSlots(){
-        $this->time_slots = array();
-        if(null !== $this->hours){
-            $this->time_slots = array();
-            $hours = new HoursIterator($this->hours);
-            foreach($hours as $time){
-                $this->time_slots[] = new TimeSlot($time, $this);
-            }
-        }
+    protected function buildAppointmentBank(){
+        $this->appointment_bank = new ColumnAppointmentBank($this->calendar->getAppointmentRepository(), $this);
     }
     
-    protected function buildAppointments(){
-        $rep = $this->getCalendar()->getAppointmentRepository();
-        $appts = $rep->findAppointmentsByColumnDate($this->getColumn(),$this->calendar->getDate());
-        foreach ($appts as $appt){
-            //Strip the date
-            $time = new DateTime($appt->getDateTime()->format('H:i'));
-            //Get the Time Slot
-            $timeSlot = $this->getTimeSlot($time);
-            //Set this appointment on the timeslot
-            $timeSlot->setAppointment($appt);
-            //Look for overflow
-            $apptDur = $appt->getDuration();
-            $colInc = $this->getHours()->getSchedulingIncrement();
-            
-            for($i=$colInc;$i<$apptDur;$i+=$colInc){
-                $time->add(new \DateInterval("PT{$colInc}M"));
-                $overflowSlot = $this->getTimeSlot($time);
-                if($overflowSlot){
-                    $overflowSlot->setAppointment($appt);
+    protected function fillInAppointments(){
+        $bank = $this->appointment_bank;
+        $appts = $bank->getAppointments();
+        if($appts){
+            foreach($appts as $appt){
+                foreach($appt->getFragments() as $fragment){
+                    $timeSlot = $this->getTimeSlot($fragment->getTime());
+                    if($timeSlot){
+                        $appt->setDisplayed(true);
+                        $timeSlot->setAppointment($fragment);
+                    }
                 }
             }
         }
-        return $this->appointments;
     }
-    
+
+    protected function buildTimeSlots() {
+        $this->time_slots = array();
+        $hours = new HoursIterator($this->hours);
+        foreach ($hours as $time) {
+            if(is_a($time, "DateTime")){
+                $this->time_slots[] = new TimeSlot($time, $this);
+            }else{
+                $this->time_slots[] = "lunch";
+            }
+        }
+    }
+
     public function getCalendar() {
         return $this->calendar;
     }
@@ -101,20 +105,26 @@ class CalendarColumn {
         return $this->column;
     }
 
-    public function getHours(){
+    public function getHours() {
         return $this->hours;
     }
-    
-    public function getTimeSlots(){
+
+    public function getTimeSlots() {
         return $this->time_slots;
     }
-    
-    public function getTimeSlot(DateTime $time){
-        foreach($this->time_slots as $time_slot){
-            if ($time_slot->getTime() == $time){
+
+    /**
+     * 
+     * @param DateTime $time
+     * @return TimeSlot|null
+     */
+    public function getTimeSlot(DateTime $time) {
+        foreach ($this->time_slots as $time_slot) {
+            if ($time_slot->getTime() == $time) {
                 return $time_slot;
             }
         }
         return null;
     }
+
 }

@@ -1,2 +1,42 @@
 {{ form_widget(form.date_time, { 'attr': {'hidden': true} }) }}
 {{ form_widget(form.column, { 'attr': {'hidden': true} }) }}
+{% block common_fields %}
+<table>
+    {% if form.patient is defined %}
+    <tr>
+        <td>{{ form_label(form.patient) }}</td>
+        <td>{{ form_widget(form.patient) }}</td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td>{{ form_label(form.category) }}</td>
+        <td>{{ form_widget(form.category) }}</td>
+    </tr>
+    <tr>
+        <td>{{ form_label(form.duration) }}</td>
+        <td>{{ form_widget(form.duration) }}</td>
+    </tr>
+    {% if form.status is defined %}
+    <tr>
+        <td>{{ form_label(form.status) }}</td>
+        <td>{{ form_widget(form.status) }}</td>
+    </tr>
+    {% endif %}
+    {% if form.recurrence_rule is defined %}
+    <tr>
+        <td>{{ form_label(form.recurrence_rule) }}</td>
+        <td>{{ form_widget(form.recurrence_rule) }}</td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td>{{ form_label(form.notes) }}</td>
+        <td>{{ form_widget(form.notes) }}</td>
+    </tr>
+</table>
+{%endblock %}
+{% block appointment_buttons %}
+<div>
+    {{ form_widget(form.delete) }}
+    {{ form_widget(form.submit) }}
+</div>
+{% endblock %}

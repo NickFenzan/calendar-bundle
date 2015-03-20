@@ -39,9 +39,8 @@ class PatientIDToNameTransformer implements DataTransformerInterface {
 
         /* @var $patient \MillerVein\CalendarBundle\Entity\Patient  */
         $patient = $this->om
-            ->getRepository('MillerVeinCalendarBundle:Patient')
+            ->getRepository('MillerVeinEMRBundle:PatientData')
             ->find($id);
-        
 
         if (null === $patient) {
             throw new TransformationFailedException(sprintf(
@@ -56,7 +55,7 @@ class PatientIDToNameTransformer implements DataTransformerInterface {
         $displayString = sprintf($displayFormat,
             $patient->getLname(),
             $patient->getFname(),
-            $patient->getId()
+            $patient->getPid()
         );
         
         return $displayString;

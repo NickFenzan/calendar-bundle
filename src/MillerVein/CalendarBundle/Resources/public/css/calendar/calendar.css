@@ -3,19 +3,20 @@
   overflow-x: auto;
   white-space: nowrap; }
   #calendar .calendar-column {
-    flex: 1 0 auto;
+    flex: 1 0 0;
     display: flex;
     flex-direction: column;
     border-right: 1px solid grey;
-    min-width: 500px; }
+    min-width: 600px; }
     #calendar .calendar-column .column-header {
-      flex: 0 1 0;
+      /*flex: 0 1 0;*/
       text-align: center;
       font-weight: bold;
       padding: 5px;
       border-bottom: 1px solid grey;
       background-color: #8ca3d2;
-      color: white; }
+      color: white;
+      height: 2em; }
     #calendar .calendar-column .column-body {
       flex: 1 0 0;
       display: flex;
@@ -23,24 +24,48 @@
       overflow-y: auto; }
       #calendar .calendar-column .column-body .timeslot {
         width: 100%;
-        display: flex; }
+        display: flex;
+        flex: 1 0 2em;
+        border-bottom: 1px solid grey;
+        margin-top: -1px; }
         #calendar .calendar-column .column-body .timeslot .time {
           padding: 5px;
           border-right: 1px solid grey;
-          border-bottom: 1px solid grey;
-          cursor: pointer; }
+          cursor: pointer;
+          width: 65px;
+          text-align: center;
+          height: 2em; }
         #calendar .calendar-column .column-body .timeslot .time:hover {
           font-weight: bold; }
         #calendar .calendar-column .column-body .timeslot .appts {
           flex: 1 0 0;
-          border-bottom: 1px solid grey;
-          display: flex; }
+          display: flex;
+          height: 2em; }
+          #calendar .calendar-column .column-body .timeslot .appts .appointment-hover {
+            cursor: pointer;
+            font-weight: bold; }
           #calendar .calendar-column .column-body .timeslot .appts .appt {
             flex: 1 0 0;
             background-color: white;
             padding: 5px;
-            border: 1px solid black; }
+            margin-top: -1px;
+            margin-left: -1px;
+            border-left: 1px solid grey;
+            border-right: 1px solid grey;
+            height: 2em; }
+          #calendar .calendar-column .column-body .timeslot .appts .appt-firstSlot {
+            margin-top: 0px;
+            border-top: 1px solid grey; }
+          #calendar .calendar-column .column-body .timeslot .appts .appt-lastSlot {
+            border-bottom: 1px solid grey; }
+        #calendar .calendar-column .column-body .timeslot .hasAppointments {
+          border-bottom: none; }
+      #calendar .calendar-column .column-body .timeslot.lunch .appts {
+        background-color: grey; }
   #calendar .calendar-column:last-of-type {
     border-right: none; }
+
+#appointment-dialog .appt_form textarea, #appointment-dialog .appt_form input, #appointment-dialog .appt_form select {
+  width: 100%; }
 
 /*# sourceMappingURL=calendar.css.map */

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Description of Column
  *
  * @ORM\Entity
- * @ORM\Table()
+ * @ORM\Table(name="calendar.column_tag")
  * @author Nick Fenzan <nickf@millervein.com>
  */
 class ColumnTag {

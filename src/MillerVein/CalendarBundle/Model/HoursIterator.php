@@ -24,7 +24,13 @@ class HoursIterator implements Iterator {
 
     public function current() {
         $openTime = clone $this->hours->getOpenTime();
-        return $openTime->add($this->offset);
+        $currentTime = $openTime->add($this->offset);
+        if($currentTime >= $this->hours->getLunchStart() &&
+                $currentTime < $this->hours->getLunchEnd()){
+            return "Lunch";
+        }else{
+            return $currentTime;
+        }
     }
 
     public function key() {

@@ -23,7 +23,7 @@ class CalendarType extends AbstractType {
                     'format' => 'MM/dd/yyyy'
                     ])
                 ->add('site', 'entity', [
-                    'class' => 'MillerVeinCalendarBundle:Site',
+                    'class' => 'MillerVeinEMRBundle:Site',
                     'property' => 'city',
                 ])
                 ->add('previous', 'submit',

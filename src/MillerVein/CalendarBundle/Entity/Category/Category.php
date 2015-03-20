@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @author Nick Fenzan <nickf@millervein.com>
  * @ORM\Entity(repositoryClass="CategoryRepository")
+ * @ORM\Table(name="calendar.appointment_category")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"patient" = "PatientCategory", "provider" = "ProviderCategory"})

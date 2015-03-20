@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @link https://tools.ietf.org/html/rfc5545 RFC5545
  *
  * @ORM\Entity()
+ * @ORM\Table("calendar.recurrence_rule")
  * @author Nick Fenzan <nickf@millervein.com>
  */
 class RecurrenceRule extends EluceoRecurranceRule {

@@ -1,15 +1,34 @@
-<div class="timeslot">
+<div class="timeslot"
+     >
     <div class="time" 
          data-column="{{calendarColumn.column.id}}"
          data-datetime="{{calendar.date | date('Y-m-d')}} {{timeSlot.time | date('H:i')}}"
-         >{{timeSlot.time | date('h:i')}}</div>
-    <div class="appts">
-        {% for appt in timeSlot.Appointments %}
-        <div class="appt" data-id="{{appt.id}}" data-type="{{appt.type}}">
-            {{ appt.title }}
-            {% if appt.type == 'patient' %}
-                {{ appt.patient.fname }}
-                {{ appt.patient.lname }}
+         >
+        {{timeSlot.time | date('h:i')}}
+    </div>
+    <div class="appts
+         {% if timeSlot.Appointments %}
+         hasAppointments
+         {% endif %}
+         ">
+        {% for fragment in timeSlot.Appointments %}
+        <div class="appt 
+            {% if fragment.first %}appt-firstSlot{% endif %}
+            {% if fragment.last %}appt-lastSlot{% endif %}
+            {% if not loop.first %}appt-additional{% endif %}
+             " 
+             title="{{fragment.appointment.notes}}"
+             data-id="{{fragment.appointment.id}}" 
+             data-type="{{fragment.appointment.type}}" 
+             style='background-color:{{fragment.appointment.category.color}}'
+             >
+            {% if fragment.first %}
+                {{fragment.appointment.category.name}}
+                {% if fragment.appointment.type == 'patient' %}
+            -
+                    {{ fragment.appointment.patient.fname }}
+                    {{ fragment.appointment.patient.lname }}
+                {% endif %}
             {% endif %}
         </div>
         {% endfor %}

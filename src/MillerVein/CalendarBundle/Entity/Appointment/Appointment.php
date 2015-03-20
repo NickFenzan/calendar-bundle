@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Description of Appointment
  *
  * @ORM\Entity(repositoryClass="AppointmentRepository")
+ * @ORM\Table(name="calendar.appointment")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"patient" = "PatientAppointment", "provider" = "ProviderAppointment"})
@@ -28,14 +29,6 @@ abstract class Appointment {
      * @ORM\GeneratedValue
      */
     protected $id;
-
-    /**
-     * Appointment Title
-     * @var string
-     * @Assert\NotBlank() 
-     * @ORM\Column(type="string")
-     */
-    protected $title;
 
     /**
      * DateTime
@@ -58,6 +51,12 @@ abstract class Appointment {
     protected $duration; 
     
     /**
+     * @ORM\Column(nullable=true)
+     * @var string
+     */
+    protected $notes;
+    
+    /**
      * Column Appointment is associated with
      * @ORM\ManyToOne(targetEntity="MillerVein\CalendarBundle\Entity\Column")
      * @Assert\NotBlank()
@@ -73,15 +72,12 @@ abstract class Appointment {
      */
     protected $category;
     
+    
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Getters">
     public function getId() {
         return $this->id;
-    }
-
-    public function getTitle() {
-        return $this->title;
     }
 
     public function getDateTime() {
@@ -92,13 +88,16 @@ abstract class Appointment {
         return $this->duration;
     }
     
+    public function getNotes() {
+        return $this->notes;
+    }
+
     public function getColumn(){
         return $this->column;
     }
     public function getCategory() {
         return $this->category;
     }
-
 
 // </editor-fold>
 
@@ -114,6 +113,10 @@ abstract class Appointment {
     public function setDateTime(DateTime $date_time) {
         $this->date_time = $date_time;
     }
+    
+    public function setNotes($notes) {
+        $this->notes = $notes;
+    }
 
     public function setDuration($duration) {
         $this->duration = $duration;
@@ -126,7 +129,6 @@ abstract class Appointment {
     public function setCategory(Category $category) {
         $this->category = $category;
     }
-
 
 // </editor-fold>
 

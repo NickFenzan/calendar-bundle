@@ -57,13 +57,20 @@ class AppointmentController extends Controller {
         $formOptions['type'] = $classname;
         
         $appt = new $fullClassName();
-        $appt->setDateTime(new DateTime($request->get('datetime')));
-        if($request->get('column')){
-            $em = $this->getDoctrine()->getManager();
-            $column = $em->find("MillerVeinCalendarBundle:Column", $request->get('column'));
-            $appt->setColumn($column);
-            $formOptions['calendar_column'] = $this->getCalendarColumn($session, $column);
+        
+        if($request->request->get($form)){
+            $formData = $request->request->get($form);
+            $requestDateTime = $formData['date_time'];
+            $requestColumn = $formData['column'];
+        }else{
+            $requestDateTime = $request->get('datetime');
+            $requestColumn = $request->get('column');
         }
+        
+        $appt->setDateTime(new DateTime($requestDateTime));
+        $column = $em->find("MillerVeinCalendarBundle:Column", $requestColumn);
+        $appt->setColumn($column);
+        $formOptions['calendar_column'] = $this->getCalendarColumn($session, $column);
         
         $form = $this->createForm($form, $appt,$formOptions);
         $form->handleRequest($request);
@@ -96,11 +103,19 @@ class AppointmentController extends Controller {
         
         $form = $this->createForm($form, $appt, $formOptions);
         
+        
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($appt);
-            $em->flush();
+            switch($form->getClickedButton()->getName()){
+                case 'delete':
+                    $em->remove($appt);
+                    $em->flush();
+                    break;
+                case 'submit':
+                    $em->persist($appt);
+                    $em->flush();
+                    break;
+            }
             return $this->redirectToRoute("calendar");
         }
         

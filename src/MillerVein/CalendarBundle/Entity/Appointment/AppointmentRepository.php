@@ -28,6 +28,7 @@ class AppointmentRepository extends EntityRepository{
                 . ' FROM MillerVeinCalendarBundle:Appointment\Appointment a '
                 . ' WHERE DATE(a.date_time) = :date '
                 . ' AND a.column = :column '
+                . ' ORDER BY a.date_time '
         )
         ->setParameter('date', $date)
         ->setParameter('column', $column);

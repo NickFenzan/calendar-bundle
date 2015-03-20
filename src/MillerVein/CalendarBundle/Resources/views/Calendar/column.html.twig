@@ -1,8 +1,20 @@
 <div class="calendar-column">
     <div class="column-header">{{calendarColumn.column.name}}</div>
     <div class="column-body">
+        {% set hasLunch = false %}
         {% for timeSlot in calendarColumn.timeSlots %}
-            {% include 'MillerVeinCalendarBundle:Calendar:timeslot.html.twig' %}
+            {% if timeSlot.time is defined %}
+                {% include 'MillerVeinCalendarBundle:Calendar:timeslot.html.twig' %}
+            {% elseif hasLunch == false %}
+                {% set hasLunch = true %}
+                <div class="timeslot lunch">
+                    <div class="time">
+                        Lunch
+                     </div>
+                    <div class="appts">
+                    </div>
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 </div>

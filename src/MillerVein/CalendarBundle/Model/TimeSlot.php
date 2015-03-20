@@ -2,7 +2,6 @@
 namespace MillerVein\CalendarBundle\Model;
 
 use DateTime;
-use MillerVein\CalendarBundle\Entity\Appointment\Appointment;
 /**
  * Description of TimeSlot
  *
@@ -17,7 +16,9 @@ class TimeSlot {
      * @var CalendarColumn
      */
     protected $column;
-    
+    /**
+     * @var Array
+     */
     protected $appointments;
     
     public function __construct(DateTime $time, CalendarColumn $column) {
@@ -37,8 +38,7 @@ class TimeSlot {
     public function getAppointments() {
         return $this->appointments;
     }
-    public function setAppointment(Appointment $appt){
+    public function setAppointment(DisplayAppointmentFragment $appt){
         $this->appointments[] = $appt;
     }
-    
 }

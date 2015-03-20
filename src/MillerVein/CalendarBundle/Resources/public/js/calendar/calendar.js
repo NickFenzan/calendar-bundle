@@ -2,7 +2,8 @@ $(function() {
     var $apptDialog = $('#appointment-dialog');
     $apptDialog.dialog({
         autoOpen: false,
-        modal: true
+        modal: true,
+        width:"450px"
     });
     $('.time').click(function() {
         var data = {
@@ -33,5 +34,19 @@ $(function() {
         $.get(route, data, function(data) {
             $apptDialog.find('.appt_form').html($(data).find('.appt_form').html());
         });
+    });
+    
+    $('.appt').tooltip({track:true});
+    $('.appt').hover(function(){
+        var id = $(this).data('id');
+        $('.appt[data-id="'+id+'"]').addClass('appointment-hover');
+    },function(){
+        var id = $(this).data('id');
+        $('.appt[data-id="'+id+'"]').removeClass('appointment-hover');
+    });
+    
+    var calendarColumnBodies = $(".calendar-column .column-body");
+    calendarColumnBodies.scroll(function() {
+        calendarColumnBodies.scrollTop($(this).scrollTop());
     });
 });
