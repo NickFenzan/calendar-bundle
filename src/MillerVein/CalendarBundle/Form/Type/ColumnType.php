@@ -18,15 +18,22 @@ class ColumnType extends AbstractType {
                     'class' => 'MillerVeinEMRBundle:Site',
                     'property' => 'city'
                 ])
+                ->add('provider','entity',[
+                    'label' => 'Provider',
+                    'class' => 'MillerVeinEMRBundle:Users',
+                    'property' => 'username'
+                ])
                 ->add('hours','entity',[
                     'class' => 'MillerVeinCalendarBundle:Hours',
                     'property' => 'name',
-                    'multiple' => 'true'
+                    'multiple' => 'true',
+                    'required' => false,
                 ])
                 ->add('tags','entity',[
                     'class' => 'MillerVeinCalendarBundle:ColumnTag',
                     'property' => 'name',
-                    'multiple' => 'true'
+                    'multiple' => 'true',
+                    'required' => false,
                 ])
         ;
     }

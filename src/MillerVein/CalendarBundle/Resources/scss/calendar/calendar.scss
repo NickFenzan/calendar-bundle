@@ -4,12 +4,17 @@ $apptMargin: 0px;
     overflow-x: auto;
     white-space: nowrap;
 
+    @media (max-width: 600px) {
+        .calendar-column{
+            min-width:600px;
+        }
+    }
+    
     .calendar-column{
         flex: 1 0 0;
         display: flex;
         flex-direction: column;
         border-right:1px solid grey;
-        min-width:600px;
 
         .column-header{
             /*flex: 0 1 0;*/
@@ -32,8 +37,7 @@ $apptMargin: 0px;
                 width:100%;
                 display:flex;
                 flex: 1 0 2em;
-                border-bottom:1px solid grey;
-                margin-top: -1px;
+                /*border-bottom:1px solid grey;*/
                 
                 .time{
                     padding:5px;
@@ -41,16 +45,18 @@ $apptMargin: 0px;
                     cursor: pointer;
                     width: 65px;
                     text-align: center;
-                    height: 2em;
+                    min-height: 2em;
+                    height: 100%;
                 }
                 .time:hover{
                     font-weight: bold;
                 }
 
                 .appts{
-                    flex: 1 0 0;
+                    flex: 1 1 0;
                     display: flex;
-                    height: 2em;
+                    min-height: 2em;
+                    height: 100%;
                     
                     .appointment-hover{
                         cursor:pointer;
@@ -61,14 +67,16 @@ $apptMargin: 0px;
                         flex: 1 0 0;
                         background-color: white;
                         padding: 5px;
-                        margin-top: -1px;
-                        margin-left: -1px;
                         border-left: 1px solid grey;
                         border-right: 1px solid grey;
                         height: 2em;
+                        
+                        a{
+                            text-decoration: none;
+                            color: black;
+                        }
                     }
                     .appt-firstSlot{
-                        margin-top: 0px;
                         border-top: 1px solid grey;
                     }
                     .appt-lastSlot{
@@ -95,5 +103,14 @@ $apptMargin: 0px;
 #appointment-dialog .appt_form{
     textarea,input,select{
         width: 100%;
+    }
+}
+
+.apptInfo{
+    tr{
+        td:first-of-type{
+            font-weight: bold;
+            padding: 2px;
+        }
     }
 }

@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Description of Appointment
  *
  * @ORM\Entity(repositoryClass="AppointmentRepository")
- * @ORM\Table(name="calendar.appointment")
+ * @ORM\Table(name="calendar.appointment",indexes={@ORM\Index(name="date_index", columns={"date_time"})})
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"patient" = "PatientAppointment", "provider" = "ProviderAppointment"})

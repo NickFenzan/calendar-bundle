@@ -27,7 +27,7 @@ class CalendarController extends Controller {
         $controls = $this->createForm('calendar', $calendar, [
             'action' => $this->generateUrl('calendar_post')
         ]);
-
+        
         return [
             'calendar' => $calendar,
             'controls' => $controls->createView()
@@ -56,9 +56,10 @@ class CalendarController extends Controller {
                         break;
                 }
             }
-
+            
             $session->set('calendar_date', $calendar->getDate());
             $session->set('calendar_site_id', $calendar->getSite()->getId());
+            $session->set('calendar_show_cancelled', $calendar->getShowCancelled());
         }
 
 //        return new \Symfony\Component\HttpFoundation\Response();

@@ -26,6 +26,10 @@ class CalendarType extends AbstractType {
                     'class' => 'MillerVeinEMRBundle:Site',
                     'property' => 'city',
                 ])
+                ->add('show_cancelled', 'checkbox', [
+                    'label' => 'Show Cancelled',
+                    'required' => false
+                ])
                 ->add('previous', 'submit',
                         ['label' => '<<'])
                 ->add('next', 'submit',

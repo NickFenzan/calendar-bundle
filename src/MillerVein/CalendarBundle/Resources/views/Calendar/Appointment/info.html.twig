@@ -1,0 +1,47 @@
+<table class="apptInfo">
+    <tr>
+        <td>
+            TOV
+        </td>
+        <td>
+            {{appt.category.name}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Status
+        </td>
+        <td>
+            {{appt.status.name}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Patient
+        </td>
+        <td>
+            {{appt.patient.fname}}
+            {% if appt.patient.nickname %}
+            "{{appt.patient.nickname}}"
+            {% endif %}
+            {{appt.patient.lname}}
+            ({{appt.patient.id}})
+        </td>
+    </tr>
+    <tr>
+        <td>
+            DOB
+        </td>
+        <td>
+            {{appt.patient.dob | date('m/d/Y')}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Notes
+        </td>
+        <td>
+            {{appt.notes}}
+        </td>
+    </tr>
+</table>

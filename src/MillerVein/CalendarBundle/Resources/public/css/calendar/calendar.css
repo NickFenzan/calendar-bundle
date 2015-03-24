@@ -2,12 +2,14 @@
   display: inline-flex;
   overflow-x: auto;
   white-space: nowrap; }
+  @media (max-width: 600px) {
+    #calendar .calendar-column {
+      min-width: 600px; } }
   #calendar .calendar-column {
     flex: 1 0 0;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid grey;
-    min-width: 600px; }
+    border-right: 1px solid grey; }
     #calendar .calendar-column .column-header {
       /*flex: 0 1 0;*/
       text-align: center;
@@ -26,21 +28,22 @@
         width: 100%;
         display: flex;
         flex: 1 0 2em;
-        border-bottom: 1px solid grey;
-        margin-top: -1px; }
+        /*border-bottom:1px solid grey;*/ }
         #calendar .calendar-column .column-body .timeslot .time {
           padding: 5px;
           border-right: 1px solid grey;
           cursor: pointer;
           width: 65px;
           text-align: center;
-          height: 2em; }
+          min-height: 2em;
+          height: 100%; }
         #calendar .calendar-column .column-body .timeslot .time:hover {
           font-weight: bold; }
         #calendar .calendar-column .column-body .timeslot .appts {
-          flex: 1 0 0;
+          flex: 1 1 0;
           display: flex;
-          height: 2em; }
+          min-height: 2em;
+          height: 100%; }
           #calendar .calendar-column .column-body .timeslot .appts .appointment-hover {
             cursor: pointer;
             font-weight: bold; }
@@ -48,13 +51,13 @@
             flex: 1 0 0;
             background-color: white;
             padding: 5px;
-            margin-top: -1px;
-            margin-left: -1px;
             border-left: 1px solid grey;
             border-right: 1px solid grey;
             height: 2em; }
+            #calendar .calendar-column .column-body .timeslot .appts .appt a {
+              text-decoration: none;
+              color: black; }
           #calendar .calendar-column .column-body .timeslot .appts .appt-firstSlot {
-            margin-top: 0px;
             border-top: 1px solid grey; }
           #calendar .calendar-column .column-body .timeslot .appts .appt-lastSlot {
             border-bottom: 1px solid grey; }
@@ -67,5 +70,9 @@
 
 #appointment-dialog .appt_form textarea, #appointment-dialog .appt_form input, #appointment-dialog .appt_form select {
   width: 100%; }
+
+.apptInfo tr td:first-of-type {
+  font-weight: bold;
+  padding: 2px; }
 
 /*# sourceMappingURL=calendar.css.map */

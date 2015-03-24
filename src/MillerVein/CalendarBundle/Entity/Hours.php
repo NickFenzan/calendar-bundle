@@ -46,6 +46,14 @@ class Hours {
      * @Assert\Date()
      */
     protected $start_date;
+    
+    /**
+     * Date hours take effect
+     * @var DateTime 
+     * @ORM\Column(type="date", nullable=true)
+     * @Assert\Date()
+     */
+    protected $end_date;
 
     /**
      * Office opening time
@@ -116,6 +124,10 @@ class Hours {
     public function getStartDate() {
         return $this->start_date;
     }
+    
+    public function getEndDate() {
+        return $this->end_date;
+    }
 
     public function getOpenTime() {
         return $this->open_time;
@@ -154,6 +166,10 @@ class Hours {
     public function setStartDate(DateTime $start_date) {
         $this->start_date = $start_date;
     }
+    
+    public function setEndDate(DateTime $end_date = null) {
+        $this->end_date = $end_date;
+    }
 
     public function setOpenTime(DateTime $open_time) {
         $this->open_time = $open_time;
@@ -189,12 +205,25 @@ class Hours {
             return false;
         }
     }
+    /**
+     * @Assert\True(message="End Date must be later than start date")
+     */
+    public function isEndDateValid() {
+        if (null !== $this->end_date && $this->end_date < $this->start_date) {
+            return false;
+        }
+    }
 
     public function doHoursApplyToDate(DateTime $date) {
         $recurrence_rule = $this->recurrence_rule;
 
         //If the hours haven't taken effect yet bail
         if ($this->start_date > $date) {
+            return false;
+        }
+        
+        //If the hours are expired bail
+        if (null !== $this->end_date && $date > $this->end_date) {
             return false;
         }
 

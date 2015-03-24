@@ -19,6 +19,11 @@ class HoursType extends AbstractType {
                     'widget' => 'single_text',
                     'format' => 'MM/dd/yyyy',
                 ])
+                ->add('end_date', 'date',[
+                    'widget' => 'single_text',
+                    'format' => 'MM/dd/yyyy',
+                    'required' => false
+                ])
                 ->add('open_time', 'time')
                 ->add('lunch_start', 'time')
                 ->add('lunch_end', 'time')

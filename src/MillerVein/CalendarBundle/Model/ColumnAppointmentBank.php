@@ -13,10 +13,9 @@ class ColumnAppointmentBank {
 
     protected $appointments;
 
-    public function __construct(AppointmentRepository $apptRepo, CalendarColumn $calCol) {
-
+    public function __construct(AppointmentRepository $apptRepo, CalendarColumn $calCol, $showCancelled = false) {
         $appts = $apptRepo->findAppointmentsByColumnDate(
-                $calCol->getColumn(), $calCol->getCalendar()->getDate());
+                $calCol->getColumn(), $calCol->getCalendar()->getDate(), $showCancelled);
         $schedulingIncrement = $calCol->getHours()->getSchedulingIncrement();
 
         foreach ($appts as $appt) {

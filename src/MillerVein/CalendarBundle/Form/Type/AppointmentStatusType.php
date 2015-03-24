@@ -18,6 +18,9 @@ class AppointmentStatusType extends AbstractType {
                 'label' => 'Legacy ID',
                 'required' => false,
                 'attr' => ['maxlength'=>1]
+            ])
+            ->add('cancelled', 'checkbox', [
+                'label' => 'Cancelled Status',
             ]);
     }
 

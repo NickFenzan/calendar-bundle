@@ -4,13 +4,15 @@ namespace MillerVein\CalendarBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use MillerVein\EMRBundle\Entity\Site;
+use MillerVein\EMRBundle\Entity\Users;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Description of Column
  *
  * @ORM\Entity
- * @ORM\Table("calendar.column")
+ * @ORM\Table("calendar.calendar_column")
  * @author Nick Fenzan <nickf@millervein.com>
  */
 class Column {
@@ -35,9 +37,16 @@ class Column {
     /**
      * Site this column belongs to.
      * @var Site
-     * @ORM\ManyToOne(targetEntity="\MillerVein\EMRBundle\Entity\Site", inversedBy="columns")
+     * @ORM\ManyToOne(targetEntity="MillerVein\EMRBundle\Entity\Site", inversedBy="columns")
      */
     protected $site;
+    
+    /**
+     * Associated Provider.
+     * @var MillerVein\EMRBundle\Entity\Users
+     * @ORM\ManyToOne(targetEntity="MillerVein\EMRBundle\Entity\Users", inversedBy="calendar_columns")
+     */
+    protected $provider;
 
     /**
      * Regular hours of this column
@@ -80,6 +89,10 @@ class Column {
     public function getSite() {
         return $this->site;
     }
+    
+    public function getProvider() {
+        return $this->provider;
+    }
 
 // </editor-fold>
 
@@ -100,8 +113,12 @@ class Column {
         $this->tags = $tags;
     }
 
-    public function setSite(\MillerVein\EMRBundle\Entity\Site $site) {
+    public function setSite(Site $site) {
         $this->site = $site;
+    }
+    
+    public function setProvider(Users $provider) {
+        $this->provider = $provider;
     }
 
 // </editor-fold>

@@ -10,6 +10,10 @@
         <div id="currentSite">
             {{ form_widget(controls.site, { 'id' : 'calendar-siteinput'}) }}
         </div>
+        <div>
+            {{ form_label(controls.show_cancelled) }}
+            {{ form_widget(controls.show_cancelled, { 'id' : 'calendar-showcancelled'}) }}
+        </div>
         <div id="nextDay">
             {{ form_widget(controls.next)}}
         </div>

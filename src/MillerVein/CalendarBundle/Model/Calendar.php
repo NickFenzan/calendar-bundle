@@ -11,12 +11,13 @@ use MillerVein\EMRBundle\Entity\Site;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
- * Description of Calendar
+ * I need to figure out a way to manage state on this better
  *
  * @author Nick Fenzan <nickf@millervein.com>
  */
 class Calendar {
 
+// <editor-fold defaultstate="collapsed" desc="Properties">
     /**
      * Date calendar is to display
      * @var DateTime
@@ -34,23 +35,30 @@ class Calendar {
      * @var Site
      */
     protected $site;
-    
+
+
     /**
      *
      * @var AppointmentRepository
      */
-    protected $appt_repo;
+    protected $appt_repo; 
+    
+    protected $show_cancelled;
 
-    public function __construct(DateTime $date, $display, AppointmentRepository $apptRepo) {
-        $this->date = $date;
-        $this->appt_repo = $apptRepo;
-        if (is_a($display, "MillerVein\EMRBundle\Entity\Site")) {
-            $this->setSite($display);
-        } else {
-            $this->setColumns($display);
-        }
+// </editor-fold>
+
+        public function __construct(AppointmentRepository $apptRepo, $display, DateTime $date = null, $showCancelled = false) {
+            $this->show_cancelled = $showCancelled;
+            $this->appt_repo = $apptRepo;
+            $this->date = (null === $date) ? new DateTime() : $date;
+            if (is_a($display, "MillerVein\EMRBundle\Entity\Site")) {
+                $this->setSite($display);
+            } else {
+                $this->setColumns($display);
+            }
     }
 
+// <editor-fold defaultstate="collapsed" desc="Getters">
     public function getDate() {
         return $this->date;
     }
@@ -62,12 +70,18 @@ class Calendar {
     public function getSite() {
         return $this->site;
     }
-    
+
+
     public function getAppointmentRepository() {
         return $this->appt_repo;
     }
+        
+    public function getShowCancelled(){
+        return $this->show_cancelled;
+    }
+// </editor-fold>
 
-    
+// <editor-fold defaultstate="collapsed" desc="Setters">
     public function setDate(DateTime $date) {
         $this->date = $date;
     }
@@ -76,23 +90,29 @@ class Calendar {
         $this->buildColumns($columns);
     }
 
+    public function setSite(Site $site) {
+        $this->site = $site;
+        $columns = $site->getColumns();
+        $this->buildColumns($columns);
+    }
+    
+    public function setShowCancelled($showCancelled){
+        $this->show_cancelled = $showCancelled;
+    }
+    
+// </editor-fold>
+
     protected function buildColumns($columns) {
         $this->columns = array();
-        if($columns){
+        if ($columns) {
             foreach ($columns as $column) {
                 if (is_a($column, "MillerVein\CalendarBundle\Entity\Column")) {
-                    $this->columns[] = new CalendarColumn($this, $column);
+                    $this->columns[] = new CalendarColumn($this, $column, $this->show_cancelled);
                 } else {
                     throw new Exception("Columns array contains non-column objects");
                 }
             }
         }
-    }
-
-    public function setSite(Site $site) {
-        $this->site = $site;
-        $columns = $site->getColumns();
-        $this->buildColumns($columns);
     }
     
     /**
@@ -116,8 +136,8 @@ class Calendar {
         $site = $session->get('calendar_site_id') ?
                 $siteRepo->find($session->get('calendar_site_id')) :
                 $siteRepo->findOneBy([]);
+        $showCancelled = $session->get('calendar_show_cancelled',false);
         
-        return new Calendar($date, $site, $apptRepo);
+        return new Calendar($apptRepo, $site, $date, $showCancelled);
     }
-
 }

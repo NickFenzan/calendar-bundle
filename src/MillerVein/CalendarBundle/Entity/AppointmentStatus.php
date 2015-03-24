@@ -38,6 +38,14 @@ class AppointmentStatus {
      */
     protected $display_position;
     
+    
+    /**
+     * Is the status a cancelled variety
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $cancelled;
+    
     public function getId() {
         return $this->id;
     }
@@ -52,6 +60,10 @@ class AppointmentStatus {
     
     public function getDisplayPosition() {
         return $this->display_position;
+    }
+    
+    public function isCancelled() {
+        return $this->cancelled;
     }
 
     public function setId($id) {
@@ -69,5 +81,8 @@ class AppointmentStatus {
     public function setDisplayPosition($display_position) {
         $this->display_position = $display_position;
     }
-
+    
+    public function setCancelled($cancelled) {
+        $this->cancelled = $cancelled;
+    }
 }

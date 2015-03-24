@@ -34,6 +34,12 @@ class AppointmentController extends Controller {
     }
     
     /**
+     * @Route("/patient/info/{id}", name="appointment_patient_info", options={"expose"=true})
+     */
+    public function patientAppointmentInfoAction($id){
+        return $this->appointmentInfoAction($id,'Patient', 'appointment_patient');
+    }
+    /**
      * @Route("/provider/new", name="appointment_provider_new_form", options={"expose"=true})
      */
     public function newProviderAction(Request $request) {
@@ -45,6 +51,13 @@ class AppointmentController extends Controller {
      */
     public function editProviderAction(Request $request, $id) {
         return $this->editFormAction($request, $id,'Provider', 'appointment_provider');
+    }
+    
+    /**
+     * @Route("/provider/info/{id}", name="appointment_provider_info", options={"expose"=true})
+     */
+    public function providerAppointmentInfoAction($id){
+        return $this->appointmentInfoAction($id,'Provider', 'appointment_provider');
     }
     
     protected function newFormAction(Request $request, $classname, $form) {
@@ -92,7 +105,7 @@ class AppointmentController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
         $fullClassName = static::CLASS_PATH . $classname."Appointment";
-        $appt = $this->getDoctrine()->getManager()->find($fullClassName, $id);
+        $appt = $em->find($fullClassName, $id);
         $column = $appt->getColumn();
         
         
@@ -120,6 +133,13 @@ class AppointmentController extends Controller {
         }
         
         return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:edit.html.twig",['form' => $form->createView()]);
+    }
+    
+    protected function appointmentInfoAction($id, $classname, $form){
+        $em = $this->getDoctrine()->getManager();
+        $fullClassName = static::CLASS_PATH . $classname."Appointment";
+        $appt = $em->find($fullClassName, $id);
+        return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:info.html.twig",['appt' => $appt]);
     }
     
     protected function getCalendarColumn(Session $session, Column $column){

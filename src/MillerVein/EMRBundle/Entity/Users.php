@@ -2,6 +2,7 @@
 
 namespace MillerVein\EMRBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,8 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="openemr.users")
  * @ORM\Entity
  */
-class Users
-{
+class Users {
+
+// <editor-fold defaultstate="collapsed" desc="Legacy Properties">
     /**
      * @var integer
      *
@@ -439,17 +441,26 @@ class Users
      *
      * @ORM\Column(name="linkToProvider", type="integer", nullable=true)
      */
-    private $linktoprovider;
+    private $linktoprovider; // </editor-fold>
 
+    /**
+     * Site this column belongs to.
+     * @var \MillerVein\CalendarBundle\Entity\Column
+     * @ORM\OneToMany(targetEntity="MillerVein\CalendarBundle\Entity\Column", mappedBy="provider")
+     */
+    protected $calendar_columns;
 
+    public function __construct() {
+        $this->columns = new ArrayCollection();
+    }
 
+// <editor-fold defaultstate="collapsed" desc="Legacy Getter/Setters">
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -459,8 +470,7 @@ class Users
      * @param string $username
      * @return Users
      */
-    public function setUsername($username)
-    {
+    public function setUsername($username) {
         $this->username = $username;
 
         return $this;
@@ -471,8 +481,7 @@ class Users
      *
      * @return string 
      */
-    public function getUsername()
-    {
+    public function getUsername() {
         return $this->username;
     }
 
@@ -482,8 +491,7 @@ class Users
      * @param string $password
      * @return Users
      */
-    public function setPassword($password)
-    {
+    public function setPassword($password) {
         $this->password = $password;
 
         return $this;
@@ -494,8 +502,7 @@ class Users
      *
      * @return string 
      */
-    public function getPassword()
-    {
+    public function getPassword() {
         return $this->password;
     }
 
@@ -505,8 +512,7 @@ class Users
      * @param boolean $authorized
      * @return Users
      */
-    public function setAuthorized($authorized)
-    {
+    public function setAuthorized($authorized) {
         $this->authorized = $authorized;
 
         return $this;
@@ -517,8 +523,7 @@ class Users
      *
      * @return boolean 
      */
-    public function getAuthorized()
-    {
+    public function getAuthorized() {
         return $this->authorized;
     }
 
@@ -528,8 +533,7 @@ class Users
      * @param string $info
      * @return Users
      */
-    public function setInfo($info)
-    {
+    public function setInfo($info) {
         $this->info = $info;
 
         return $this;
@@ -540,8 +544,7 @@ class Users
      *
      * @return string 
      */
-    public function getInfo()
-    {
+    public function getInfo() {
         return $this->info;
     }
 
@@ -551,8 +554,7 @@ class Users
      * @param boolean $source
      * @return Users
      */
-    public function setSource($source)
-    {
+    public function setSource($source) {
         $this->source = $source;
 
         return $this;
@@ -563,8 +565,7 @@ class Users
      *
      * @return boolean 
      */
-    public function getSource()
-    {
+    public function getSource() {
         return $this->source;
     }
 
@@ -574,8 +575,7 @@ class Users
      * @param string $fname
      * @return Users
      */
-    public function setFname($fname)
-    {
+    public function setFname($fname) {
         $this->fname = $fname;
 
         return $this;
@@ -586,8 +586,7 @@ class Users
      *
      * @return string 
      */
-    public function getFname()
-    {
+    public function getFname() {
         return $this->fname;
     }
 
@@ -597,8 +596,7 @@ class Users
      * @param string $mname
      * @return Users
      */
-    public function setMname($mname)
-    {
+    public function setMname($mname) {
         $this->mname = $mname;
 
         return $this;
@@ -609,8 +607,7 @@ class Users
      *
      * @return string 
      */
-    public function getMname()
-    {
+    public function getMname() {
         return $this->mname;
     }
 
@@ -620,8 +617,7 @@ class Users
      * @param string $lname
      * @return Users
      */
-    public function setLname($lname)
-    {
+    public function setLname($lname) {
         $this->lname = $lname;
 
         return $this;
@@ -632,8 +628,7 @@ class Users
      *
      * @return string 
      */
-    public function getLname()
-    {
+    public function getLname() {
         return $this->lname;
     }
 
@@ -643,8 +638,7 @@ class Users
      * @param string $sex
      * @return Users
      */
-    public function setSex($sex)
-    {
+    public function setSex($sex) {
         $this->sex = $sex;
 
         return $this;
@@ -655,8 +649,7 @@ class Users
      *
      * @return string 
      */
-    public function getSex()
-    {
+    public function getSex() {
         return $this->sex;
     }
 
@@ -666,8 +659,7 @@ class Users
      * @param string $federaltaxid
      * @return Users
      */
-    public function setFederaltaxid($federaltaxid)
-    {
+    public function setFederaltaxid($federaltaxid) {
         $this->federaltaxid = $federaltaxid;
 
         return $this;
@@ -678,8 +670,7 @@ class Users
      *
      * @return string 
      */
-    public function getFederaltaxid()
-    {
+    public function getFederaltaxid() {
         return $this->federaltaxid;
     }
 
@@ -689,8 +680,7 @@ class Users
      * @param string $federaldrugid
      * @return Users
      */
-    public function setFederaldrugid($federaldrugid)
-    {
+    public function setFederaldrugid($federaldrugid) {
         $this->federaldrugid = $federaldrugid;
 
         return $this;
@@ -701,8 +691,7 @@ class Users
      *
      * @return string 
      */
-    public function getFederaldrugid()
-    {
+    public function getFederaldrugid() {
         return $this->federaldrugid;
     }
 
@@ -712,8 +701,7 @@ class Users
      * @param string $upin
      * @return Users
      */
-    public function setUpin($upin)
-    {
+    public function setUpin($upin) {
         $this->upin = $upin;
 
         return $this;
@@ -724,8 +712,7 @@ class Users
      *
      * @return string 
      */
-    public function getUpin()
-    {
+    public function getUpin() {
         return $this->upin;
     }
 
@@ -735,8 +722,7 @@ class Users
      * @param string $facility
      * @return Users
      */
-    public function setFacility($facility)
-    {
+    public function setFacility($facility) {
         $this->facility = $facility;
 
         return $this;
@@ -747,8 +733,7 @@ class Users
      *
      * @return string 
      */
-    public function getFacility()
-    {
+    public function getFacility() {
         return $this->facility;
     }
 
@@ -758,8 +743,7 @@ class Users
      * @param integer $facilityId
      * @return Users
      */
-    public function setFacilityId($facilityId)
-    {
+    public function setFacilityId($facilityId) {
         $this->facilityId = $facilityId;
 
         return $this;
@@ -770,8 +754,7 @@ class Users
      *
      * @return integer 
      */
-    public function getFacilityId()
-    {
+    public function getFacilityId() {
         return $this->facilityId;
     }
 
@@ -781,8 +764,7 @@ class Users
      * @param integer $seeAuth
      * @return Users
      */
-    public function setSeeAuth($seeAuth)
-    {
+    public function setSeeAuth($seeAuth) {
         $this->seeAuth = $seeAuth;
 
         return $this;
@@ -793,8 +775,7 @@ class Users
      *
      * @return integer 
      */
-    public function getSeeAuth()
-    {
+    public function getSeeAuth() {
         return $this->seeAuth;
     }
 
@@ -804,8 +785,7 @@ class Users
      * @param boolean $active
      * @return Users
      */
-    public function setActive($active)
-    {
+    public function setActive($active) {
         $this->active = $active;
 
         return $this;
@@ -816,8 +796,7 @@ class Users
      *
      * @return boolean 
      */
-    public function getActive()
-    {
+    public function getActive() {
         return $this->active;
     }
 
@@ -827,8 +806,7 @@ class Users
      * @param string $npi
      * @return Users
      */
-    public function setNpi($npi)
-    {
+    public function setNpi($npi) {
         $this->npi = $npi;
 
         return $this;
@@ -839,8 +817,7 @@ class Users
      *
      * @return string 
      */
-    public function getNpi()
-    {
+    public function getNpi() {
         return $this->npi;
     }
 
@@ -850,8 +827,7 @@ class Users
      * @param string $title
      * @return Users
      */
-    public function setTitle($title)
-    {
+    public function setTitle($title) {
         $this->title = $title;
 
         return $this;
@@ -862,8 +838,7 @@ class Users
      *
      * @return string 
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
 
@@ -873,8 +848,7 @@ class Users
      * @param string $specialty
      * @return Users
      */
-    public function setSpecialty($specialty)
-    {
+    public function setSpecialty($specialty) {
         $this->specialty = $specialty;
 
         return $this;
@@ -885,8 +859,7 @@ class Users
      *
      * @return string 
      */
-    public function getSpecialty()
-    {
+    public function getSpecialty() {
         return $this->specialty;
     }
 
@@ -896,8 +869,7 @@ class Users
      * @param string $billname
      * @return Users
      */
-    public function setBillname($billname)
-    {
+    public function setBillname($billname) {
         $this->billname = $billname;
 
         return $this;
@@ -908,8 +880,7 @@ class Users
      *
      * @return string 
      */
-    public function getBillname()
-    {
+    public function getBillname() {
         return $this->billname;
     }
 
@@ -919,8 +890,7 @@ class Users
      * @param string $email
      * @return Users
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
 
         return $this;
@@ -931,8 +901,7 @@ class Users
      *
      * @return string 
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
 
@@ -942,8 +911,7 @@ class Users
      * @param string $url
      * @return Users
      */
-    public function setUrl($url)
-    {
+    public function setUrl($url) {
         $this->url = $url;
 
         return $this;
@@ -954,8 +922,7 @@ class Users
      *
      * @return string 
      */
-    public function getUrl()
-    {
+    public function getUrl() {
         return $this->url;
     }
 
@@ -965,8 +932,7 @@ class Users
      * @param string $assistant
      * @return Users
      */
-    public function setAssistant($assistant)
-    {
+    public function setAssistant($assistant) {
         $this->assistant = $assistant;
 
         return $this;
@@ -977,8 +943,7 @@ class Users
      *
      * @return string 
      */
-    public function getAssistant()
-    {
+    public function getAssistant() {
         return $this->assistant;
     }
 
@@ -988,8 +953,7 @@ class Users
      * @param string $organization
      * @return Users
      */
-    public function setOrganization($organization)
-    {
+    public function setOrganization($organization) {
         $this->organization = $organization;
 
         return $this;
@@ -1000,8 +964,7 @@ class Users
      *
      * @return string 
      */
-    public function getOrganization()
-    {
+    public function getOrganization() {
         return $this->organization;
     }
 
@@ -1011,8 +974,7 @@ class Users
      * @param string $valedictory
      * @return Users
      */
-    public function setValedictory($valedictory)
-    {
+    public function setValedictory($valedictory) {
         $this->valedictory = $valedictory;
 
         return $this;
@@ -1023,8 +985,7 @@ class Users
      *
      * @return string 
      */
-    public function getValedictory()
-    {
+    public function getValedictory() {
         return $this->valedictory;
     }
 
@@ -1034,8 +995,7 @@ class Users
      * @param string $spouse
      * @return Users
      */
-    public function setSpouse($spouse)
-    {
+    public function setSpouse($spouse) {
         $this->spouse = $spouse;
 
         return $this;
@@ -1046,8 +1006,7 @@ class Users
      *
      * @return string 
      */
-    public function getSpouse()
-    {
+    public function getSpouse() {
         return $this->spouse;
     }
 
@@ -1057,8 +1016,7 @@ class Users
      * @param string $street
      * @return Users
      */
-    public function setStreet($street)
-    {
+    public function setStreet($street) {
         $this->street = $street;
 
         return $this;
@@ -1069,8 +1027,7 @@ class Users
      *
      * @return string 
      */
-    public function getStreet()
-    {
+    public function getStreet() {
         return $this->street;
     }
 
@@ -1080,8 +1037,7 @@ class Users
      * @param string $streetb
      * @return Users
      */
-    public function setStreetb($streetb)
-    {
+    public function setStreetb($streetb) {
         $this->streetb = $streetb;
 
         return $this;
@@ -1092,8 +1048,7 @@ class Users
      *
      * @return string 
      */
-    public function getStreetb()
-    {
+    public function getStreetb() {
         return $this->streetb;
     }
 
@@ -1103,8 +1058,7 @@ class Users
      * @param string $city
      * @return Users
      */
-    public function setCity($city)
-    {
+    public function setCity($city) {
         $this->city = $city;
 
         return $this;
@@ -1115,8 +1069,7 @@ class Users
      *
      * @return string 
      */
-    public function getCity()
-    {
+    public function getCity() {
         return $this->city;
     }
 
@@ -1126,8 +1079,7 @@ class Users
      * @param string $state
      * @return Users
      */
-    public function setState($state)
-    {
+    public function setState($state) {
         $this->state = $state;
 
         return $this;
@@ -1138,8 +1090,7 @@ class Users
      *
      * @return string 
      */
-    public function getState()
-    {
+    public function getState() {
         return $this->state;
     }
 
@@ -1149,8 +1100,7 @@ class Users
      * @param string $zip
      * @return Users
      */
-    public function setZip($zip)
-    {
+    public function setZip($zip) {
         $this->zip = $zip;
 
         return $this;
@@ -1161,8 +1111,7 @@ class Users
      *
      * @return string 
      */
-    public function getZip()
-    {
+    public function getZip() {
         return $this->zip;
     }
 
@@ -1172,8 +1121,7 @@ class Users
      * @param string $street2
      * @return Users
      */
-    public function setStreet2($street2)
-    {
+    public function setStreet2($street2) {
         $this->street2 = $street2;
 
         return $this;
@@ -1184,8 +1132,7 @@ class Users
      *
      * @return string 
      */
-    public function getStreet2()
-    {
+    public function getStreet2() {
         return $this->street2;
     }
 
@@ -1195,8 +1142,7 @@ class Users
      * @param string $streetb2
      * @return Users
      */
-    public function setStreetb2($streetb2)
-    {
+    public function setStreetb2($streetb2) {
         $this->streetb2 = $streetb2;
 
         return $this;
@@ -1207,8 +1153,7 @@ class Users
      *
      * @return string 
      */
-    public function getStreetb2()
-    {
+    public function getStreetb2() {
         return $this->streetb2;
     }
 
@@ -1218,8 +1163,7 @@ class Users
      * @param string $city2
      * @return Users
      */
-    public function setCity2($city2)
-    {
+    public function setCity2($city2) {
         $this->city2 = $city2;
 
         return $this;
@@ -1230,8 +1174,7 @@ class Users
      *
      * @return string 
      */
-    public function getCity2()
-    {
+    public function getCity2() {
         return $this->city2;
     }
 
@@ -1241,8 +1184,7 @@ class Users
      * @param string $state2
      * @return Users
      */
-    public function setState2($state2)
-    {
+    public function setState2($state2) {
         $this->state2 = $state2;
 
         return $this;
@@ -1253,8 +1195,7 @@ class Users
      *
      * @return string 
      */
-    public function getState2()
-    {
+    public function getState2() {
         return $this->state2;
     }
 
@@ -1264,8 +1205,7 @@ class Users
      * @param string $zip2
      * @return Users
      */
-    public function setZip2($zip2)
-    {
+    public function setZip2($zip2) {
         $this->zip2 = $zip2;
 
         return $this;
@@ -1276,8 +1216,7 @@ class Users
      *
      * @return string 
      */
-    public function getZip2()
-    {
+    public function getZip2() {
         return $this->zip2;
     }
 
@@ -1287,8 +1226,7 @@ class Users
      * @param string $phone
      * @return Users
      */
-    public function setPhone($phone)
-    {
+    public function setPhone($phone) {
         $this->phone = $phone;
 
         return $this;
@@ -1299,8 +1237,7 @@ class Users
      *
      * @return string 
      */
-    public function getPhone()
-    {
+    public function getPhone() {
         return $this->phone;
     }
 
@@ -1310,8 +1247,7 @@ class Users
      * @param string $fax
      * @return Users
      */
-    public function setFax($fax)
-    {
+    public function setFax($fax) {
         $this->fax = $fax;
 
         return $this;
@@ -1322,8 +1258,7 @@ class Users
      *
      * @return string 
      */
-    public function getFax()
-    {
+    public function getFax() {
         return $this->fax;
     }
 
@@ -1333,8 +1268,7 @@ class Users
      * @param string $phonew1
      * @return Users
      */
-    public function setPhonew1($phonew1)
-    {
+    public function setPhonew1($phonew1) {
         $this->phonew1 = $phonew1;
 
         return $this;
@@ -1345,8 +1279,7 @@ class Users
      *
      * @return string 
      */
-    public function getPhonew1()
-    {
+    public function getPhonew1() {
         return $this->phonew1;
     }
 
@@ -1356,8 +1289,7 @@ class Users
      * @param string $phonew2
      * @return Users
      */
-    public function setPhonew2($phonew2)
-    {
+    public function setPhonew2($phonew2) {
         $this->phonew2 = $phonew2;
 
         return $this;
@@ -1368,8 +1300,7 @@ class Users
      *
      * @return string 
      */
-    public function getPhonew2()
-    {
+    public function getPhonew2() {
         return $this->phonew2;
     }
 
@@ -1379,8 +1310,7 @@ class Users
      * @param string $phonecell
      * @return Users
      */
-    public function setPhonecell($phonecell)
-    {
+    public function setPhonecell($phonecell) {
         $this->phonecell = $phonecell;
 
         return $this;
@@ -1391,8 +1321,7 @@ class Users
      *
      * @return string 
      */
-    public function getPhonecell()
-    {
+    public function getPhonecell() {
         return $this->phonecell;
     }
 
@@ -1402,8 +1331,7 @@ class Users
      * @param string $notes
      * @return Users
      */
-    public function setNotes($notes)
-    {
+    public function setNotes($notes) {
         $this->notes = $notes;
 
         return $this;
@@ -1414,8 +1342,7 @@ class Users
      *
      * @return string 
      */
-    public function getNotes()
-    {
+    public function getNotes() {
         return $this->notes;
     }
 
@@ -1425,8 +1352,7 @@ class Users
      * @param boolean $calUi
      * @return Users
      */
-    public function setCalUi($calUi)
-    {
+    public function setCalUi($calUi) {
         $this->calUi = $calUi;
 
         return $this;
@@ -1437,8 +1363,7 @@ class Users
      *
      * @return boolean 
      */
-    public function getCalUi()
-    {
+    public function getCalUi() {
         return $this->calUi;
     }
 
@@ -1448,8 +1373,7 @@ class Users
      * @param string $taxonomy
      * @return Users
      */
-    public function setTaxonomy($taxonomy)
-    {
+    public function setTaxonomy($taxonomy) {
         $this->taxonomy = $taxonomy;
 
         return $this;
@@ -1460,8 +1384,7 @@ class Users
      *
      * @return string 
      */
-    public function getTaxonomy()
-    {
+    public function getTaxonomy() {
         return $this->taxonomy;
     }
 
@@ -1471,8 +1394,7 @@ class Users
      * @param string $ssiRelayhealth
      * @return Users
      */
-    public function setSsiRelayhealth($ssiRelayhealth)
-    {
+    public function setSsiRelayhealth($ssiRelayhealth) {
         $this->ssiRelayhealth = $ssiRelayhealth;
 
         return $this;
@@ -1483,8 +1405,7 @@ class Users
      *
      * @return string 
      */
-    public function getSsiRelayhealth()
-    {
+    public function getSsiRelayhealth() {
         return $this->ssiRelayhealth;
     }
 
@@ -1494,8 +1415,7 @@ class Users
      * @param boolean $calendar
      * @return Users
      */
-    public function setCalendar($calendar)
-    {
+    public function setCalendar($calendar) {
         $this->calendar = $calendar;
 
         return $this;
@@ -1506,8 +1426,7 @@ class Users
      *
      * @return boolean 
      */
-    public function getCalendar()
-    {
+    public function getCalendar() {
         return $this->calendar;
     }
 
@@ -1517,8 +1436,7 @@ class Users
      * @param string $abookType
      * @return Users
      */
-    public function setAbookType($abookType)
-    {
+    public function setAbookType($abookType) {
         $this->abookType = $abookType;
 
         return $this;
@@ -1529,8 +1447,7 @@ class Users
      *
      * @return string 
      */
-    public function getAbookType()
-    {
+    public function getAbookType() {
         return $this->abookType;
     }
 
@@ -1540,8 +1457,7 @@ class Users
      * @param \DateTime $pwdExpirationDate
      * @return Users
      */
-    public function setPwdExpirationDate($pwdExpirationDate)
-    {
+    public function setPwdExpirationDate($pwdExpirationDate) {
         $this->pwdExpirationDate = $pwdExpirationDate;
 
         return $this;
@@ -1552,8 +1468,7 @@ class Users
      *
      * @return \DateTime 
      */
-    public function getPwdExpirationDate()
-    {
+    public function getPwdExpirationDate() {
         return $this->pwdExpirationDate;
     }
 
@@ -1563,8 +1478,7 @@ class Users
      * @param string $pwdHistory1
      * @return Users
      */
-    public function setPwdHistory1($pwdHistory1)
-    {
+    public function setPwdHistory1($pwdHistory1) {
         $this->pwdHistory1 = $pwdHistory1;
 
         return $this;
@@ -1575,8 +1489,7 @@ class Users
      *
      * @return string 
      */
-    public function getPwdHistory1()
-    {
+    public function getPwdHistory1() {
         return $this->pwdHistory1;
     }
 
@@ -1586,8 +1499,7 @@ class Users
      * @param string $pwdHistory2
      * @return Users
      */
-    public function setPwdHistory2($pwdHistory2)
-    {
+    public function setPwdHistory2($pwdHistory2) {
         $this->pwdHistory2 = $pwdHistory2;
 
         return $this;
@@ -1598,8 +1510,7 @@ class Users
      *
      * @return string 
      */
-    public function getPwdHistory2()
-    {
+    public function getPwdHistory2() {
         return $this->pwdHistory2;
     }
 
@@ -1609,8 +1520,7 @@ class Users
      * @param string $defaultWarehouse
      * @return Users
      */
-    public function setDefaultWarehouse($defaultWarehouse)
-    {
+    public function setDefaultWarehouse($defaultWarehouse) {
         $this->defaultWarehouse = $defaultWarehouse;
 
         return $this;
@@ -1621,8 +1531,7 @@ class Users
      *
      * @return string 
      */
-    public function getDefaultWarehouse()
-    {
+    public function getDefaultWarehouse() {
         return $this->defaultWarehouse;
     }
 
@@ -1632,8 +1541,7 @@ class Users
      * @param string $irnpool
      * @return Users
      */
-    public function setIrnpool($irnpool)
-    {
+    public function setIrnpool($irnpool) {
         $this->irnpool = $irnpool;
 
         return $this;
@@ -1644,8 +1552,7 @@ class Users
      *
      * @return string 
      */
-    public function getIrnpool()
-    {
+    public function getIrnpool() {
         return $this->irnpool;
     }
 
@@ -1655,8 +1562,7 @@ class Users
      * @param string $stateLicenseNumber
      * @return Users
      */
-    public function setStateLicenseNumber($stateLicenseNumber)
-    {
+    public function setStateLicenseNumber($stateLicenseNumber) {
         $this->stateLicenseNumber = $stateLicenseNumber;
 
         return $this;
@@ -1667,8 +1573,7 @@ class Users
      *
      * @return string 
      */
-    public function getStateLicenseNumber()
-    {
+    public function getStateLicenseNumber() {
         return $this->stateLicenseNumber;
     }
 
@@ -1678,8 +1583,7 @@ class Users
      * @param string $newcropUserRole
      * @return Users
      */
-    public function setNewcropUserRole($newcropUserRole)
-    {
+    public function setNewcropUserRole($newcropUserRole) {
         $this->newcropUserRole = $newcropUserRole;
 
         return $this;
@@ -1690,8 +1594,7 @@ class Users
      *
      * @return string 
      */
-    public function getNewcropUserRole()
-    {
+    public function getNewcropUserRole() {
         return $this->newcropUserRole;
     }
 
@@ -1701,8 +1604,7 @@ class Users
      * @param boolean $physician
      * @return Users
      */
-    public function setPhysician($physician)
-    {
+    public function setPhysician($physician) {
         $this->physician = $physician;
 
         return $this;
@@ -1713,8 +1615,7 @@ class Users
      *
      * @return boolean 
      */
-    public function getPhysician()
-    {
+    public function getPhysician() {
         return $this->physician;
     }
 
@@ -1724,8 +1625,7 @@ class Users
      * @param boolean $clinical
      * @return Users
      */
-    public function setClinical($clinical)
-    {
+    public function setClinical($clinical) {
         $this->clinical = $clinical;
 
         return $this;
@@ -1736,8 +1636,7 @@ class Users
      *
      * @return boolean 
      */
-    public function getClinical()
-    {
+    public function getClinical() {
         return $this->clinical;
     }
 
@@ -1747,8 +1646,7 @@ class Users
      * @param boolean $admin
      * @return Users
      */
-    public function setAdmin($admin)
-    {
+    public function setAdmin($admin) {
         $this->admin = $admin;
 
         return $this;
@@ -1759,8 +1657,7 @@ class Users
      *
      * @return boolean 
      */
-    public function getAdmin()
-    {
+    public function getAdmin() {
         return $this->admin;
     }
 
@@ -1770,8 +1667,7 @@ class Users
      * @param string $role
      * @return Users
      */
-    public function setRole($role)
-    {
+    public function setRole($role) {
         $this->role = $role;
 
         return $this;
@@ -1782,8 +1678,7 @@ class Users
      *
      * @return string 
      */
-    public function getRole()
-    {
+    public function getRole() {
         return $this->role;
     }
 
@@ -1793,8 +1688,7 @@ class Users
      * @param integer $calendarOrder
      * @return Users
      */
-    public function setCalendarOrder($calendarOrder)
-    {
+    public function setCalendarOrder($calendarOrder) {
         $this->calendarOrder = $calendarOrder;
 
         return $this;
@@ -1805,8 +1699,7 @@ class Users
      *
      * @return integer 
      */
-    public function getCalendarOrder()
-    {
+    public function getCalendarOrder() {
         return $this->calendarOrder;
     }
 
@@ -1816,8 +1709,7 @@ class Users
      * @param integer $linktoprovider
      * @return Users
      */
-    public function setLinktoprovider($linktoprovider)
-    {
+    public function setLinktoprovider($linktoprovider) {
         $this->linktoprovider = $linktoprovider;
 
         return $this;
@@ -1828,8 +1720,13 @@ class Users
      *
      * @return integer 
      */
-    public function getLinktoprovider()
-    {
+    public function getLinktoprovider() {
         return $this->linktoprovider;
+    }
+
+// </editor-fold>
+
+    public function getCalendarColumns() {
+        return $this->calendar_columns;
     }
 }

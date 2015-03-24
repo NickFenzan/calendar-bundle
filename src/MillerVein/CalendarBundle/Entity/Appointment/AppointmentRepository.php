@@ -22,16 +22,25 @@ class AppointmentRepository extends EntityRepository{
         return $query->getResult();
     }
     
-    public function findAppointmentsByColumnDate(Column $column, DateTime $date){
-        $query = $this->getEntityManager()->createQuery(
-                'SELECT a '
-                . ' FROM MillerVeinCalendarBundle:Appointment\Appointment a '
-                . ' WHERE DATE(a.date_time) = :date '
-                . ' AND a.column = :column '
-                . ' ORDER BY a.date_time '
-        )
-        ->setParameter('date', $date)
+    public function findAppointmentsByColumnDate(Column $column, DateTime $date, $showCancelled = false){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('a,c,s,p')
+                ->from('MillerVeinCalendarBundle:Appointment\PatientAppointment', 'a')
+                ->join('a.category', 'c')
+                ->join('a.status', 's')
+                ->join('a.patient', 'p')
+                ->where('DATE(a.date_time) = :date')
+                ->andWhere('a.column = :column');
+        if (!$showCancelled){
+            $qb->andWhere('s.cancelled != 1');
+        }
+        $qb->orderBy('a.date_time');
+        $query = $qb->getQuery();
+        
+        $query
+        ->setParameter('date', $date->format('Y-m-d'))
         ->setParameter('column', $column);
+//        $query->setMaxResults(5);
         return $query->getResult();
     }
     
@@ -46,4 +55,5 @@ class AppointmentRepository extends EntityRepository{
         ->setParameter('column', $column);
         return $query->getResult();
     }
+    
 }

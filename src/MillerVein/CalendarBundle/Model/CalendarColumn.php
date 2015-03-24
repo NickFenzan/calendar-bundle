@@ -34,6 +34,11 @@ class CalendarColumn {
      * @var Array
      */
     protected $time_slots = null;
+    
+    /**
+     * @var bool
+     */
+    protected $show_cancelled;
 
     /**
      *
@@ -46,7 +51,8 @@ class CalendarColumn {
      * @param Column $column
      * @param Calendar $calendar
      */
-    public function __construct(Calendar $calendar, Column $column) {
+    public function __construct(Calendar $calendar, Column $column, $showCancelled = false) {
+        $this->show_cancelled = $showCancelled;
         $this->calendar = $calendar;
         $this->column = $column;
         $this->findHours();
@@ -61,12 +67,13 @@ class CalendarColumn {
         foreach ($this->column->getHours() as $hours) {
             if ($hours->doHoursApplyToDate($this->calendar->getDate())) {
                 $this->hours = $hours;
+                break;
             }
         }
     }
     
     protected function buildAppointmentBank(){
-        $this->appointment_bank = new ColumnAppointmentBank($this->calendar->getAppointmentRepository(), $this);
+        $this->appointment_bank = new ColumnAppointmentBank($this->calendar->getAppointmentRepository(), $this, $this->show_cancelled);
     }
     
     protected function fillInAppointments(){
@@ -120,7 +127,7 @@ class CalendarColumn {
      */
     public function getTimeSlot(DateTime $time) {
         foreach ($this->time_slots as $time_slot) {
-            if ($time_slot->getTime() == $time) {
+            if (is_a($time_slot,'MillerVein\CalendarBundle\Model\TimeSlot') && $time_slot->getTime() == $time) {
                 return $time_slot;
             }
         }

@@ -303,6 +303,16 @@ class PatientData
 
 
     /**
+     * Alias of getPid()
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->pid;
+    }
+    
+    /**
      * Get pid
      *
      * @return integer 
