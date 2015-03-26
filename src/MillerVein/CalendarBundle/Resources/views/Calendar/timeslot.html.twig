@@ -23,6 +23,7 @@
          data-type="{{fragment.appointment.type}}" 
          style='background-color:{{fragment.appointment.category.color}}'
          >
+        {% if fragment.appointment.type == 'patient' %}
         <span class="patient
               " data-id="{{ fragment.appointment.patient.pid }}">
             <a href="../../interface/patient_file/summary/demographics.php?set_pid={{ fragment.appointment.patient.pid }}">
@@ -41,6 +42,11 @@
             {% endif %}
             </a>
         </span>
+        {% else %}
+        <span class="provider">
+            {{ fragment.appointment.category.name }}
+        </span>
+        {% endif %}
     </div>
     {% endfor %}
     </div>

@@ -8,10 +8,10 @@
 **/
 ;(function ($) {
     var on = $.fn.on, timer;
-    $.fn.on = function () {
+    $.fn.delayOn = function () {
         var args = Array.apply(null, arguments);
         var last = args[args.length - 1];
-
+        
         if (isNaN(last) || (last === 1 && args.pop())) return on.apply(this, args);
 
         var delay = args.pop();

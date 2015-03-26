@@ -23,14 +23,6 @@ class PatientAppointment extends Appointment {
      * */
     protected $patient;
 
-    /**
-     * Appointment Status
-     * @ORM\ManyToOne(targetEntity="MillerVein\CalendarBundle\Entity\AppointmentStatus")
-     * @Assert\NotBlank()
-     * @var AppointmentStatus
-     */
-    protected $status;
-
     public function getType() {
         return "patient";
     }
@@ -39,16 +31,8 @@ class PatientAppointment extends Appointment {
         return $this->patient;
     }
 
-    public function getStatus() {
-        return $this->status;
-    }
-
     public function setPatient(PatientData $patient) {
         $this->patient = $patient;
-    }
-
-    public function setStatus(AppointmentStatus $status) {
-        $this->status = $status;
     }
 
 }

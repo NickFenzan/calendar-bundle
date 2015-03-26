@@ -104,7 +104,7 @@ class AppointmentController extends Controller {
         $classname = ucfirst($type);
         $fullClassName = static::CLASS_PATH . $classname."Appointment";
         $appt = $em->find($fullClassName, $id);
-        return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:info.html.twig",['appt' => $appt]);
+        return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:{$type}Info.html.twig",['appt' => $appt]);
     }
     
     /**

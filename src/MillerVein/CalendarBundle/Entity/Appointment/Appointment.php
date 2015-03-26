@@ -5,11 +5,11 @@ namespace MillerVein\CalendarBundle\Entity\Appointment;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use MillerVein\CalendarBundle\Entity\AppointmentRepository;
+use MillerVein\CalendarBundle\Entity\AppointmentStatus;
 use MillerVein\CalendarBundle\Entity\Category\Category;
 use MillerVein\CalendarBundle\Entity\Column;
 use MillerVein\CalendarBundle\Validator\UniqueAppointmentTime;
 use Symfony\Component\Validator\Constraints as Assert;
-
 
 /**
  * Description of Appointment
@@ -52,21 +52,21 @@ abstract class Appointment {
      *      max=240
      * )
      */
-    protected $duration; 
-    
+    protected $duration;
+
     /**
      * DateTime
      * @var DateTime 
      * @ORM\Column(type="datetime")
      */
     protected $end;
-    
+
     /**
      * @ORM\Column(nullable=true)
      * @var string
      */
     protected $notes;
-    
+
     /**
      * Column Appointment is associated with
      * @ORM\ManyToOne(targetEntity="MillerVein\CalendarBundle\Entity\Column")
@@ -74,7 +74,7 @@ abstract class Appointment {
      * @var Column
      */
     protected $column;
-    
+
     /**
      * Category Appointment is associated with
      * @ORM\ManyToOne(targetEntity="MillerVein\CalendarBundle\Entity\Category\Category")
@@ -82,8 +82,16 @@ abstract class Appointment {
      * @var Category
      */
     protected $category;
-// </editor-fold>
 
+    /**
+     * Appointment Status
+     * @ORM\ManyToOne(targetEntity="MillerVein\CalendarBundle\Entity\AppointmentStatus")
+     * @Assert\NotBlank()
+     * @var AppointmentStatus
+     */
+    protected $status;
+
+// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Getters">
     public function getId() {
         return $this->id;
@@ -92,7 +100,7 @@ abstract class Appointment {
     public function getStart() {
         return $this->start;
     }
-    
+
     public function getEnd() {
         return $this->end;
     }
@@ -100,20 +108,24 @@ abstract class Appointment {
     public function getDuration() {
         return $this->duration;
     }
-    
+
     public function getNotes() {
         return $this->notes;
     }
 
-    public function getColumn(){
+    public function getColumn() {
         return $this->column;
     }
+
     public function getCategory() {
         return $this->category;
     }
 
-// </editor-fold>
+    public function getStatus() {
+        return $this->status;
+    }
 
+// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Setters">
     public function setId($id) {
         $this->id = $id;
@@ -126,7 +138,7 @@ abstract class Appointment {
     public function setStart(DateTime $date_time) {
         $this->start = $date_time;
     }
-    
+
     public function setNotes($notes) {
         $this->notes = $notes;
     }
@@ -134,26 +146,28 @@ abstract class Appointment {
     public function setDuration($duration) {
         $this->duration = $duration;
     }
-    
+
     public function setColumn(Column $column) {
         $this->column = $column;
     }
-    
+
     public function setCategory(Category $category) {
         $this->category = $category;
+    }
+
+    public function setStatus(AppointmentStatus $status) {
+        $this->status = $status;
     }
 
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-    public function calculateEndDateTime(){
+    public function calculateEndDateTime() {
         $endDate = clone $this->start;
-        $endDate->add(new \DateInterval('PT'.$this->duration.'M'));
+        $endDate->add(new \DateInterval('PT' . $this->duration . 'M'));
         $this->end = $endDate;
     }
-    
+
 // </editor-fold>
-
-
 }

@@ -68,7 +68,7 @@ $(function() {
     });
 
     var lastScroll = 0;
-    $('#calendar').scroll(function(event) {
+    $('#calendar').delayOn('scroll',function(event) {
         var currentScroll = $('#calendar').scrollLeft();
         $('#calendar').scrollLeft(Math.round(currentScroll / 600) * 600);
     }, 50);

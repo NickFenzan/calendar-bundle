@@ -1,7 +1,7 @@
 <table class="apptInfo">
     <tr>
         <td>
-            TOV
+            Category
         </td>
         <td>
             {{appt.category.name}}
@@ -36,6 +36,7 @@
             {{appt.patient.dob | date('m/d/Y')}}
         </td>
     </tr>
+    {% if appt.notes %}
     <tr>
         <td>
             Notes
@@ -44,4 +45,5 @@
             {{appt.notes}}
         </td>
     </tr>
+    {% endif %}
 </table>
