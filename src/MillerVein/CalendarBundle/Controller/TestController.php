@@ -105,7 +105,7 @@ class TestController extends Controller {
                 $newAppt->setStatus($apptStatus);
                 // </editor-fold>
                 // <editor-fold defaultstate="collapsed" desc="DateTime">
-                $newAppt->setDateTime(new \DateTime($oldAppt['pc_eventDate'] . ' ' . $oldAppt['pc_startTime']));
+                $newAppt->setStart(new \DateTime($oldAppt['pc_eventDate'] . ' ' . $oldAppt['pc_startTime']));
                 // </editor-fold>
                 // <editor-fold defaultstate="collapsed" desc="Duration">
                 try{

@@ -26,7 +26,7 @@ class DisplayAppointment {
 
     protected function buildFragments() {
         //Strip the date
-        $workingTime = new DateTime($this->appointment->getDateTime()->format('H:i'));
+        $workingTime = new DateTime($this->appointment->getStart()->format('H:i'));
         $this->fragments[] = new DisplayAppointmentFragment($this->appointment, clone $workingTime, true);
 
         for ($i = $this->increment; $i < $this->appointment->getDuration(); $i += $this->increment) {

@@ -1,5 +1,6 @@
-<div class='appt_form'>
-    {{form_start(form)}}
-        {% include 'MillerVeinCalendarBundle:Calendar:Appointment/commonFormFields.html.twig' %}
-    {{form_end(form)}}
-</div>
+{% extends "MillerVeinCalendarBundle:Calendar:Appointment/form.html.twig" %}
+{% block appointment_type_select %}{% endblock %}
+{% block appointment_buttons %} 
+<button onclick='window.location.assign("{{path('appointment_delete',{'id':id})}}");'>Delete</button>
+{{parent()}}
+{% endblock %}

@@ -7,16 +7,20 @@ use Doctrine\ORM\Mapping as ORM;
 use MillerVein\CalendarBundle\Entity\AppointmentRepository;
 use MillerVein\CalendarBundle\Entity\Category\Category;
 use MillerVein\CalendarBundle\Entity\Column;
+use MillerVein\CalendarBundle\Validator\UniqueAppointmentTime;
 use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Description of Appointment
  *
  * @ORM\Entity(repositoryClass="AppointmentRepository")
- * @ORM\Table(name="calendar.appointment",indexes={@ORM\Index(name="date_index", columns={"date_time"})})
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="calendar.appointment",indexes={@ORM\Index(name="date_index", columns={"start"})})
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"patient" = "PatientAppointment", "provider" = "ProviderAppointment"})
+ * @UniqueAppointmentTime()
  * @author Nick Fenzan <nickf@millervein.com>
  */
 abstract class Appointment {
@@ -36,7 +40,7 @@ abstract class Appointment {
      * @Assert\NotBlank()
      * @ORM\Column(type="datetime")
      */
-    protected $date_time;
+    protected $start;
 
     /**
      * Duration in Minutes
@@ -49,6 +53,13 @@ abstract class Appointment {
      * )
      */
     protected $duration; 
+    
+    /**
+     * DateTime
+     * @var DateTime 
+     * @ORM\Column(type="datetime")
+     */
+    protected $end;
     
     /**
      * @ORM\Column(nullable=true)
@@ -71,8 +82,6 @@ abstract class Appointment {
      * @var Category
      */
     protected $category;
-    
-    
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Getters">
@@ -80,8 +89,12 @@ abstract class Appointment {
         return $this->id;
     }
 
-    public function getDateTime() {
-        return $this->date_time;
+    public function getStart() {
+        return $this->start;
+    }
+    
+    public function getEnd() {
+        return $this->end;
     }
 
     public function getDuration() {
@@ -110,8 +123,8 @@ abstract class Appointment {
         $this->title = $title;
     }
 
-    public function setDateTime(DateTime $date_time) {
-        $this->date_time = $date_time;
+    public function setStart(DateTime $date_time) {
+        $this->start = $date_time;
     }
     
     public function setNotes($notes) {
@@ -130,6 +143,16 @@ abstract class Appointment {
         $this->category = $category;
     }
 
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function calculateEndDateTime(){
+        $endDate = clone $this->start;
+        $endDate->add(new \DateInterval('PT'.$this->duration.'M'));
+        $this->end = $endDate;
+    }
+    
 // </editor-fold>
 
 

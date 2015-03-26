@@ -2,16 +2,18 @@
 
 namespace MillerVein\CalendarBundle\Form\Type\Appointment;
 
+use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
  *
  * @author Nick Fenzan <nickf@millervein.com>
  */
 abstract class AppointmentType extends AbstractType {
-
     public function buildForm(FormBuilderInterface $builder, array $options) {
         if (isset($options['action'])) {
             $builder->setAction($options['action']);
@@ -20,8 +22,7 @@ abstract class AppointmentType extends AbstractType {
         /* @var $calCol \MillerVein\CalendarBundle\Model\CalendarColumn */
         $calCol = $options['calendar_column'];
         $schedulingIncrement = $calCol->getHours()->getSchedulingIncrement();
-
-        $builder->add('date_time', 'datetime',[
+        $builder->add('start', 'datetime',[
                     'widget' => 'single_text'
                 ])
                 ->add('duration', 'choice', [
@@ -37,7 +38,6 @@ abstract class AppointmentType extends AbstractType {
     }
 
     protected function submitButtons(FormBuilderInterface $builder) {
-        $builder->add('delete', 'submit');
         $builder->add('submit', 'submit');
     }
 
@@ -63,11 +63,12 @@ abstract class AppointmentType extends AbstractType {
         return "appointment";
     }
 
+    
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setRequired('type');
         $resolver->setRequired('calendar_column');
         $resolver->setDefaults(array(
-            'data_class' => 'MillerVein\CalendarBundle\Entity\Appointment\Appointment',
+            'data_class' => 'MillerVein\CalendarBundle\Entity\Appointment\Appointment'
         ));
     }
 
