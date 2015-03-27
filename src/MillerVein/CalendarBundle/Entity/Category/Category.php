@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Description of Category
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @ORM\Entity(repositoryClass="CategoryRepository")
+ * @ORM\Entity()
  * @ORM\Table(name="calendar.appointment_category")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")

@@ -28,4 +28,28 @@
     button,a{
         font-size: .75em;
     }
+    
+}
+#appointmentFinder-dialog{
+    .hasDatepicker{
+        width: 100px;
+    }
+    .buttons{
+        font-size: .75em;
+        text-align: center;
+        margin-top: 5px;
+    }
+    .form{
+        div:nth-of-type(odd){
+            margin-top:7px;
+        }
+        div:first-of-type{
+            margin-top:0;
+        }
+    }
+    .resultsLoading{
+        display: none;
+        margin-top:30px;
+        margin-bottom:30px;
+    }
 }

@@ -1,0 +1,13 @@
+<h3>Results</h3>
+<ul>
+{% for appt in appts %}
+    <li>
+        <span
+            class="result"
+            data-date="{{appt.start | date("m/d/Y")}}"
+            >
+            {{appt.start | date("l F jS \\a\\t g:i a")}}
+        </span>
+    </li>
+{% endfor %}
+</ul>

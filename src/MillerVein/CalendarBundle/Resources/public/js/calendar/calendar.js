@@ -1,19 +1,40 @@
+var calendar = {};
+
+calendar.controls = {
+    appointment_dialog: {
+        elem: null,
+        init: function() {
+            this.elem.dialog({
+                autoOpen: false,
+                modal: true,
+                width: "450px"
+            });
+        }
+    },
+    init: function() {
+        this.appointment_dialog.init();
+    }
+};
+
+
 var calendarInit;
 $(function() {
+    calendar.controls.appointment_dialog.elem = $('#appointment-dialog');
+    calendar.controls.init();
     calendarInit = function() {
         var $apptDialog = $('#appointment-dialog');
-        $apptDialog.dialog({
-            autoOpen: false,
-            modal: true,
-            width: "450px"
-        });
+//        $apptDialog.dialog({
+//            autoOpen: false,
+//            modal: true,
+//            width: "450px"
+//        });
 
         $('.time').click(function() {
             var data = {
                 datetime: $(this).data('datetime'),
                 column: $(this).data('column')
             };
-            $apptDialog.data('apptInfo', data);
+            calendar.controls.appointment_dialog.elem.data('apptInfo', data);
             var route = Routing.generate('appointment_new_form', {type: "patient"});
             $.get(route, data, setDialogCallback);
         });
@@ -25,17 +46,17 @@ $(function() {
         });
 
         function setDialogCallback(data) {
-            $apptDialog.html(data);
-            $apptDialog.dialog('open');
+            calendar.controls.appointment_dialog.elem.html(data);
+            calendar.controls.appointment_dialog.elem.dialog('open');
             runGlobalEnhancements();
         }
 
-        $apptDialog.on('change', '#appointment-type', function() {
+        calendar.controls.appointment_dialog.elem.on('change', '#appointment-type', function() {
             var type = $(this).val();
-            var data = $apptDialog.data('apptInfo');
+            var data = calendar.controls.appointment_dialog.elem.data('apptInfo');
             var route = Routing.generate('appointment_new_form', {type: type});
             $.get(route, data, function(data) {
-                $apptDialog.find('.appt_form').html($(data).find('.appt_form').html());
+                calendar.controls.appointment_dialog.elem.find('.appt_form').html($(data).find('.appt_form').html());
                 runGlobalEnhancements();
             });
         });

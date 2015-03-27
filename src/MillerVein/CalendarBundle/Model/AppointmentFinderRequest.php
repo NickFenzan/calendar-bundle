@@ -31,14 +31,6 @@ class AppointmentFinderRequest {
      */
     protected $duration;
     
-    public function __construct(PatientCategory $category, Site $site, $min_date, $max_date, $duration) {
-        $this->category = $category;
-        $this->site = $site;
-        $this->min_date = $min_date;
-        $this->max_date = $max_date;
-        $this->duration = $duration;
-    }
-    
     public function getCategory() {
         return $this->category;
     }

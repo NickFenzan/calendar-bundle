@@ -1,0 +1,36 @@
+{{form_start(appointment_finder)}}
+<div class="form">
+    <div>{{form_label(appointment_finder.site)}}</div>
+    <div>
+    {{form_widget(appointment_finder.site)}}
+    </div>
+    <div>
+        <label>Date Range</label>
+    </div>
+    <div>
+    {{form_widget(appointment_finder.min_date)}} -
+    {{form_widget(appointment_finder.max_date)}}
+    </div>
+    <div>
+    {{form_label(appointment_finder.category)}}
+    </div>
+    <div>
+    {{form_widget(appointment_finder.category)}}
+    </div>
+    <div>
+    {{form_label(appointment_finder.duration)}}
+    </div>
+    <div>
+    {{form_widget(appointment_finder.duration)}}
+    </div>
+</div>
+<div class="buttons">
+    <button class="go">Go</button>
+</div>
+{{form_end(appointment_finder)}}
+<div class="resultsLoading">
+    
+</div>
+<div class="results">
+    
+</div>

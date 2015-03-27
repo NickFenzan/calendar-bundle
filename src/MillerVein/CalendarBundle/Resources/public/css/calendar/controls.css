@@ -21,4 +21,19 @@
 #controls button, #controls a {
   font-size: .75em; }
 
+#appointmentFinder-dialog .hasDatepicker {
+  width: 100px; }
+#appointmentFinder-dialog .buttons {
+  font-size: .75em;
+  text-align: center;
+  margin-top: 5px; }
+#appointmentFinder-dialog .form div:nth-of-type(odd) {
+  margin-top: 7px; }
+#appointmentFinder-dialog .form div:first-of-type {
+  margin-top: 0; }
+#appointmentFinder-dialog .resultsLoading {
+  display: none;
+  margin-top: 30px;
+  margin-bottom: 30px; }
+
 /*# sourceMappingURL=controls.css.map */

@@ -19,35 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TestController extends Controller {
 
-        /**
-     * @Route("/appointment_finder/test", name="appointment_finder_test")
-     */
-    public function apptFinderTestAction() {
-        $em = $this->getDoctrine()->getManager();
-        
-        $category = $em->getRepository('MillerVein\CalendarBundle\Entity\Category\PatientCategory')->findOneBy(array());
-        $site = $em->getRepository('MillerVein\EMRBundle\Entity\Site')->find(3);
-        $min_date = new \DateTime('2014-04-01');
-        $max_date = new \DateTime('2014-04-03');
-        $duration = 45;
-        
-        $appt_request = new AppointmentFinderRequest($category,$site,$min_date,$max_date,$duration);
-        
-        $apptFinder = new AppointmentFinder($em);
-        
-        $appts = $apptFinder->findAppointments($appt_request);
-        
-        if($appts){
-            $i=0;
-            foreach($appts as $appt){
-                $i++;
-                echo $i;
-            }
-        }
-        
-        return new Response();
-    }
-    
     /**
      * @Route("/test", name="apptImport")
      */

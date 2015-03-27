@@ -42,6 +42,11 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\Appointment\ProviderAppointmentType
         tags:
             - { name: form.type, alias: appointment_provider }
+    millervein.calendar.form.type.appointment_finder_request:
+        class: MillerVein\CalendarBundle\Form\Type\AppointmentFinderRequestType
+        tags:
+            - { name: form.type, alias: appointment_finder_request }
+        
 #-- End Appointment -- #
             
 #-- Category -- #

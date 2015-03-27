@@ -27,10 +27,12 @@ class CalendarController extends Controller {
         $controls = $this->createForm('calendar', $calendar, [
             'action' => $this->generateUrl('calendar_post')
         ]);
+        $appointmentFinder = $this->createForm('appointment_finder_request');
         
         return [
             'calendar' => $calendar,
-            'controls' => $controls->createView()
+            'controls' => $controls->createView(),
+            'appointment_finder' => $appointmentFinder->createView()
         ];
     }
     
