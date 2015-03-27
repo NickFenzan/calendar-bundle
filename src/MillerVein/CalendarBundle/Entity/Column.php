@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Description of Column
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ColumnRepository")
  * @ORM\Table("calendar.calendar_column")
  * @author Nick Fenzan <nickf@millervein.com>
  */
@@ -59,7 +59,7 @@ class Column {
     /**
      * Collection of tags that apply to the column
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="ColumnTag")
+     * @ORM\ManyToMany(targetEntity="ColumnTag", inversedBy="columns")
      */
     protected $tags;
 // </editor-fold>
@@ -123,5 +123,17 @@ class Column {
 
 // </editor-fold>
 
+    /**
+     * @param \DateTime $date
+     * @return \MillerVein\CalendarBundle\Entity\Hours
+     */
+    public function findHours(\DateTime $date) {
+        foreach ($this->hours as $hours) {
+            if ($hours->doHoursApplyToDate($date)) {
+                return $hours;
+            }
+        }
+        return null;
+    }
 
 }

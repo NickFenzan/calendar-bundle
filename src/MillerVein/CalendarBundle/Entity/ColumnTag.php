@@ -4,7 +4,6 @@ namespace MillerVein\CalendarBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Description of Column
@@ -27,6 +26,22 @@ class ColumnTag {
      * @ORM\Column()
      */
     protected $name;
+    
+    /** 
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="MillerVein\CalendarBundle\Entity\Category\Category", mappedBy="required_column_tags")
+     */
+    protected $categories;
+    /** 
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="MillerVein\CalendarBundle\Entity\Column", mappedBy="tags")
+     */
+    protected $columns;
+    
+    public function __construct() {
+        $this->categories = new ArrayCollection();
+        $this->columns = new ArrayCollection();
+    }
     
     public function getId() {
         return $this->id;

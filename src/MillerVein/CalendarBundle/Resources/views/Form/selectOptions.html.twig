@@ -1,0 +1,7 @@
+{% for option in options %}
+<option value="{{option.value}}"
+        {% if option.selected %}
+        selected="selected"
+        {% endif %}
+        >{{option.title}}</option>
+{% endfor %}

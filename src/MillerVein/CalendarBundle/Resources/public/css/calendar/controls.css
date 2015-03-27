@@ -1,10 +1,24 @@
 #controls form {
-  display: flex; }
-  #controls form div {
-    text-align: center;
-    flex: 1 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center; }
+  /*display: flex;*/ }
+  #controls form .primary, #controls form .secondary {
+    display: flex; }
+    #controls form .primary div, #controls form .secondary div {
+      text-align: center;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+  #controls form .secondary {
+    margin-top: 10px;
+    display: none;
+    /*height:500px;*/ }
+    #controls form .secondary .options {
+      display: flex;
+      margin: 5px; }
+    #controls form .secondary .buttons {
+      display: flex;
+      margin: 5px; }
+#controls button, #controls a {
+  font-size: .75em; }
 
 /*# sourceMappingURL=controls.css.map */

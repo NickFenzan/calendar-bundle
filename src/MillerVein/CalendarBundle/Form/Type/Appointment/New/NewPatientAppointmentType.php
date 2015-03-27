@@ -14,19 +14,28 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class PatientAppointmentType extends AppointmentType {
 
+    /**
+     * @var EntityManager
+     */
+    protected $em;
+
+    public function __construct(EntityManager $em) {
+        $this->em = $em;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options) {
         parent::buildForm($builder, $options);
 
+        $repo = $this->em->getRepository('MillerVeinCalendarBundle:Category\PatientCategory');
+
         /* @var $calCol CalendarColumn */
         $calCol = $options['calendar_column'];
+        $categoryChoices = $repo->findAllowedByTags($calCol->getColumn()->getTags());
 
         $builder->add('category', 'entity', [
                     'class' => 'MillerVeinCalendarBundle:Category\PatientCategory',
                     'property' => 'name',
-                    'choices' =>
-                    function(EntityRepository $er) {
-                return $er->findAllowedByTags($calCol->getColumn()->getTags());
-            },
+                    'choices' => $categoryChoices
                 ])
                 ->add('status', 'entity', [
                     'property' => 'name',

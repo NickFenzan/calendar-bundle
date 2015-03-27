@@ -18,6 +18,8 @@ abstract class CategoryType extends AbstractType {
         
         $builder->add('name', 'text')
                 ->add('color', 'color')
+                ->add('min_duration', 'number')
+                ->add('max_duration', 'number')
                 ->add('default_duration', 'number')
                 ->add('required_column_tags', 'entity', [
                     'property' => 'name',

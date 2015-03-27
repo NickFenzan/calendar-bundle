@@ -3,8 +3,8 @@
 namespace MillerVein\CalendarBundle\Entity;
 
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use MillerVein\CalendarBundle\Model\HoursIterator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -235,4 +235,7 @@ class Hours {
         return $recurrence_rule->doesRuleApplyToDate($this->start_date, $date);
     }
 
+    public function getIterator(){
+        return new HoursIterator($this);
+    }
 }

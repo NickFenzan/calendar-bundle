@@ -2,7 +2,12 @@
 
 namespace MillerVein\CalendarBundle\Controller;
 
+use DateTime;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Exception;
 use MillerVein\CalendarBundle\Entity\Appointment\PatientAppointment;
+use MillerVein\CalendarBundle\Model\AppointmentFinder;
+use MillerVein\CalendarBundle\Model\AppointmentFinderRequest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +19,35 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TestController extends Controller {
 
+        /**
+     * @Route("/appointment_finder/test", name="appointment_finder_test")
+     */
+    public function apptFinderTestAction() {
+        $em = $this->getDoctrine()->getManager();
+        
+        $category = $em->getRepository('MillerVein\CalendarBundle\Entity\Category\PatientCategory')->findOneBy(array());
+        $site = $em->getRepository('MillerVein\EMRBundle\Entity\Site')->find(3);
+        $min_date = new \DateTime('2014-04-01');
+        $max_date = new \DateTime('2014-04-03');
+        $duration = 45;
+        
+        $appt_request = new AppointmentFinderRequest($category,$site,$min_date,$max_date,$duration);
+        
+        $apptFinder = new AppointmentFinder($em);
+        
+        $appts = $apptFinder->findAppointments($appt_request);
+        
+        if($appts){
+            $i=0;
+            foreach($appts as $appt){
+                $i++;
+                echo $i;
+            }
+        }
+        
+        return new Response();
+    }
+    
     /**
      * @Route("/test", name="apptImport")
      */
@@ -105,16 +139,16 @@ class TestController extends Controller {
                 $newAppt->setStatus($apptStatus);
                 // </editor-fold>
                 // <editor-fold defaultstate="collapsed" desc="DateTime">
-                $newAppt->setStart(new \DateTime($oldAppt['pc_eventDate'] . ' ' . $oldAppt['pc_startTime']));
+                $newAppt->setStart(new DateTime($oldAppt['pc_eventDate'] . ' ' . $oldAppt['pc_startTime']));
                 // </editor-fold>
                 // <editor-fold defaultstate="collapsed" desc="Duration">
                 try{
-                    $startTime = new \DateTime($oldAppt['pc_startTime']);
-                    $endTime = new \DateTime($oldAppt['pc_endTime']);
+                    $startTime = new DateTime($oldAppt['pc_startTime']);
+                    $endTime = new DateTime($oldAppt['pc_endTime']);
                     $difference = $startTime->diff($endTime);
                     $minutes = $difference->h * 60;
                     $minutes += $difference->i;
-                } catch (\Exception $ex) {
+                } catch (Exception $ex) {
                     $minutes = 15;
                 }
 
@@ -132,7 +166,7 @@ class TestController extends Controller {
                 $em->persist($newAppt);
                 
                 $metadata = $em->getClassMetaData(get_class($newAppt));
-                $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
+                $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
 
             }
 

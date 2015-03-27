@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class CalendarController extends Controller {
 
     /**
-     * @Route("", name="calendar")
+     * @Route("", name="calendar", options={"expose"=true})
      * @Template("MillerVeinCalendarBundle:Calendar:base.html.twig")
      */
     public function calendarAction(Request $request) {
@@ -31,6 +31,28 @@ class CalendarController extends Controller {
         return [
             'calendar' => $calendar,
             'controls' => $controls->createView()
+        ];
+    }
+    
+    /**
+     * @Route("/ajax/post", name="calendar_ajax_post", options={"expose"=true})
+     * @Template("MillerVeinCalendarBundle:Calendar:calendar.html.twig")
+     */
+    public function calendarOnlyAction(Request $request) {
+        $session = $request->getSession();
+        $calendar = $this->getCalendarFromSession($session);
+
+        $controls = $this->createForm('calendar', $calendar);
+        $controls->handleRequest($request);
+        if ($controls->isValid()) {
+            $session->set('calendar_date', $calendar->getDate());
+            $session->set('calendar_site_id', $calendar->getSite()->getId());
+            $session->set('calendar_show_cancelled', $calendar->getShowCancelled());
+        }
+        
+        $calendar = $this->getCalendarFromSession($session);
+        return [
+            'calendar' => $calendar,
         ];
     }
 

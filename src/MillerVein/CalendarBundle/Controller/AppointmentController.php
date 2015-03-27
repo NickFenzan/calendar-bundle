@@ -85,12 +85,13 @@ class AppointmentController extends Controller {
         
         $form = $this->createForm($form, $appt, $formOptions);
         
-        
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em->persist($appt);
             $em->flush();
             return $this->redirectToRoute("calendar");
+        }else{
+            echo $form->getErrorsAsString();
         }
         
         return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:edit.html.twig",['form' => $form->createView(),'id'=>$id]);
@@ -110,7 +111,7 @@ class AppointmentController extends Controller {
     /**
      * @Route("/{type}/delete/{id}", name="appointment_delete", options={"expose"=true}, defaults={"type" = "patient"})
      */
-    public function appointmentDeleteAction($type, $id){
+    public function deleteAction($type, $id){
         $classname = ucfirst($type);
         $em = $this->getDoctrine()->getManager();
         $fullClassName = static::CLASS_PATH . $classname."Appointment";
@@ -118,6 +119,16 @@ class AppointmentController extends Controller {
         $em->remove($appt);
         $em->flush();
         return $this->redirectToRoute("calendar");
+    }
+    
+    /**
+     * @Route("/category_duration/{id}", name="category_duration", options={"expose"=true})
+     */
+    public function categoryDurationAction($id){
+        $cat = $this->getDoctrine()->getManager()->find('MillerVeinCalendarBundle:Category\Category',1);
+        echo "Min: " . $cat->getMinDuration();
+        echo "Max: " . $cat->getMaxDuration();
+        echo "Default: " . $cat->getDefaultDuration();
     }
     
     protected function getCalendarColumn(Session $session, Column $column){

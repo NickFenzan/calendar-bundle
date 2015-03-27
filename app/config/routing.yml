@@ -2,5 +2,7 @@ miller_vein_calendar:
     resource: "@MillerVeinCalendarBundle/Controller/"
     type:     annotation
     prefix:   /
+miller_vein_emr:
+    resource: "@MillerVeinEMRBundle/Resources/config/routing.yml"
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

@@ -1,7 +1,8 @@
 <div id="controls">
     {{ form_start(controls) }}
-        <div id="previousDay">
-            {{ form_widget(controls.previous)}}
+    <div class="primary">
+        <div>
+            {{ form_widget(controls.previous, { 'id' : 'previousDay' })}}
         </div>
         <div id="currentDate">
             {{ form_widget(controls.date, { 'id' : 'calendar-dateinput'}) }}
@@ -11,11 +12,24 @@
             {{ form_widget(controls.site, { 'id' : 'calendar-siteinput'}) }}
         </div>
         <div>
-            {{ form_label(controls.show_cancelled) }}
-            {{ form_widget(controls.show_cancelled, { 'id' : 'calendar-showcancelled'}) }}
+            <button id="showMore">More Controls</button>
         </div>
-        <div id="nextDay">
-            {{ form_widget(controls.next)}}
+        <div>
+            {{ form_widget(controls.next, { 'id' : 'nextDay' })}}
         </div>
+    </div>
+    <div class="secondary">
+        <div class="options">
+            <div>
+                {{ form_label(controls.show_cancelled) }}
+                {{ form_widget(controls.show_cancelled, { 'id' : 'calendar-showcancelled'}) }}
+            </div>
+        </div>
+        <div class="buttons">
+            <div>
+                <a>Find Appointment</a>
+            </div>
+        </div>
+    </div>
     {{ form_end(controls) }}
 </div>

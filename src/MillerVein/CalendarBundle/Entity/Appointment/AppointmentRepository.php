@@ -45,7 +45,9 @@ class AppointmentRepository extends EntityRepository {
                                         $qb->expr()->lte('a.start', ':startTime'), $qb->expr()->gt('a.end', ':startTime')
                                 )
                 ))
-                ->andWhere('a.column = :column');
+                ->leftJoin('a.status', 's')
+                ->andWhere('a.column = :column')
+                ->andWhere('s.cancelled != 1 OR s.cancelled IS null');
         $query = $qb->getQuery();
         $query
                 ->setParameter('startTime', $startTime)

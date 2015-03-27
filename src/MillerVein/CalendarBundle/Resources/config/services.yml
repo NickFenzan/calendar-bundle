@@ -36,7 +36,6 @@ services:
 #-- Appointment -- #
     millervein.calendar.form.type.appointment.patient:
         class: MillerVein\CalendarBundle\Form\Type\Appointment\PatientAppointmentType
-        arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type, alias: appointment_patient }
     millervein.calendar.form.type.appointment.provider:
