@@ -38,7 +38,7 @@ abstract class AppointmentType extends AbstractType {
     }
 
     protected function submitButtons(FormBuilderInterface $builder) {
-        $builder->add('submit', 'submit');
+        $builder->add('save', 'submit');
     }
 
     protected function durationChoices($increment = 15) {

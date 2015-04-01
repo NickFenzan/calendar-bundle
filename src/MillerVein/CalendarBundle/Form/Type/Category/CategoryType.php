@@ -17,6 +17,7 @@ abstract class CategoryType extends AbstractType {
         }
         
         $builder->add('name', 'text')
+                ->add('legacy_id', 'number')
                 ->add('color', 'color')
                 ->add('min_duration', 'number')
                 ->add('max_duration', 'number')

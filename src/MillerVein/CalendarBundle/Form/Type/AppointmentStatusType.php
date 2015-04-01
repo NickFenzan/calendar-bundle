@@ -20,7 +20,12 @@ class AppointmentStatusType extends AbstractType {
                 'attr' => ['maxlength'=>1]
             ])
             ->add('cancelled', 'checkbox', [
+                'required' => false,
                 'label' => 'Cancelled Status',
+            ])
+            ->add('auto_create_encounter', 'checkbox', [
+                'required' => false,
+                'label' => 'Auto-create Encounters',
             ]);
     }
 

@@ -1,0 +1,7 @@
+{% for option in options %}
+<option value='{{option.id}}'
+        {% if option.selected is defined and option.selected == true %}
+        selected="selected"
+        {% endif %}
+        >{{option.name}}</option>
+{% endfor %}

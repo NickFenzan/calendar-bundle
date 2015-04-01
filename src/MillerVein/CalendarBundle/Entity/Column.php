@@ -26,6 +26,14 @@ class Column {
      */
     protected $id;
 
+    
+    /**
+     * Legacy Provider.
+     * @var \MillerVein\EMRBundle\Entity\Users
+     * @ORM\ManyToOne(targetEntity="MillerVein\EMRBundle\Entity\Users")
+     */
+    protected $legacy_provider;
+    
     /**
      * Column name
      * @var string
@@ -74,6 +82,10 @@ class Column {
         return $this->id;
     }
 
+    public function getLegacyProvider() {
+        return $this->legacy_provider;
+    }
+
     public function getName() {
         return $this->name;
     }
@@ -100,7 +112,11 @@ class Column {
     public function setId($id) {
         $this->id = $id;
     }
-
+    
+    public function setLegacyProvider(Users $legacy_provider) {
+        $this->legacy_provider = $legacy_provider;
+    }
+    
     public function setName($name) {
         $this->name = $name;
     }
@@ -128,6 +144,7 @@ class Column {
      * @return \MillerVein\CalendarBundle\Entity\Hours
      */
     public function findHours(\DateTime $date) {
+        $date = new \DateTime($date->format('Y-m-d'));
         foreach ($this->hours as $hours) {
             if ($hours->doHoursApplyToDate($date)) {
                 return $hours;

@@ -20,13 +20,12 @@ class UniqueAppointmentTimeValidator extends ConstraintValidator {
     }
 
     public function validate($object, Constraint $constraint) {
-        $object->calculateEndDateTime();
         $conflicts = $this->em
                 ->getRepository('MillerVeinCalendarBundle:Appointment\Appointment')
-                ->findOverlappingAppointmentsByColumn($object->getColumn(), $object->getStart(), $object->getEnd());
+                ->findOverlappingAppointmentsByColumn($object->getColumn(), $object->getStart(), $object->getEnd(), [$object->getId()]);
 
         if (count($conflicts) > 0) {
-            $this->context->addViolationAt('start', 'There is already an event during this time!');
+            $this->context->addViolation('There is already an event during this time!');
         }
     }
 

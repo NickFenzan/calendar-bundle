@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Description of Category
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="CategoryRepository")
  * @ORM\Table(name="calendar.appointment_category")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
@@ -25,6 +25,13 @@ class Category {
      */
     protected $id;
 
+    /**
+     * Legacy ID
+     * @var int 
+     * @ORM\Column(type="integer")
+     */
+    protected $legacy_id;
+    
     /**
      * Category Name
      * @var string 
@@ -76,6 +83,10 @@ class Category {
         return $this->id;
     }
 
+    public function getLegacyId() {
+        return $this->legacy_id;
+    }
+
     public function getName() {
         return $this->name;
     }
@@ -104,6 +115,10 @@ class Category {
 // <editor-fold defaultstate="collapsed" desc="Setters">
     public function setId($id) {
         $this->id = $id;
+    }
+
+    public function setLegacyId($legacy_id) {
+        $this->legacy_id = $legacy_id;
     }
 
     public function setName($name) {

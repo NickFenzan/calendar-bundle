@@ -4,7 +4,9 @@
     <li>
         <span
             class="result"
-            data-date="{{appt.start | date("m/d/Y")}}"
+            data-datetime="{{appt.start | date("m/d/Y H:i:s")}}"
+            data-column="{{appt.column.id}}"
+            data-category="{{appt.category.id}}"
             >
             {{appt.start | date("l F jS \\a\\t g:i a")}}
         </span>

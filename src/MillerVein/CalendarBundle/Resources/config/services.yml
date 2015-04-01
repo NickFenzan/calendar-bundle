@@ -85,3 +85,19 @@ services:
             -
                 name: validator.constraint_validator
                 alias: unique_appointment_time
+    millervein.calendar.appointment_time_hours_validator:
+        class: MillerVein\CalendarBundle\Validator\HoursAppointmentTimeValidator
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            -
+                name: validator.constraint_validator
+                alias: valid_hours_appointment_time
+    millervein.calendar.category_column_validator:
+        class: MillerVein\CalendarBundle\Validator\CategoryColumnValidator
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            -
+                name: validator.constraint_validator
+                alias: category_column

@@ -46,6 +46,13 @@ class AppointmentStatus {
      */
     protected $cancelled;
     
+    /**
+     * Does the status trigger encounter auto-creation?
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $auto_create_encounter;
+    
     public function getId() {
         return $this->id;
     }
@@ -64,6 +71,10 @@ class AppointmentStatus {
     
     public function isCancelled() {
         return $this->cancelled;
+    }
+    
+    public function isAutoCreateEncounter() {
+        return $this->auto_create_encounter;
     }
 
     public function setId($id) {
@@ -85,4 +96,10 @@ class AppointmentStatus {
     public function setCancelled($cancelled) {
         $this->cancelled = $cancelled;
     }
+    
+    public function setAutoCreateEncounter($auto_create_encounter) {
+        $this->auto_create_encounter = $auto_create_encounter;
+    }
+
+
 }

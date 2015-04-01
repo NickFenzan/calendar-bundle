@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
  *
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class PatientCategoryRepository extends EntityRepository {
+class CategoryRepository extends EntityRepository {
 
     public function findAllowedByTags($tags) {
         $tagIdArray=array();
@@ -19,9 +19,10 @@ class PatientCategoryRepository extends EntityRepository {
         }
         $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $qb->addSelect('c')
-            ->from('MillerVeinCalendarBundle:Category\PatientCategory', 'c')
+            ->from('MillerVeinCalendarBundle:Category\Category', 'c')
             ->join('c.required_column_tags', 'tags')
             ->where('tags IN(:tags)')
+            ->orderBy('c.name')
             ->setParameter('tags', $tagIdArray)
             ->getQuery();
         return $query->getResult();

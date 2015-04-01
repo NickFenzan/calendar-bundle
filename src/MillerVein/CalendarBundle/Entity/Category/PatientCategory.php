@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @author Nick Fenzan <nickf@millervein.com>
- * @ORM\Entity(repositoryClass="PatientCategoryRepository")
+ * @ORM\Entity()
  */
 class PatientCategory extends Category{
      

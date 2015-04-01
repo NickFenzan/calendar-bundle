@@ -28,6 +28,14 @@ class PatientAppointmentType extends AppointmentType {
                 return $er->findAllowedByTags($calCol->getColumn()->getTags());
             },
                 ])
+                    ->add('leg', 'choice', [
+                        'required' => false,
+                        'choices' => [
+                            'left' => 'Left',
+                            'right' => 'Right',
+                            'bilateral' => 'Bilateral'
+                        ]
+                ])
                 ->add('status', 'entity', [
                     'property' => 'name',
                     'class' => 'MillerVeinCalendarBundle:AppointmentStatus',

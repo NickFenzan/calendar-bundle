@@ -20,6 +20,15 @@ use Symfony\Component\HttpFoundation\Response;
 class TestController extends Controller {
 
     /**
+     * @Route("/test/1")
+     */
+    public function test1Action(){
+        $pdo = new \PDO('mysql:host=localhost;dbname=openemr', 'openemr', 'escargot');
+        echo $pdo->lastInsertId('openemr.sequence');
+        return new Response();
+    }
+    
+    /**
      * @Route("/test", name="apptImport")
      */
     public function testAction() {

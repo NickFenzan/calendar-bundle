@@ -33,7 +33,7 @@ class AppointmentRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    public function findOverlappingAppointmentsByColumn($column, $startTime, $endTime) {
+    public function findOverlappingAppointmentsByColumn($column, $startTime, $endTime, $exclude = array()) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('a')
                 ->from('MillerVeinCalendarBundle:Appointment\Appointment', 'a')
@@ -47,12 +47,14 @@ class AppointmentRepository extends EntityRepository {
                 ))
                 ->leftJoin('a.status', 's')
                 ->andWhere('a.column = :column')
-                ->andWhere('s.cancelled != 1 OR s.cancelled IS null');
+                ->andWhere('s.cancelled != 1 OR s.cancelled IS null')
+                ->andWhere('a.id NOT IN (:exclude)');
         $query = $qb->getQuery();
         $query
                 ->setParameter('startTime', $startTime)
                 ->setParameter('endTime', $endTime)
-                ->setParameter('column', $column);
+                ->setParameter('column', $column)
+                ->setParameter('exclude', implode(',', $exclude));
         return $query->getResult();
     }
 }

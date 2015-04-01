@@ -104,6 +104,13 @@ $apptMargin: 0px;
     textarea,input,select{
         width: 100%;
     }
+    a, button{
+        font-size: .75em;
+    }
+    .buttons{
+        margin-top: 7px;
+        text-align: center;
+    }
 }
 
 .apptInfo{

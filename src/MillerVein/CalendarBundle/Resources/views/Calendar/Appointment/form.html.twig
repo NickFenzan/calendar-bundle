@@ -3,50 +3,71 @@
     <div>
         <label for='appointment-type'>Appointment Type</label>
         <select id='appointment-type'>
-            <option value='patient'>Patient</option>
-            <option value='provider'>Provider</option>
+            <option value='patient'
+                    {% if type == "patient"%}selected="selected"{% endif %}
+                    >Patient</option>
+            <option value='provider'
+                    {% if type == "provider"%}selected="selected"{% endif %}
+                    >Provider</option>
         </select>
     </div>
     {% endblock %}
     <div class='appt_form'>
     {{form_start(form)}}
-    {{ form_widget(form.start, { 'attr': {'hidden': true} }) }}
-    {{ form_widget(form.column, { 'attr': {'hidden': true} }) }}
+    {{ form_widget(form.start, { 'attr': {'hidden': true, 'class': 'time_input'} }) }}
+    {{ form_widget(form.column, { 'attr': {'hidden': true, 'class': 'column_input'} }) }}
         <table>
             {% if form.patient is defined %}
             <tr>
                 <td>{{ form_label(form.patient) }}</td>
                 <td>{{ form_widget(form.patient) }}</td>
+                <td>{{form_errors(form.patient)}}</td>
             </tr>
             {% endif %}
             <tr>
                 <td>{{ form_label(form.category) }}</td>
-                <td>{{ form_widget(form.category) }}</td>
+                <td>{{ form_widget(form.category, { 'attr': {'class': 'category_input'} }) }}</td>
+                <td>{{form_errors(form.category)}}</td>
             </tr>
+            {% if form.leg is defined %}
+            <tr>
+                <td>{{ form_label(form.leg) }}</td>
+                <td>{{ form_widget(form.leg) }}</td>
+                <td>{{form_errors(form.leg)}}</td>
+            </tr>
+            {% endif %}
             <tr>
                 <td>{{ form_label(form.duration) }}</td>
-                <td>{{ form_widget(form.duration) }}</td>
+                <td>{{ form_widget(form.duration, { 'attr': {'class': 'duration_input'} }) }}</td>
+                <td>{{form_errors(form.duration)}}</td>
             </tr>
             {% if form.status is defined %}
             <tr>
                 <td>{{ form_label(form.status) }}</td>
                 <td>{{ form_widget(form.status) }}</td>
+                <td>{{form_errors(form.status)}}</td>
             </tr>
             {% endif %}
             {% if form.recurrence_rule is defined %}
             <tr>
                 <td>{{ form_label(form.recurrence_rule) }}</td>
                 <td>{{ form_widget(form.recurrence_rule) }}</td>
+                <td>{{form_errors(form.recurrence)}}</td>
             </tr>
             {% endif %}
             <tr>
                 <td>{{ form_label(form.notes) }}</td>
                 <td>{{ form_widget(form.notes) }}</td>
+                <td>{{form_errors(form.notes)}}</td>
             </tr>
         </table>
         <div>
+            {{form_errors(form)}}
+            {{form_errors(form.start)}}
+        </div>
+        <div class="buttons">
             {% block appointment_buttons %} 
-                {{ form_widget(form.submit) }}
+                {{ form_widget(form.save, { 'attr': {'class': 'save_button'} }) }}
             {% endblock %}
         </div>
         {{form_end(form)}}

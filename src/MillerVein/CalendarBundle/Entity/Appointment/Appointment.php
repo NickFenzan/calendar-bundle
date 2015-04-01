@@ -9,6 +9,8 @@ use MillerVein\CalendarBundle\Entity\AppointmentStatus;
 use MillerVein\CalendarBundle\Entity\Category\Category;
 use MillerVein\CalendarBundle\Entity\Column;
 use MillerVein\CalendarBundle\Validator\UniqueAppointmentTime;
+use MillerVein\CalendarBundle\Validator\HoursAppointmentTime;
+use MillerVein\CalendarBundle\Validator\CategoryColumn;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,6 +23,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"patient" = "PatientAppointment", "provider" = "ProviderAppointment"})
  * @UniqueAppointmentTime()
+ * @HoursAppointmentTime()
+ * @CategoryColumn()
  * @author Nick Fenzan <nickf@millervein.com>
  */
 abstract class Appointment {
@@ -47,7 +51,7 @@ abstract class Appointment {
      * @var int
      * @ORM\Column(type="integer")
      * @Assert\NotBlank()
-     * @Assert\Range(
+     * @*Assert\Range(
      *      min=5,
      *      max=240
      * )
@@ -86,7 +90,6 @@ abstract class Appointment {
     /**
      * Appointment Status
      * @ORM\ManyToOne(targetEntity="MillerVein\CalendarBundle\Entity\AppointmentStatus")
-     * @Assert\NotBlank()
      * @var AppointmentStatus
      */
     protected $status;
@@ -137,6 +140,7 @@ abstract class Appointment {
 
     public function setStart(DateTime $date_time) {
         $this->start = $date_time;
+        $this->calculateEndDateTime();
     }
 
     public function setNotes($notes) {
@@ -145,6 +149,7 @@ abstract class Appointment {
 
     public function setDuration($duration) {
         $this->duration = $duration;
+        $this->calculateEndDateTime();
     }
 
     public function setColumn(Column $column) {
@@ -159,15 +164,77 @@ abstract class Appointment {
         $this->status = $status;
     }
 
+// </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="Lifecycle Callbacks">
     /**
      * @ORM\PrePersist
+     */
+    public function prePersist() {
+        $this->legacyInsert();
+    }
+
+    /**
      * @ORM\PreUpdate
      */
-    public function calculateEndDateTime() {
-        $endDate = clone $this->start;
-        $endDate->add(new \DateInterval('PT' . $this->duration . 'M'));
-        $this->end = $endDate;
+    public function preUpdate() {
+        $this->legacyUpdate();
+    }
+
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function preRemove() {
+        $this->legacyDelete();
     }
 
 // </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="Calculated Properties">
+    protected function calculateEndDateTime() {
+        if($this->start && $this->duration){
+            $endDate = clone $this->start;
+            $endDate->add(new \DateInterval('PT' . $this->duration . 'M'));
+            $this->end = $endDate;
+        }
+    }
+// </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="Legacy Database Functions">
+    //Legacy Statics
+    const DefaultRecur = 'a:6:{s:17:"event_repeat_freq";N;s:22:"event_repeat_freq_type";N;s:19:"event_repeat_on_num";s:1:"1";s:19:"event_repeat_on_day";s:1:"0";s:20:"event_repeat_on_freq";s:1:"0";s:6:"exdate";N;}';
+    const DefaultLocation = 'a:6:{s:14:"event_location";s:0:"";s:13:"event_street1";s:0:"";s:13:"event_street2";s:0:"";s:10:"event_city";s:0:"";s:11:"event_state";s:0:"";s:12:"event_postal";s:0:"";}';
+    /**
+     * @return \PDO
+     */
+    protected function sqlConnect(){
+        $pdo = new \PDO('mysql:host=localhost;dbname=openemr', 'openemr', 'escargot');
+        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        return $pdo;
+    }
+    
+    protected function legacyInsert(){
+        
+    }
+    
+    protected function legacyUpdate(){
+        
+    }
+    
+    protected function legacyDelete() {
+        $statement = "DELETE FROM openemr_postcalendar_events "
+                . " WHERE  pc_eid = :id ";
+        $pdo = $this->sqlConnect();
+        try {
+            $statement = $pdo->prepare($statement);
+            $statement->bindValue(':id', $this->id);
+            $statement->execute();
+        } catch (\PDOException $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+    }
+// </editor-fold>
+
 }
