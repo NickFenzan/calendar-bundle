@@ -27,9 +27,21 @@ class AppointmentFinderRequest {
      */
     protected $max_date;
     /**
+     * @var DateTime
+     */
+    protected $min_time;
+    /**
+     * @var DateTime
+     */
+    protected $max_time;
+    /**
      * @var int
      */
     protected $duration;
+    /**
+     * @var int
+     */
+    protected $day_of_week;
     
     public function getCategory() {
         return $this->category;
@@ -46,11 +58,24 @@ class AppointmentFinderRequest {
     public function getMaxDate() {
         return $this->max_date;
     }
+    
+    public function getMinTime() {
+        return $this->min_time;
+    }
+
+    public function getMaxTime() {
+        return $this->max_time;
+    }
 
     public function getDuration() {
         return $this->duration;
     }
+    
+    public function getDayOfWeek() {
+        return $this->day_of_week;
+    }
 
+    
     public function setCategory(PatientCategory $category) {
         $this->category = $category;
     }
@@ -66,10 +91,21 @@ class AppointmentFinderRequest {
     public function setMaxDate(DateTime $max_date) {
         $this->max_date = $max_date;
     }
+    
+    public function setMinTime(DateTime $min_time) {
+        $this->min_time = $min_time;
+    }
+
+    public function setMaxTime(DateTime $max_time) {
+        $this->max_time = $max_time;
+    }
 
     public function setDuration($duration) {
         $this->duration = $duration;
     }
 
+    public function setDayOfWeek($day_of_week) {
+        $this->day_of_week = $day_of_week;
+    }
 
 }

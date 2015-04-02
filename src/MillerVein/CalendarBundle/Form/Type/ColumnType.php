@@ -15,7 +15,7 @@ class ColumnType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('name', 'text')
                 ->add('legacy_provider','entity',[
-                    'label' => 'Provider',
+                    'label' => 'Legacy Provider',
                     'class' => 'MillerVeinEMRBundle:Users',
                     'property' => 'username'
                 ])

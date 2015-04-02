@@ -27,41 +27,48 @@ class AppointmentFinder {
         $apptRepo = $this->em->getRepository('MillerVeinCalendarBundle:Appointment\Appointment');
         $category = $appt_request->getCategory();
         $duration = $appt_request->getDuration();
-        
-        for($workingDate = clone $startDate; $workingDate <= $endDate; $workingDate->add($dateInterval)){
-            
-            $cols = $colRepo->findBySiteAndCategory($appt_request->getSite(),$category);
-            
-//            echo "<hr>";
-//            echo $workingDate->format("m/d/Y");
-//            echo "<br>";
-            foreach($cols as $column){
-//                echo $column->getName();
-//                echo "<br>";
+        $dayOfWeek = $appt_request->getDayOfWeek();
+        $minTime = $appt_request->getMinTime();
+        $maxTime = $appt_request->getMaxTime();
+
+        //Loop Days
+        for ($workingDate = clone $startDate; $workingDate <= $endDate; $workingDate->add($dateInterval)) {
+            if ($dayOfWeek !== null && $workingDate->format('N') != $dayOfWeek) {
+                continue;
+            }
+            $cols = $colRepo->findBySiteAndCategory($appt_request->getSite(), $category);
+
+            //Loop Columns
+            foreach ($cols as $column) {
                 /** @var $column MillerVein\CalendarBundle\Entity\Column */
                 $hours = $column->findHours($workingDate);
-                if (!$hours){
+                if (!$hours) {
                     continue;
                 }
-                
-                
+
                 $interval = new DateInterval("PT{$duration}M");
                 $hoursIterator = $hours->getIterator();
-                for($hoursIterator->rewind();$hoursIterator->valid();$hoursIterator->next()){
-                    if(is_a($hoursIterator->current(),'DateTime')){
+                //Loop times
+                for ($hoursIterator->rewind(); $hoursIterator->valid(); $hoursIterator->next()) {
+                    if (is_a($hoursIterator->current(), 'DateTime')) {
+                        if (($minTime !== null && $hoursIterator->current() < $minTime) ||
+                                ($maxTime !== null && $hoursIterator > $maxTime)) {
+                            continue;
+                        }
+
                         $currentLoopTime = new DateTime($workingDate->format('Y-m-d') . ' ' . $hoursIterator->current()->format('H:i'));
                         $endTime = clone $currentLoopTime;
                         $endTime->add($interval);
-                        
-                        $conflicts = $apptRepo->findOverlappingAppointmentsByColumn($column,$currentLoopTime,$endTime);
-                        if(count($conflicts) == 0){
+
+                        $conflicts = $apptRepo->findOverlappingAppointmentsByColumn($column, $currentLoopTime, $endTime);
+                        if (count($conflicts) == 0) {
                             $appt = new PatientAppointment();
                             $appt->setColumn($column);
                             $appt->setCategory($category);
                             $appt->setStart($currentLoopTime);
                             $appt->setDuration($duration);
                             $appts[] = $appt;
-                            if (count($appts) >= 3){
+                            if (count($appts) >= 3) {
                                 return $appts;
                             }
                         }
@@ -71,5 +78,5 @@ class AppointmentFinder {
         }
         return $appts;
     }
-    
+
 }

@@ -126,6 +126,9 @@ $.widget('millerveincalendar.calendar_controls', {
     changeDate: function(date) {
         this.date_input.val(date).change();
     },
+    changeSite: function(site) {
+        this.site_input.val(site).change();
+    },
     submit: function() {
         var that = this;
         calendar.ajax.calendar_ajax_post(this.form.serialize(), function(data) {
@@ -378,7 +381,9 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
 
         this._on(this.element, {
             "click .result": function(event) {
+                var site = $(event.target).data('site');
                 var date = $(event.target).data('datetime');
+                calendar.controls.calendar_controls('changeSite', site);
                 calendar.controls.calendar_controls('changeDate', date);
                 this.close();
                 var options = {

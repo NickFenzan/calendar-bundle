@@ -1,3 +1,4 @@
+
 <div>
     {% block appointment_type_select %}
     <div>
@@ -14,9 +15,17 @@
     {% endblock %}
     <div class='appt_form'>
     {{form_start(form)}}
-    {{ form_widget(form.start, { 'attr': {'hidden': true, 'class': 'time_input'} }) }}
     {{ form_widget(form.column, { 'attr': {'hidden': true, 'class': 'column_input'} }) }}
         <table>
+            <tr>
+                <td>
+                    <label>Start Time</label>
+                </td>
+                <td>
+                    <strong>{{ form_widget(form.start, { 'attr': {'hidden': true, 'class': 'time_input'} }) }}
+                    {{ form.start.vars.value |date('m/d/Y g:i a') }}</strong>
+                </td>
+            </tr>
             {% if form.patient is defined %}
             <tr>
                 <td>{{ form_label(form.patient) }}</td>

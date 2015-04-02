@@ -7,6 +7,7 @@
             data-datetime="{{appt.start | date("m/d/Y H:i:s")}}"
             data-column="{{appt.column.id}}"
             data-category="{{appt.category.id}}"
+            data-site="{{appt.column.site.id}}"
             >
             {{appt.start | date("l F jS \\a\\t g:i a")}}
         </span>
