@@ -234,6 +234,30 @@ class Hours {
 
         return $recurrence_rule->doesRuleApplyToDate($this->start_date, $date);
     }
+    
+    public function doTimesConflict(\DateTime $start, \DateTime $end){
+        $start = new \DateTime($start->format('H:i'));
+        $end = new \DateTime($end->format('H:i'));
+        $openTime = new \DateTime($this->getOpenTime()->format('H:i'));
+        $closeTime = new \DateTime($this->getCloseTime()->format('H:i'));
+        $lunchStart = new \DateTime($this->getLunchStart()->format('H:i'));
+        $lunchEnd = new \DateTime($this->getLunchEnd()->format('H:i'));
+        if (
+                //Appointment starts before we are open
+                $start < $openTime ||
+                //Appointment ends after we are closed
+                $end > $closeTime ||
+                //Appointment starts during lunch
+                ($start >= $lunchStart && $start < $lunchEnd) ||
+                //Appointment starts before lunch, but doesnt end before lunch
+                ($start <= $lunchStart && $end > $lunchStart)
+            ){
+//            echo "true";
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public function getIterator(){
         return new HoursIterator($this);

@@ -57,13 +57,13 @@
                 <td>{{form_errors(form.status)}}</td>
             </tr>
             {% endif %}
-            {% if form.recurrence_rule is defined %}
+            {#{% if form.recurrence_rule is defined %}
             <tr>
                 <td>{{ form_label(form.recurrence_rule) }}</td>
                 <td>{{ form_widget(form.recurrence_rule) }}</td>
-                <td>{{form_errors(form.recurrence)}}</td>
+                <td>{{form_errors(form.recurrence_rule)}}</td>
             </tr>
-            {% endif %}
+            {% endif %}#}
             <tr>
                 <td>{{ form_label(form.notes) }}</td>
                 <td>{{ form_widget(form.notes) }}</td>

@@ -40,7 +40,8 @@ class AppointmentFinder {
 
             //Loop Columns
             foreach ($cols as $column) {
-                /** @var $column MillerVein\CalendarBundle\Entity\Column */
+                /* @var $column \MillerVein\CalendarBundle\Entity\Column */
+                /* @var $hours \MillerVein\CalendarBundle\Entity\Hours */
                 $hours = $column->findHours($workingDate);
                 if (!$hours) {
                     continue;
@@ -52,13 +53,17 @@ class AppointmentFinder {
                 for ($hoursIterator->rewind(); $hoursIterator->valid(); $hoursIterator->next()) {
                     if (is_a($hoursIterator->current(), 'DateTime')) {
                         if (($minTime !== null && $hoursIterator->current() < $minTime) ||
-                                ($maxTime !== null && $hoursIterator > $maxTime)) {
+                                ($maxTime !== null && $hoursIterator->current() > $maxTime)) {
                             continue;
                         }
-
+                        
                         $currentLoopTime = new DateTime($workingDate->format('Y-m-d') . ' ' . $hoursIterator->current()->format('H:i'));
                         $endTime = clone $currentLoopTime;
                         $endTime->add($interval);
+
+                        if($hours->doTimesConflict($currentLoopTime, $endTime)){
+                            continue;
+                        }
 
                         $conflicts = $apptRepo->findOverlappingAppointmentsByColumn($column, $currentLoopTime, $endTime);
                         if (count($conflicts) == 0) {

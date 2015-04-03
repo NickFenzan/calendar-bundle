@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class AppointmentController extends Controller {
 
-    const CLASS_PATH = "MillerVein\\CalendarBundle\\Entity\\Appointment\\";
+    const CLASS_PATH = "MillerVein\\CalendarBundle\\Entity\\";
 
     /**
      * @Route("/{type}/new", name="appointment_new_form", options={"expose"=true}, defaults={"type" = "patient"})
@@ -30,7 +30,7 @@ class AppointmentController extends Controller {
         $form = 'appointment_' . $type;
         $session = $request->getSession();
         $formOptions = array();
-        $fullClassName = static::CLASS_PATH . $classname . "Appointment";
+        $fullClassName = static::CLASS_PATH . 'Appointment\\' . $classname . "Appointment";
 
         $formOptions['method'] = 'get';
         $formOptions['action'] = $this->generateUrl('appointment_new_form', array('type' => $type));
@@ -80,7 +80,7 @@ class AppointmentController extends Controller {
         $classname = ucfirst($type);
         $form = 'appointment_' . $type;
         $session = $request->getSession();
-        $fullClassName = static::CLASS_PATH . $classname . "Appointment";
+        $fullClassName = static::CLASS_PATH . 'Appointment\\' .  $classname . "Appointment";
         $appt = $em->find($fullClassName, $id);
         $column = $appt->getColumn();
 
@@ -120,7 +120,7 @@ class AppointmentController extends Controller {
     public function infoAction($type, $id) {
         $em = $this->getDoctrine()->getManager();
         $classname = ucfirst($type);
-        $fullClassName = static::CLASS_PATH . $classname . "Appointment";
+        $fullClassName = static::CLASS_PATH . 'Appointment\\' . $classname . "Appointment";
         $appt = $em->find($fullClassName, $id);
         return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:{$type}Info.html.twig", ['appt' => $appt]);
     }
@@ -131,7 +131,7 @@ class AppointmentController extends Controller {
     public function deleteAction($type, $id) {
         $classname = ucfirst($type);
         $em = $this->getDoctrine()->getManager();
-        $fullClassName = static::CLASS_PATH . $classname . "Appointment";
+        $fullClassName = static::CLASS_PATH . 'Appointment\\' . $classname . "Appointment";
         $appt = $em->find($fullClassName, $id);
         $em->remove($appt);
         $em->flush();
@@ -152,14 +152,17 @@ class AppointmentController extends Controller {
     }
 
     /**
-     * @Route("/category/columns/{id}", name="category_columns", options={"expose"=true})
+     * @Route("/{type}/category/columns/{id}", name="category_columns", options={"expose"=true}, defaults={"type" = "patient"})
      */
-    public function columnCategoryOptions($id) {
+    public function columnCategoryOptions($type,$id) {
+        $classname = ucfirst($type);
         $em = $this->getDoctrine()->getManager();
+        $fullClassName = static::CLASS_PATH . 'Category\\' .  $classname . "Category";
         /* @var $col \MillerVein\CalendarBundle\Entity\Column */
         $col = $em->find('MillerVeinCalendarBundle:Column', $id);
         $allowedTags = $col->getTags();
-        $catRepo = $em->getRepository('MillerVeinCalendarBundle:Category\Category');
+        $catRepo = $em->getRepository($fullClassName);
+//        $catRepo = $em->getRepository('MillerVeinCalendarBundle:Category\Category');
         $allowedCats = $catRepo->findAllowedByTags($allowedTags);
         return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:optionsMenu.html.twig", ['options' => $allowedCats]);
 //        return new \Symfony\Component\HttpFoundation\Response();

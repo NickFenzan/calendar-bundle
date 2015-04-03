@@ -33,19 +33,19 @@ class HoursAppointmentTimeValidator extends ConstraintValidator {
                 //Appointment ends after we are closed
                 $timeEnd > $hours->getCloseTime() 
             ){
-            $this->context->addViolation('Appointment starts before we are open.');
+            $this->context->addViolation('Appointment ends after we are closed.');
         }
         if (
                 //Appointment starts during lunch
                 ($timeStart >= $hours->getLunchStart() && $timeStart < $hours->getLunchEnd()) 
             ){
-            $this->context->addViolation('Appointment starts before we are open.');
+            $this->context->addViolation('Appointment starts during lunch.');
         }
         if (
                 //Appointment starts before lunch, but doesnt end before lunch
                 ($timeStart <= $hours->getLunchStart() && $timeEnd > $hours->getLunchStart())
             ){
-            $this->context->addViolation('This appointment falls outside of business hours today.');
+            $this->context->addViolation('Appointment starts before lunch, but doesnt end before lunch.');
         }
     }
 

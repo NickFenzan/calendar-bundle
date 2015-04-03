@@ -69,7 +69,8 @@ $apptMargin: 0px;
                         padding: 5px;
                         border-left: 1px solid grey;
                         border-right: 1px solid grey;
-                        height: 2em;
+                        height: 100%;
+                        min-height: 2em;
                         
                         a{
                             text-decoration: none;

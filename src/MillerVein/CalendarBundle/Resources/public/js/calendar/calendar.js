@@ -20,8 +20,8 @@ calendar.ajax = {
         var route = Routing.generate('calendar_ajax_post');
         $.post(route, data, callback);
     },
-    category_columns: function(id, callback) {
-        var route = Routing.generate('category_columns',{id: id});
+    category_columns: function(type, id, callback) {
+        var route = Routing.generate('category_columns',{type: type, id: id});
         $.post(route, callback);
     },
     category_duration: function(id, data, callback) {
@@ -202,7 +202,7 @@ $.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
     _columnCategoryUpdate: function(){
         var that = this;
         if(this.column_input.val()){
-            calendar.ajax.category_columns(this.column_input.val(),function(data){
+            calendar.ajax.category_columns(this.options.type,this.column_input.val(),function(data){
                 if(that.options.mode==='edit'){
                     var selected = that.category_input.find('option:selected');
                 }

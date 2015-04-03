@@ -171,14 +171,14 @@ abstract class Appointment {
      * @ORM\PrePersist
      */
     public function prePersist() {
-        $this->legacyInsert();
+//        $this->legacyInsert();
     }
 
     /**
      * @ORM\PreUpdate
      */
     public function preUpdate() {
-        $this->legacyUpdate();
+//        $this->legacyUpdate();
     }
 
 
@@ -186,14 +186,14 @@ abstract class Appointment {
      * @ORM\PreRemove
      */
     public function preRemove() {
-        $this->legacyDelete();
+//        $this->legacyDelete();
     }
 
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Calculated Properties">
     protected function calculateEndDateTime() {
-        if($this->start && $this->duration){
+        if($this->start !== null && $this->duration !== null){
             $endDate = clone $this->start;
             $endDate->add(new \DateInterval('PT' . $this->duration . 'M'));
             $this->end = $endDate;

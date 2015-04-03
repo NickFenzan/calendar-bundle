@@ -16,13 +16,13 @@ class ProviderAppointmentType extends AppointmentType {
         $builder->add('category', 'entity', [
                     'class' => 'MillerVeinCalendarBundle:Category\ProviderCategory',
                     'property' => 'name'
-                ])
-                ->add('recurrence_rule', 'entity', [
-                    'label' => 'Repeats',
-                    'required' => false,
-                    'class' => 'MillerVeinCalendarBundle:RecurrenceRule',
-                    'property' => 'name'
                 ]);
+//                ->add('recurrence_rule', 'entity', [
+//                    'label' => 'Repeats',
+//                    'required' => false,
+//                    'class' => 'MillerVeinCalendarBundle:RecurrenceRule',
+//                    'property' => 'name'
+//                ]);
         $this->submitButtons($builder);
     }
 
