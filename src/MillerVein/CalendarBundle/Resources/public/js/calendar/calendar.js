@@ -124,10 +124,10 @@ $.widget('millerveincalendar.calendar_controls', {
         this.preop_button.attr('href',address);
     },
     changeDate: function(date) {
-        this.date_input.val(date).change();
+        this.date_input.val(date);
     },
     changeSite: function(site) {
-        this.site_input.val(site).change();
+        this.site_input.val(site);
     },
     submit: function() {
         var that = this;
@@ -400,6 +400,7 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
                 });
                 calendar.controls.calendar_controls('changeSite', site);
                 calendar.controls.calendar_controls('changeDate', date);
+                calendar.controls.calendar_controls('submit');
             }
         });
 
