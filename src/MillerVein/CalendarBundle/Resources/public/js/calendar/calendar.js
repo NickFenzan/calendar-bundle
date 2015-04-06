@@ -384,8 +384,6 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
                 var site = $(event.target).data('site');
                 var date = $(event.target).data('datetime');
                 var that = this;
-                calendar.controls.calendar_controls('changeSite', site);
-                calendar.controls.calendar_controls('changeDate', date);
                 $('body').on('initComplete',function(){
                     that.close();
                     var options = {
@@ -400,6 +398,8 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
                     calendar.appointment_dialog.appointment_dialog('open');
                     $('body').off('initComplete');
                 });
+                calendar.controls.calendar_controls('changeSite', site);
+                calendar.controls.calendar_controls('changeDate', date);
             }
         });
 
