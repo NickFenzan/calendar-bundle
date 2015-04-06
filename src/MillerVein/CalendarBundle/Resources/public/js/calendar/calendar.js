@@ -383,19 +383,23 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
             "click .result": function(event) {
                 var site = $(event.target).data('site');
                 var date = $(event.target).data('datetime');
+                var that = this;
                 calendar.controls.calendar_controls('changeSite', site);
                 calendar.controls.calendar_controls('changeDate', date);
-                this.close();
-                var options = {
-                    mode: 'new',
-                    type: 'patient',
-                    appt_options: {
-                        datetime: $(event.target).data('datetime'),
-                        column: $(event.target).data('column')
-                    }
-                };
-                calendar.appointment_dialog.appointment_dialog('option', options);
-                calendar.appointment_dialog.appointment_dialog('open');
+                $('body').on('initComplete',function(){
+                    that.close();
+                    var options = {
+                        mode: 'new',
+                        type: 'patient',
+                        appt_options: {
+                            datetime: $(event.target).data('datetime'),
+                            column: $(event.target).data('column')
+                        }
+                    };
+                    calendar.appointment_dialog.appointment_dialog('option', options);
+                    calendar.appointment_dialog.appointment_dialog('open');
+                    $('body').off('initComplete');
+                });
             }
         });
 
@@ -434,6 +438,8 @@ $(function() {
             var currentScroll = calendar.calendar.scrollLeft();
             calendar.calendar.scrollLeft(Math.round(currentScroll / 600) * 600);
         }, 50);
+        $('body').trigger('initComplete');
+        console.log('triggered initComplete');
     };
     calendarInit();
 
