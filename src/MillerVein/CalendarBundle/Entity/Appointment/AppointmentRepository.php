@@ -19,7 +19,7 @@ class AppointmentRepository extends EntityRepository {
                 ->from('MillerVeinCalendarBundle:Appointment\Appointment', 'a')
                 ->join('a.category', 'c')
                 ->leftJoin('a.status', 's')
-                ->where('DATE(a.start) = :date')
+                ->where('a.start BETWEEN :dateOpen AND :dateClose')
                 ->andWhere('a.column = :column');
         if (!$showCancelled) {
             $qb->andWhere('s.cancelled != 1 OR s.cancelled IS null');
@@ -28,7 +28,8 @@ class AppointmentRepository extends EntityRepository {
         $query = $qb->getQuery();
 
         $query
-                ->setParameter('date', $date->format('Y-m-d'))
+                ->setParameter('dateOpen', $date->format('Y-m-d 00:00:00'))
+                ->setParameter('dateClose', $date->format('Y-m-d 23:59:59'))
                 ->setParameter('column', $column);
         return $query->getResult();
     }
