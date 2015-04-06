@@ -55,7 +55,7 @@ $.widget('millerveincalendar.calendar_controls', {
         this.paperwork_button = this.element.find('.paperwork_button');
         this.preop_button = this.element.find('.preop_button');
         this.secondary_controls = this.element.find('.secondary');
-        this.form = this.element.find('form');
+        this.form = this.element.children('form');
         this.element.find('a, button').button();
 
         this._on(this.previous_button, {
@@ -124,7 +124,9 @@ $.widget('millerveincalendar.calendar_controls', {
         this.preop_button.attr('href',address);
     },
     changeDate: function(date) {
-        this.date_input.val(date);
+        var dateM = moment(new Date(date));
+        this.date_span.text(dateM.format('dddd MM/DD/YYYY'));
+        this.date_input.val(dateM.format('MM/DD/YYYY'));
     },
     changeSite: function(site) {
         this.site_input.val(site);
@@ -166,13 +168,10 @@ $.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
         this._super();
     },
     _setOption: function(key, value) {
-        console.log(key + ' : ' + value);
         if (key === 'mode') {
             if (value === 'new') {
-                console.log('new');
                 this.options.appt_id = null;
             } else if (value === 'edit') {
-                console.log('edit');
                 this.options.appt_options = null;
             }
         }
@@ -412,7 +411,6 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
                 var that = this;
                 calendar.ajax.appointment_finder_search(this.form.serialize(), function(data) {
                     that.resultsLoading.hide();
-                    console.log(data.status);
                     that.results.html(data.html);
                 });
             }
@@ -440,7 +438,6 @@ $(function() {
             calendar.calendar.scrollLeft(Math.round(currentScroll / 600) * 600);
         }, 50);
         $('body').trigger('initComplete');
-        console.log('triggered initComplete');
     };
     calendarInit();
 

@@ -28,7 +28,6 @@ class CalendarController extends Controller {
             'action' => $this->generateUrl('calendar_post')
         ]);
         $appointmentFinder = $this->createForm('appointment_finder_request');
-        
         return [
             'calendar' => $calendar,
             'controls' => $controls->createView(),
@@ -86,6 +85,7 @@ class CalendarController extends Controller {
             $session->set('calendar_show_cancelled', $calendar->getShowCancelled());
         }
 
+        
 //        return new \Symfony\Component\HttpFoundation\Response();
         return $this->redirectToRoute("calendar");
     }
