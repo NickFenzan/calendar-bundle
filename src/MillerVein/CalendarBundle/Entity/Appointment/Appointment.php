@@ -4,7 +4,6 @@ namespace MillerVein\CalendarBundle\Entity\Appointment;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use MillerVein\CalendarBundle\Entity\AppointmentRepository;
 use MillerVein\CalendarBundle\Entity\AppointmentStatus;
 use MillerVein\CalendarBundle\Entity\Category\Category;
 use MillerVein\CalendarBundle\Entity\Column;
