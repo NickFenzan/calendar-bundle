@@ -67,7 +67,7 @@ class TestController extends Controller {
                 $newAppt->setId($oldAppt['pc_eid']);
                 
                 // <editor-fold defaultstate="collapsed" desc="Column">
-                if($oldAppt['pc_eventDate']>='2014-04-01'){
+                if($oldAppt['pc_eventDate'] >='2014-04-01'){
                     $cols = $columnRepo->findBy(array('legacy_provider'=>$oldAppt['pc_aid']),array('id'=>'DESC'));
                 }else{
                     $cols = $columnRepo->findBy(array('legacy_provider'=>$oldAppt['pc_aid']));

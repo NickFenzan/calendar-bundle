@@ -64,6 +64,13 @@
             border-bottom: 1px solid grey; }
         #calendar .calendar-column .column-body .timeslot .hasAppointments {
           border-bottom: none; }
+      #calendar .calendar-column .column-body .timeslot.read-only .time {
+        cursor: default;
+        background-color: lightgrey; }
+      #calendar .calendar-column .column-body .timeslot.read-only .time:hover {
+        font-weight: normal; }
+      #calendar .calendar-column .column-body .timeslot.read-only .appts {
+        background-color: grey; }
       #calendar .calendar-column .column-body .timeslot.lunch .appts {
         background-color: grey; }
   #calendar .calendar-column:last-of-type {

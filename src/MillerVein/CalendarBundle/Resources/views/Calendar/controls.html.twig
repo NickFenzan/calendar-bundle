@@ -2,11 +2,11 @@
     {{ form_start(controls) }}
     <div class="primary">
         <div>
-            {{ form_widget(controls.previous, { 'attr': {'class' : 'previousDay' } })}}
+            <a href="#" class="previousDay"><<</a>
         </div>
         <div id="currentDate">
-            {{ form_widget(controls.date, { 'attr': {'class' : 'date_input' } }) }}
-            <span class="date_span">{{ calendar.date | date('l n/d/Y') }}</span>
+            {{ form_widget(controls.date, { 'attr': {'class' : 'date_input hidden' } }) }}
+            <span class="date_span">{{ controls.date.vars.value | date('l n/d/Y') }}</span>
         </div>
         <div id="currentSite">
             {{ form_widget(controls.site, { 'attr': {'class' : 'site_input' } }) }}
@@ -15,14 +15,14 @@
             <button class="show_more">More Controls</button>
         </div>
         <div>
-            {{ form_widget(controls.next, { 'attr': {'class' : 'nextDay' } })}}
+            <a href="#" class="nextDay">>></a>
         </div>
     </div>
     <div class="secondary">
         <div class="options">
             <div>
-                {{ form_label(controls.show_cancelled) }}
-                {{ form_widget(controls.show_cancelled, { 'attr': {'class' : 'show_cancelled' } }) }}
+                {#{{ form_label(controls.show_cancelled) }}
+                {{ form_widget(controls.show_cancelled, { 'attr': {'class' : 'show_cancelled' } }) }}#}
             </div>
         </div>
         <div class="buttons">

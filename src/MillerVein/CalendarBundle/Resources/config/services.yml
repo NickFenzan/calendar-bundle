@@ -23,6 +23,10 @@ services:
         class: MillerVein\CalendarBundle\Form\Type\CalendarType
         tags:
             - { name: form.type, alias: calendar }
+    millervein.calendar.form.type.calendar_request:
+        class: MillerVein\CalendarBundle\Form\Type\CalendarRequestType
+        tags:
+            - { name: form.type, alias: calendar_request }
     millervein.calendar.form.type.patient_selector:
         class: MillerVein\CalendarBundle\Form\Type\PatientSelectorType
         arguments: ["@doctrine.orm.entity_manager"]
@@ -73,9 +77,12 @@ services:
         factory_method: getRepository
         arguments:
             - MillerVein\CalendarBundle\Entity\Appointment\Appointment
-#    millervein.calendar.calendar:
-#        class: MillerVein\CalendarBundle\Model\Calendar
-#        arguments: ["@millervein.calendar.repository.appointment_repository"]
+            
+    millervein.calendar.calendar_builder:
+        class: MillerVein\CalendarBundle\Model\CalendarBuilder
+        arguments: 
+            - "@millervein.calendar.repository.appointment_repository"
+#        alias: calendar_builder
 
     millervein.calendar.unique_appointment_time_validator:
         class: MillerVein\CalendarBundle\Validator\UniqueAppointmentTimeValidator

@@ -88,6 +88,18 @@ $apptMargin: 0px;
                     border-bottom:none;
                 }
             }
+            .timeslot.read-only{
+                 .time{
+                    cursor: default; 
+                    background-color: lightgrey;
+                }
+                .time:hover{
+                    font-weight: normal;
+                }
+                .appts{
+                    background-color: grey;
+                }
+            }
             
             .timeslot.lunch{
                 .appts{

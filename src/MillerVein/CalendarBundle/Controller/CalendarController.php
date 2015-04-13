@@ -4,13 +4,22 @@ namespace MillerVein\CalendarBundle\Controller;
 
 use DateInterval;
 use DateTime;
-use MillerVein\CalendarBundle\Model\Calendar;
+use MillerVein\CalendarBundle\Entity\Appointment\AppointmentRepository;
+use MillerVein\CalendarBundle\Entity\Column;
+use MillerVein\CalendarBundle\Model\AppointmentFragmentBuilder;
+use MillerVein\CalendarBundle\Model\CalendarRequest;
+use MillerVein\CalendarBundle\Model\Collections\AppointmentFragmentCollection;
+use MillerVein\CalendarBundle\Model\Collections\ColumnViewCollection;
+use MillerVein\CalendarBundle\Model\Collections\TimeSlotCollection;
+use MillerVein\CalendarBundle\Model\ColumnView;
+use MillerVein\CalendarBundle\Model\DateTimeUtility;
+use MillerVein\CalendarBundle\Model\TimeSlot;
+use MillerVein\CalendarBundle\Model\TimeSlotCollectionFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/calendar")
@@ -19,79 +28,72 @@ class CalendarController extends Controller {
 
     /**
      * @Route("", name="calendar", options={"expose"=true})
-     * @Template("MillerVeinCalendarBundle:Calendar:base.html.twig")
+     * @Method({"GET"})
      */
-    public function calendarAction(Request $request) {
+    public function mainViewAction(Request $request) {
         $session = $request->getSession();
-        $calendar = $this->getCalendarFromSession($session);
-        $controls = $this->createForm('calendar', $calendar, [
-            'action' => $this->generateUrl('calendar_post')
+        $calendarRequest = new CalendarRequest();
+        $calendarRequest->fromSession($session);
+        $controls = $this->createForm('calendar_request', $calendarRequest, [
+            'action' => $this->generateUrl('calendar_request')
         ]);
+        $site = $this->getDoctrine()->getManager()->getRepository('MillerVeinEMRBundle:Site')->findOneBy(['city'=>'Novi']);
+        $calendarRequest->setSite($site);
         $appointmentFinder = $this->createForm('appointment_finder_request');
-        return [
-            'calendar' => $calendar,
-            'controls' => $controls->createView(),
-            'appointment_finder' => $appointmentFinder->createView()
-        ];
-    }
-    
-    /**
-     * @Route("/ajax/post", name="calendar_ajax_post", options={"expose"=true})
-     * @Template("MillerVeinCalendarBundle:Calendar:calendar.html.twig")
-     */
-    public function calendarOnlyAction(Request $request) {
-        $session = $request->getSession();
-        $calendar = $this->getCalendarFromSession($session);
-
-        $controls = $this->createForm('calendar', $calendar);
-        $controls->handleRequest($request);
-        if ($controls->isValid()) {
-            $session->set('calendar_date', $calendar->getDate());
-            $session->set('calendar_site_id', $calendar->getSite()->getId());
-            $session->set('calendar_show_cancelled', $calendar->getShowCancelled());
-        }
+        $calendarBuilder = $this->get('millervein.calendar.calendar_builder');
+        $calendar = $calendarBuilder->buildCalendar($calendarRequest);
         
-        $calendar = $this->getCalendarFromSession($session);
-        return [
-            'calendar' => $calendar,
-        ];
+
+        return $this->render('MillerVeinCalendarBundle:Calendar:base.html.twig', [
+                    'calendar' => $calendar,
+                    'controls' => $controls->createView(),
+                    'appointment_finder' => $appointmentFinder->createView()
+        ]);
     }
+ 
 
     /**
-     * @Route("/post", name="calendar_post")
+     * @Route("", name="calendar_request", options={"expose"=true})
      * @Method({"POST"})
      */
-    public function postAction(Request $request) {
+    public function calendarRequest(Request $request) {
         $session = $request->getSession();
-        $calendar = $this->getCalendarFromSession($session);
-
-        $controls = $this->createForm('calendar', $calendar);
+        $calendarRequest = new CalendarRequest();
+        $controls = $this->createForm('calendar_request', $calendarRequest);
         $controls->handleRequest($request);
-        if ($controls->isValid()) {
-            $clicked = $controls->getClickedButton();
-            if ($clicked) {
-                switch ($clicked->getName()) {
-                    case "previous";
-                        $calendar->getDate()->sub(new DateInterval("P1D"));
-                        break;
-                    case "next";
-                        $calendar->getDate()->add(new DateInterval("P1D"));
-                        break;
-                }
-            }
-            
-            $session->set('calendar_date', $calendar->getDate());
-            $session->set('calendar_site_id', $calendar->getSite()->getId());
-            $session->set('calendar_show_cancelled', $calendar->getShowCancelled());
-        }
+        $calendarRequest->toSession($session);
+        return $this->redirectToRoute('calendar');
+    }
 
-        
-//        return new \Symfony\Component\HttpFoundation\Response();
-        return $this->redirectToRoute("calendar");
+    /**
+     * @Route("/ajax/post", name="calendar_ajax_post", options={"expose"=true})
+     * @ Template("MillerVeinCalendarBundle:Calendar:calendar.html.twig")
+     */
+    public function calendarOnlyAction(Request $request) {
+        $calendarRequest = new CalendarRequest();
+        $calendarRequestForm = $this->createForm('calendar_request', $calendarRequest);
+        $calendarRequestForm->handleRequest($request);
+        $columns = $calendarRequest->getColumns();
+        foreach ($columns as $column) {
+            echo $column->getName();
+        }
+        return new Response();
+//        // <editor-fold defaultstate="collapsed" desc="comment">
+//        $session = $request->getSession();
+//        $calendar = $this->getCalendarFromSession($session);
+//
+//        $controls = $this->createForm('calendar', $calendar);
+//        $controls->handleRequest($request);
+//        if ($controls->isValid()) {
+//            $session->set('calendar_date', $calendar->getDate());
+//            $session->set('calendar_site_id', $calendar->getSite()->getId());
+//            $session->set('calendar_show_cancelled', $calendar->getShowCancelled());
+//        }
+//        
+//        $calendar = $this->getCalendarFromSession($session);
+//        return [
+//            'calendar' => $calendar,
+//        ];// </editor-fold>
     }
-    
-    protected function getCalendarFromSession(Session $session){
-        $em = $this->getDoctrine()->getManager();
-        return Calendar::getCalendarFromSession($em,$session);
-    }
+
 }

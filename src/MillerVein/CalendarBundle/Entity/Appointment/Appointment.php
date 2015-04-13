@@ -27,6 +27,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @author Nick Fenzan <nickf@millervein.com>
  */
 abstract class Appointment {
+    
+    const TYPE_PATIENT = 'patient';
+    const TYPE_PROVIDER = 'provider';
 
 // <editor-fold defaultstate="collapsed" desc="Properties">
     /**
@@ -126,6 +129,8 @@ abstract class Appointment {
     public function getStatus() {
         return $this->status;
     }
+    
+    abstract function getType();
 
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Setters">

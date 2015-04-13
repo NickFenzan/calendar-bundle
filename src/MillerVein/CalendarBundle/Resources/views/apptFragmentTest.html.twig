@@ -1,0 +1,11 @@
+{% extends "MillerVeinCalendarBundle::base.html.twig" %}
+{% block body %}
+    {% for column in columns %}
+        {% include 'MillerVeinCalendarBundle:Calendar:column.html.twig' %}
+    {% endfor %}
+    <hr>
+    <h3>Unused</h3>
+    {% for fragment in unusedFragments %}
+        {% include 'MillerVeinCalendarBundle:Calendar:AppointmentFragment.html.twig' %}
+    {% endfor %}
+{% endblock %}

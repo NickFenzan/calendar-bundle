@@ -76,18 +76,16 @@ class Hours {
     /**
      * Lunch start
      * @var DateTime
-     * @Assert\NotBlank()
      * @Assert\Time() 
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      */
     protected $lunch_start;
 
     /**
      * Lunch end
      * @var DateTime 
-     * @Assert\NotBlank()
      * @Assert\Time()
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      */
     protected $lunch_end;
 
@@ -144,9 +142,17 @@ class Hours {
     public function getLunchEnd() {
         return $this->lunch_end;
     }
+    
+    public function hasLunch() {
+        return ($this->lunch_start !== null && $this->lunch_end !== null);
+    }
 
     public function getSchedulingIncrement() {
         return $this->scheduling_increment;
+    }
+    
+    public function getSchedulingInterval(){
+        return new \DateInterval('PT' . $this->scheduling_increment . 'M');
     }
 
     public function getRecurrenceRule() {
