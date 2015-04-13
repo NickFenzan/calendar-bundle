@@ -28,8 +28,7 @@ class CalendarBuilder {
         
         //Hardcode interval for now
         $interval = new \DateInterval('PT15M');
-        
-        $appts = $this->findAppointmentsByColumnsAndDate($columns, $date);
+        $appts = $this->findAppointmentsByColumnsAndDate($columns, $date, $request->getShowCancelled());
         $fragments = $this->convertAppointmentsToFragments($appts);
         
         $columnViewCollection = new ColumnViewCollection();
@@ -60,20 +59,22 @@ class CalendarBuilder {
             if($hours){
                 $openTime = DateTimeUtility::moveTimeToDate($date,$hours->getOpenTime());
                 $closeTime = DateTimeUtility::moveTimeToDate($date,$hours->getCloseTime());
-                if($earliestTime < $openTime ){
-                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $earliestTime, $openTime, $interval, true);
-                }
-                if($hours->hasLunch()){
-                    $lunchStart = DateTimeUtility::moveTimeToDate($date,$hours->getLunchStart());
-                    $lunchEnd = DateTimeUtility::moveTimeToDate($date,$hours->getLunchEnd());
-                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $openTime, $lunchStart, $interval);
-                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $lunchStart, $lunchEnd, $interval, true, 'Lunch');
-                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $lunchEnd, $closeTime, $interval);
-                }else{
-                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $openTime, $closeTime, $interval);
-                }
-                if($closeTime < $latestTime){
-                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $closeTime, $latestTime, $interval, true);
+                if($openTime !== null && $closeTime !== null){
+                    if($earliestTime !== null && $earliestTime < $openTime ){
+                        TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $earliestTime, $openTime, $interval, true);
+                    }
+                    if($hours->hasLunch()){
+                        $lunchStart = DateTimeUtility::moveTimeToDate($date,$hours->getLunchStart());
+                        $lunchEnd = DateTimeUtility::moveTimeToDate($date,$hours->getLunchEnd());
+                        TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $openTime, $lunchStart, $interval);
+                        TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $lunchStart, $lunchEnd, $interval, true, 'Lunch');
+                        TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $lunchEnd, $closeTime, $interval);
+                    }else{
+                        TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $openTime, $closeTime, $interval);
+                    }
+                    if($closeTime !== null && $closeTime < $latestTime){
+                        TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $closeTime, $latestTime, $interval, true);
+                    }
                 }
             }elseif($fragments->hasColumn($column)){
                 TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $earliestTime, $latestTime, $interval, true);
@@ -90,10 +91,10 @@ class CalendarBuilder {
         return $calendar;
     }
     
-    protected function findAppointmentsByColumnsAndDate($columns, $date){
+    protected function findAppointmentsByColumnsAndDate($columns, $date, $showCancelled = false){
         $appts = array();
         foreach($columns as $column){
-            $appts = array_merge($appts, $this->apptRepo->findAppointmentsByColumnDate($column, $date));
+            $appts = array_merge($appts, $this->apptRepo->findAppointmentsByColumnDate($column, $date, $showCancelled));
         }
         return $appts;
     }

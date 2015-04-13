@@ -1,11 +1,11 @@
 var calendar = {};
 calendar.ajax = {
-    appointment_new_form: function(type, data, callback) {
-        var route = Routing.generate('appointment_new_form', {type: type});
+    appointment_patient_new_form: function(data, callback) {
+        var route = Routing.generate('appointment_patient_new_form');
         $.get(route, data, callback);
     },
-    appointment_edit_form: function(type, id, callback, data) {
-        var route = Routing.generate('appointment_edit_form', {type: type, id: id});
+    appointment_patient_edit_form: function(id, callback, data) {
+        var route = Routing.generate('appointment_patient_edit_form', {appt: id});
         $.get(route, data, callback);
     },
     appointment_info: function(type, id, callback) {
@@ -50,7 +50,7 @@ $.widget('millerveincalendar.calendar_controls', {
         this.date_input = this.element.find('.date_input');
         this.date_span = this.element.find('.date_span');
         this.site_input = this.element.find('.site_input');
-//        this.show_cancelled = this.element.find('.show_cancelled');
+        this.show_cancelled = this.element.find('.show_cancelled');
         this.show_more = this.element.find('.show_more');
         this.paperwork_button = this.element.find('.paperwork_button');
         this.preop_button = this.element.find('.preop_button');
@@ -95,11 +95,11 @@ $.widget('millerveincalendar.calendar_controls', {
                 this.submit();
             }
         });
-//        this._on(this.show_cancelled, {
-//            change: function() {
-//                this.submit();
-//            }
-//        });
+        this._on(this.show_cancelled, {
+            change: function() {
+                this.submit();
+            }
+        });
         this._on(this.show_more, {
             click: function(event) {
                 event.preventDefault();
@@ -132,13 +132,15 @@ $.widget('millerveincalendar.calendar_controls', {
         this.site_input.val(site);
     },
     submit: function() {
-        this.form.submit();
-//        var that = this;
-//        calendar.ajax.calendar_ajax_post(this.form.serialize(), function(data) {
-//            calendar.calendar.replaceWith(data);
-//            calendarInit();
-//            that._refresh();
-//        });
+//        this.form.submit();
+        var that = this;
+        $.post(this.form.prop('action'),this.form.serialize(),function(data) {
+            var calendarHTML = $(data).find('#calendar');
+            calendar.calendar.replaceWith(calendarHTML);
+            calendarInit();
+            that._refresh();
+        });
+//        calendar.ajax.calendar_ajax_post(this.form.serialize(), );
     },
     _refresh: function() {
         this._paperworkLinkUpdate();
@@ -184,9 +186,9 @@ $.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
     },
     _checkState: function(){
         if (this.options.mode === 'new' && this.options.appt_options !== null) {
-            calendar.ajax.appointment_new_form(this.options.type, this.options.appt_options,$.proxy(this._redraw,this));
+            calendar.ajax.appointment_patient_new_form(this.options.appt_options,$.proxy(this._redraw,this));
         } else if (this.options.mode === 'edit' && this.options.appt_id !== null) {
-            calendar.ajax.appointment_edit_form(this.options.type, this.options.appt_id, $.proxy(this._redraw,this));
+            calendar.ajax.appointment_patient_edit_form(this.options.appt_id, $.proxy(this._redraw,this));
         }
     },
     _redraw: function(data){
@@ -274,11 +276,12 @@ $.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
         });
         this._on(this.save_button,{
             "click": function(){
-                if(this.options.mode === 'new'){
-                    calendar.ajax.appointment_new_form(this.options.type,this.form.serialize(),$.proxy(this._redraw,this));
-                }else{
-                    calendar.ajax.appointment_edit_form(this.options.type,this.options.appt_id,$.proxy(this._redraw,this),this.form.serialize());
-                }
+                $.post(this.form.prop('action'),this.form.serialize(),$.proxy(this._redraw,this));
+//                if(this.options.mode === 'new'){
+//                    calendar.ajax.appointment_patient_new_form(this.form.serialize(),$.proxy(this._redraw,this));
+//                }else{
+//                    calendar.ajax.appointment_patient_edit_form(this.options.type,this.options.appt_id,$.proxy(this._redraw,this),this.form.serialize());
+//                }
             }
         })
     }
@@ -291,12 +294,10 @@ $.widget('millerveincalendar.appointment', {
             show: false,
             content: '...',
             open: function(event, ui) {
-                console.log('open tooltip');
                 var _elem = ui.tooltip;
                 var id = $(this).data('id');
                 var type = $(this).data('type');
                 calendar.ajax.appointment_info(type, id, function(data) {
-                    console.log('Appointment Button hovered.');
                     _elem.find(".ui-tooltip-content").html(data);
                 });
             }
@@ -428,12 +429,12 @@ $(function() {
         calendar.appointment_dialog = $('#appointment-dialog').appointment_dialog();
         calendar.appointment_finder = $('#appointmentFinder-dialog').appointment_finder();
         $('.appt').appointment({appointment_dialog: calendar.appointment_dialog});
-        $('.time').time_button({appointment_dialog: calendar.appointment_dialog});
+        $('.time:not(.read-only)').time_button({appointment_dialog: calendar.appointment_dialog});
 
         var calendarColumnBodies = $(".calendar-column .column-body");
-        calendarColumnBodies.scroll(function() {
+        calendarColumnBodies.scroll( $.throttle( 150, function() {
             calendarColumnBodies.scrollTop($(this).scrollTop());
-        });
+        }));
 
         calendar.calendar.delayOn('scroll', function(event) {
             var currentScroll = calendar.calendar.scrollLeft();

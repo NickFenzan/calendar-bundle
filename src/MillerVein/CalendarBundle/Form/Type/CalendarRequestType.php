@@ -26,6 +26,10 @@ class CalendarRequestType extends AbstractType{
                     'class' => 'MillerVeinEMRBundle:Site',
                     'property' => 'city',
                 ])
+                ->add('show_cancelled', 'checkbox', [
+                    'label' => 'Show Cancelled',
+                    'required' => false
+                ])
         ;
     }
 

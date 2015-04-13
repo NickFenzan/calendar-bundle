@@ -20,13 +20,14 @@ abstract class AppointmentType extends AbstractType {
         }
 
         /* @var $calCol \MillerVein\CalendarBundle\Model\CalendarColumn */
-        $calCol = $options['calendar_column'];
-        $schedulingIncrement = $calCol->getHours()->getSchedulingIncrement();
+//        $calCol = $options['calendar_column'];
+//        $schedulingIncrement = $calCol->getHours()->getSchedulingIncrement();
         $builder->add('start', 'datetime',[
                     'widget' => 'single_text'
                 ])
                 ->add('duration', 'choice', [
-                    'choices' => $this->durationChoices($schedulingIncrement)
+//                    'choices' => $this->durationChoices($schedulingIncrement)
+                    'choices' => $this->durationChoices(15)
                 ])
                 ->add('column', 'entity', [
                     'property' => 'name',
@@ -65,8 +66,8 @@ abstract class AppointmentType extends AbstractType {
 
     
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
-        $resolver->setRequired('type');
-        $resolver->setRequired('calendar_column');
+//        $resolver->setRequired('type');
+//        $resolver->setRequired('calendar_column');
         $resolver->setDefaults(array(
             'data_class' => 'MillerVein\CalendarBundle\Entity\Appointment\Appointment'
         ));

@@ -1,6 +1,6 @@
 
 <div>
-    {% block appointment_type_select %}
+    {#{% block appointment_type_select %}
     <div>
         <label for='appointment-type'>Appointment Type</label>
         <select id='appointment-type'>
@@ -12,7 +12,7 @@
                     >Provider</option>
         </select>
     </div>
-    {% endblock %}
+    {% endblock %}#}
     <div class='appt_form'>
     {{form_start(form)}}
     {{ form_widget(form.column, { 'attr': {'hidden': true, 'class': 'column_input'} }) }}

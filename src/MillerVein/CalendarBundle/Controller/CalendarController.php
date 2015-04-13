@@ -31,14 +31,13 @@ class CalendarController extends Controller {
      * @Method({"GET"})
      */
     public function mainViewAction(Request $request) {
+        $siteRepo = $this->getDoctrine()->getManager()->getRepository('MillerVeinEMRBundle:Site');
+        $calendarRequest = new CalendarRequest($siteRepo);
         $session = $request->getSession();
-        $calendarRequest = new CalendarRequest();
         $calendarRequest->fromSession($session);
         $controls = $this->createForm('calendar_request', $calendarRequest, [
             'action' => $this->generateUrl('calendar_request')
         ]);
-        $site = $this->getDoctrine()->getManager()->getRepository('MillerVeinEMRBundle:Site')->findOneBy(['city'=>'Novi']);
-        $calendarRequest->setSite($site);
         $appointmentFinder = $this->createForm('appointment_finder_request');
         $calendarBuilder = $this->get('millervein.calendar.calendar_builder');
         $calendar = $calendarBuilder->buildCalendar($calendarRequest);
@@ -57,8 +56,9 @@ class CalendarController extends Controller {
      * @Method({"POST"})
      */
     public function calendarRequest(Request $request) {
+        $siteRepo = $this->getDoctrine()->getManager()->getRepository('MillerVeinEMRBundle:Site');
+        $calendarRequest = new CalendarRequest($siteRepo);
         $session = $request->getSession();
-        $calendarRequest = new CalendarRequest();
         $controls = $this->createForm('calendar_request', $calendarRequest);
         $controls->handleRequest($request);
         $calendarRequest->toSession($session);
@@ -70,7 +70,8 @@ class CalendarController extends Controller {
      * @ Template("MillerVeinCalendarBundle:Calendar:calendar.html.twig")
      */
     public function calendarOnlyAction(Request $request) {
-        $calendarRequest = new CalendarRequest();
+        $siteRepo = $this->getDoctrine()->getManager()->getRepository('MillerVeinEMRBundle:Site');
+        $calendarRequest = new CalendarRequest($siteRepo);
         $calendarRequestForm = $this->createForm('calendar_request', $calendarRequest);
         $calendarRequestForm->handleRequest($request);
         $columns = $calendarRequest->getColumns();
