@@ -58,18 +58,16 @@ class Hours {
     /**
      * Office opening time
      * @var DateTime
-     * @Assert\NotBlank()
      * @Assert\Time() 
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      */
     protected $open_time;
 
     /**
      * Office closing time
      * @var DateTime 
-     * @Assert\NotBlank()
      * @Assert\Time()
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      */
     protected $close_time;
     
