@@ -262,6 +262,10 @@ class Hours {
             return false;
         }
     }
+    
+    public function isOpen(){
+        return ($this->open_time !== null && $this->close_time !== null);
+    }
 
     public function getIterator(){
         return new HoursIterator($this);

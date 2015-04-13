@@ -24,10 +24,18 @@ class HoursType extends AbstractType {
                     'format' => 'MM/dd/yyyy',
                     'required' => false
                 ])
-                ->add('open_time', 'time')
-                ->add('lunch_start', 'time')
-                ->add('lunch_end', 'time')
-                ->add('close_time', 'time')
+                ->add('open_time', 'time',[
+                    'required' => false
+                ])
+                ->add('lunch_start', 'time',[
+                    'required' => false
+                ])
+                ->add('lunch_end', 'time',[
+                    'required' => false
+                ])
+                ->add('close_time', 'time',[
+                    'required' => false
+                ])
                 ->add('scheduling_increment', 'number')
                 ->add('recurrence_rule', 'entity', array(
                     'required' => false,
