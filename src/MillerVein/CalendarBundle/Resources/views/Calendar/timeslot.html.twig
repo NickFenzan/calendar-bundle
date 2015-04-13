@@ -9,8 +9,8 @@
          >
         {{timeslot.label}}
     </div>
-    
-    <div class="appts">
+    {# The title element here is crucial for tool tips to work even though its empty #}
+    <div class="appts" title="">
     {% for fragment in timeslot.appointmentFragments %}
         {% include 'MillerVeinCalendarBundle:Calendar:AppointmentFragment.html.twig' %}
     {% endfor %}
