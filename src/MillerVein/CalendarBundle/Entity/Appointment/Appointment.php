@@ -174,14 +174,14 @@ abstract class Appointment {
      * @ORM\PrePersist
      */
     public function prePersist() {
-//        $this->legacyInsert();
+        $this->legacyInsert();
     }
 
     /**
      * @ORM\PreUpdate
      */
     public function preUpdate() {
-//        $this->legacyUpdate();
+        $this->legacyUpdate();
     }
 
 
@@ -189,7 +189,7 @@ abstract class Appointment {
      * @ORM\PreRemove
      */
     public function preRemove() {
-//        $this->legacyDelete();
+        $this->legacyDelete();
     }
 
 // </editor-fold>
