@@ -37,7 +37,11 @@ class CalendarBuilder {
 
         $earliestTime = (!$fragments->isEmpty()) ? DateTimeUtility::moveTimeToDate($date, $fragments->earliestTime()) : null;
         $latestTime = (!$fragments->isEmpty()) ? DateTimeUtility::moveTimeToDate($date, $fragments->latestTime()) : null;
-
+        if($latestTime){
+            //We have to add one step to this because we want to use it as an outer limit.
+            $latestTime->add($interval);
+        }
+        
         foreach ($columns as $column) {
             /* @var $column Column */
             $hours = $column->findHours($date);
