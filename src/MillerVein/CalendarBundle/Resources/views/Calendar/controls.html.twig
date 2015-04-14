@@ -35,10 +35,15 @@
             <div>
                 <button class="findAppointment">Find Appointment</button>
             </div>
+            <div>
+                <button class="staffing_button">Staffing</button>
+            </div>
         </div>
     </div>
     {{ form_end(controls) }}
     <div id="appointmentFinder-dialog" style="display:none" title="Appointment Finder">
         {% include 'MillerVeinCalendarBundle:Calendar:appointment_finder.html.twig' %}
+    </div>
+    <div id="staffing-dialog" style="display:none" title="Staffing">
     </div>
 </div>

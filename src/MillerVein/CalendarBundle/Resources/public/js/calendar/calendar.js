@@ -40,6 +40,7 @@ $.widget('millerveincalendar.calendar_controls', {
     show_cancelled: null,
     show_more: null,
     paperwork_button: null,
+    staffing_button: null,
     preop_button: null,
     secondary_controls: null,
     form: null,
@@ -53,6 +54,7 @@ $.widget('millerveincalendar.calendar_controls', {
         this.show_cancelled = this.element.find('.show_cancelled');
         this.show_more = this.element.find('.show_more');
         this.paperwork_button = this.element.find('.paperwork_button');
+        this.staffing_button = this.element.find('.staffing_button');
         this.preop_button = this.element.find('.preop_button');
         this.secondary_controls = this.element.find('.secondary');
         this.form = this.element.children('form');
@@ -76,6 +78,12 @@ $.widget('millerveincalendar.calendar_controls', {
             click: function(event) {
                 event.preventDefault();
                 calendar.appointment_finder.appointment_finder('open');
+            }
+        });
+        this._on(this.staffing_button, {
+            click: function(event) {
+                event.preventDefault();
+                calendar.staffing_dialog.staffing_dialog('open');
             }
         });
         this._on(this.date_span, {
@@ -141,6 +149,13 @@ $.widget('millerveincalendar.calendar_controls', {
             that._refresh();
         });
 //        calendar.ajax.calendar_ajax_post(this.form.serialize(), );
+    },
+    getDate: function(){
+        var dateM = moment(new Date(this.date_input.val()));
+        return dateM.format('YYYY-MM-DD');
+    },
+    getSite: function(){
+        return this.site_input.val();
     },
     _refresh: function() {
         this._paperworkLinkUpdate();
@@ -417,6 +432,26 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
         return this._super();
     }
 });
+$.widget('millerveincalendar.staffing_dialog', $.ui.dialog, {
+    options: {
+        autoOpen: false,
+        modal: true,
+        width: '600px'
+    },
+    open: function(){
+        var that = this;
+        console.log(calendar.controls);
+        var data = {
+            siteId:calendar.controls.calendar_controls('getSite'),
+            date:calendar.controls.calendar_controls('getDate')
+        };
+        $.get('/interface/misc/staffingTable.php',data,function(data){
+            that.element.html(data);
+        });
+        return this._super();
+    }
+    
+});
 
 $(function() {
     calendarInit = function() {
@@ -424,6 +459,7 @@ $(function() {
         calendar.controls = $('#controls').calendar_controls();
         calendar.appointment_dialog = $('#appointment-dialog').appointment_dialog();
         calendar.appointment_finder = $('#appointmentFinder-dialog').appointment_finder();
+        calendar.staffing_dialog= $('#staffing-dialog').staffing_dialog();
         $('.appt').appointment({appointment_dialog: calendar.appointment_dialog});
         $('.time:not(.read-only)').time_button({appointment_dialog: calendar.appointment_dialog});
 
