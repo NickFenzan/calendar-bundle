@@ -108,3 +108,9 @@ services:
             -
                 name: validator.constraint_validator
                 alias: category_column
+    millervein.calendar.no_past_appointments_validator:
+        class: MillerVein\CalendarBundle\Validator\NoPastAppointmentsValidator
+        tags:
+            -
+                name: validator.constraint_validator
+                alias: no_past_appointments

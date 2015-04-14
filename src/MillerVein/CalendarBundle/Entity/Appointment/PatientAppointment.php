@@ -240,17 +240,17 @@ class PatientAppointment extends Appointment {
 
 // </editor-fold>
     public function prePersist() {
-        if($this->createEncounterCondition()){
-            $this->createEncounter();
-        }
-        parent::prePersist();
+//        if($this->createEncounterCondition()){
+//            $this->createEncounter();
+//        }
+//        parent::prePersist();
     }
 
     public function preUpdate() {
-        if($this->createEncounterCondition()){
-            $this->createEncounter();
-        }
-        parent::preUpdate();
+//        if($this->createEncounterCondition()){
+//            $this->createEncounter();
+//        }
+//        parent::preUpdate();
     }
 
 }

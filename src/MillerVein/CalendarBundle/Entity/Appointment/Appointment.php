@@ -7,9 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use MillerVein\CalendarBundle\Entity\AppointmentStatus;
 use MillerVein\CalendarBundle\Entity\Category\Category;
 use MillerVein\CalendarBundle\Entity\Column;
-use MillerVein\CalendarBundle\Validator\UniqueAppointmentTime;
-use MillerVein\CalendarBundle\Validator\HoursAppointmentTime;
-use MillerVein\CalendarBundle\Validator\CategoryColumn;
+use MillerVein\CalendarBundle\Validator as MVAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,9 +19,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"patient" = "PatientAppointment", "provider" = "ProviderAppointment"})
- * @UniqueAppointmentTime()
- * @HoursAppointmentTime()
- * @CategoryColumn()
+ * @MVAssert\UniqueAppointmentTime(groups={"new"})
+ * @MVAssert\HoursAppointmentTime(groups={"new"})
+ * @MVAssert\CategoryColumn(groups={"new"})
+ * @MVAssert\NoPastAppointments()
  * @author Nick Fenzan <nickf@millervein.com>
  */
 abstract class Appointment {

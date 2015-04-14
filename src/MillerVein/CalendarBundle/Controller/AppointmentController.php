@@ -5,12 +5,10 @@ namespace MillerVein\CalendarBundle\Controller;
 use DateTime;
 use MillerVein\CalendarBundle\Entity\Appointment\PatientAppointment;
 use MillerVein\CalendarBundle\Entity\Column;
-use MillerVein\CalendarBundle\Model\Calendar;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Description of AppointmentController
@@ -50,7 +48,8 @@ class AppointmentController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $appt = new PatientAppointment();
         $form = $this->createForm('appointment_patient', $appt, [
-            'action' => $this->generateUrl('appointment_patient_new_submit')
+            'action' => $this->generateUrl('appointment_patient_new_submit'),
+            'validation_groups' => ['new'],
         ]);
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -71,7 +70,6 @@ class AppointmentController extends Controller {
      * @Route("/edit/{appt}", name="appointment_patient_edit_form", options={"expose"=true})
      */
     public function editAction(PatientAppointment $appt) {
-//        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm('appointment_patient', $appt, [
             'action' => $this->generateUrl('appointment_patient_edit_submit',["appt"=>$appt->getId()])
         ]);
@@ -85,9 +83,20 @@ class AppointmentController extends Controller {
      */
     public function editSubmitAction(Request $request, PatientAppointment $appt) {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm('appointment_patient', $appt, [
+        //We need to validate twice here to determine if we allow edits on messed up ones
+        $exisitingForm = $this->createForm('appointment_patient', $appt, [
+            'validation_groups' => ['new'],
+            'csrf_protection'   => false
+        ])->submit([],false);
+        
+        $formOptions = [
             'action' => $this->generateUrl('appointment_patient_edit_submit',["appt"=>$appt->getId()])
-        ]);
+        ];
+        if($exisitingForm->isValid()){
+            $formOptions['validation_groups'] = ['new'];
+        }
+        $form = $this->createForm('appointment_patient', $appt, $formOptions);
+        
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em->persist($appt);
@@ -103,111 +112,55 @@ class AppointmentController extends Controller {
         }
     }
         
-//        $em = $this->getDoctrine()->getManager();
-//        $classname = ucfirst($type);
-//        $form = 'appointment_' . $type;
-//        $session = $request->getSession();
-//        $fullClassName = static::CLASS_PATH . 'Appointment\\' . $classname . "Appointment";
-//        $appt = $em->find($fullClassName, $id);
-//        $column = $appt->getColumn();
-//
-//
-//        $formOptions = array();
-//        $formOptions['method'] = 'get';
-//        $formOptions['action'] = $this->generateUrl('appointment_edit_form', ['type' => $type, 'id' => $id]);
-//        $formOptions['calendar_column'] = $this->getCalendarColumn($session, $column);
-//        $formOptions['type'] = $classname;
-//
-//        $form = $this->createForm($form, $appt, $formOptions);
-//
-//        $form->handleRequest($request);
-//        if ($form->isValid()) {
-//            $em->persist($appt);
-//            $em->flush();
-//            $response = [
-//                'action' => "refreshCalendar"
-//            ];
-//            return new JsonResponse($response);
-////            return $this->redirectToRoute("calendar");
-//        } else {
-////            echo $form->getErrorsAsString();
-//            $response = [
-//                'action' => 'refreshForm',
-//                'html' => $this->renderView("MillerVeinCalendarBundle:Calendar/Appointment:edit.html.twig", ['form' => $form->createView(), 'id' => $id])
-//            ];
-//            return new JsonResponse($response);
-//        }
-
-//        return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:edit.html.twig",['form' => $form->createView(),'id'=>$id]);
-
     /**
-     * @Route("/{type}/info/{id}", name="appointment_info", options={"expose"=true}, defaults={"type" = "patient"})
+     * @Route("/info/{appt}", name="appointment_patient_info", options={"expose"=true})
      */
-    public function infoAction($type, $id) {
-        $em = $this->getDoctrine()->getManager();
-        $classname = ucfirst($type);
-        $fullClassName = static::CLASS_PATH . 'Appointment\\' . $classname . "Appointment";
-        $appt = $em->find($fullClassName, $id);
-        return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:{$type}Info.html.twig", ['appt' => $appt]);
+    public function infoAction(PatientAppointment $appt) {
+        return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:patientInfo.html.twig", ['appt' => $appt]);
     }
 
     /**
-     * @Route("/{type}/delete/{id}", name="appointment_delete", options={"expose"=true}, defaults={"type" = "patient"})
+     * @Route("/delete/{id}", name="appointment_delete", options={"expose"=true})
      */
-    public function deleteAction($type, $id) {
-        $classname = ucfirst($type);
+    public function deleteAction(PatientAppointment $appt) {
         $em = $this->getDoctrine()->getManager();
-        $fullClassName = static::CLASS_PATH . 'Appointment\\' . $classname . "Appointment";
-        $appt = $em->find($fullClassName, $id);
         $em->remove($appt);
         $em->flush();
         return $this->redirectToRoute("calendar");
     }
 
-    protected function getCalendarColumn(Session $session, Column $column) {
-        $em = $this->getDoctrine()->getManager();
-        $calendar = Calendar::getCalendarFromSession($em, $session);
-        return $calendar->getCalendarColumnByColumn($column);
-    }
-
-    protected function getSchedulingIncrement(Session $session, Column $column) {
-        $calCol = $this->getCalendarColumn($session, $column);
-        return $calCol->getHours()->getSchedulingIncrement();
-    }
-
     /**
-     * @Route("/{type}/category/columns/{id}", name="category_columns", options={"expose"=true}, defaults={"type" = "patient"})
+     * @Route("/allowed_categories/column/{column}", name="patient_allowed_categories", options={"expose"=true})
      */
-    public function columnCategoryOptions($type, $id) {
-        $classname = ucfirst($type);
+    public function columnCategoryOptions(Column $column) {
         $em = $this->getDoctrine()->getManager();
-        $fullClassName = static::CLASS_PATH . 'Category\\' . $classname . "Category";
-        /* @var $col Column */
-        $col = $em->find('MillerVeinCalendarBundle:Column', $id);
-        $allowedTags = $col->getTags();
-        $catRepo = $em->getRepository($fullClassName);
-//        $catRepo = $em->getRepository('MillerVeinCalendarBundle:Category\Category');
+        $allowedTags = $column->getTags();
+        $catRepo = $em->getRepository('MillerVeinCalendarBundle:Category\PatientCategory');
         $allowedCats = $catRepo->findAllowedByTags($allowedTags);
         return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:optionsMenu.html.twig", ['options' => $allowedCats]);
-//        return new \Symfony\Component\HttpFoundation\Response();
     }
 
     /**
-     * @Route("/category/duration/{id}", name="category_duration", options={"expose"=true})
+     * @Route("/allowed_durations", name="patient_allowed_duration", options={"expose"=true})
      */
-    public function categoryDurationAction(Request $request, $id) {
-        $em = $this->getDoctrine()->getManager();
-        $cat = $em->find('MillerVeinCalendarBundle:Category\Category', $id);
-        $column_id = $request->query->get('column');
-        $column = $em->find('MillerVeinCalendarBundle:Column', $column_id);
-        $dateRequest = $request->query->get('date');
-        $date = ($dateRequest) ? new \DateTime($dateRequest) : new \DateTime();
-        $calHours = $column->findHours($date);
-
-
+    public function categoryDurationAction(Request $request) {
+        $appt = new PatientAppointment();
+        $form = $this->createForm('appointment_patient', $appt);
+        $form->handleRequest($request);
+        
+        $category = $appt->getCategory();
+        $column = $appt->getColumn();
+        $date = $appt->getStart();
+        
+        $hours = $column->findHours($date);
+        
+//        $schedulingIncrement = $hours->getSchedulingIncrement();
+        $schedulingIncrement = 15;
+        
+        //This whole mess down here will get fixed when i introduce duration rules
         $options = array();
         $defaultSelected = false;
-        for ($i = $cat->getMinDuration(); $i <= $cat->getMaxDuration(); $i = $i + $calHours->getSchedulingIncrement()) {
+        for ($i = $category->getMinDuration(); $i <= $category->getMaxDuration(); $i = $i + $schedulingIncrement) {
             $option = array();
             $option['id'] = $i;
             $hours = floor($i / 60);
@@ -227,7 +180,7 @@ class AppointmentController extends Controller {
                 }
             }
             $option['name'] = $timeDescription;
-            if ($i == $cat->getDefaultDuration() || (!$defaultSelected && $i > $cat->getDefaultDuration())) {
+            if ($i == $category->getDefaultDuration() || (!$defaultSelected && $i > $category->getDefaultDuration())) {
                 $option['selected'] = true;
                 $defaultSelected = true;
             } else {

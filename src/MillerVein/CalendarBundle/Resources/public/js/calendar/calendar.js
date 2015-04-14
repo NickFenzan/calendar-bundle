@@ -8,8 +8,8 @@ calendar.ajax = {
         var route = Routing.generate('appointment_patient_edit_form', {appt: id});
         $.get(route, data, callback);
     },
-    appointment_info: function(type, id, callback) {
-        var route = Routing.generate('appointment_info', {type: type, id: id});
+    appointment_patient_info: function(id, callback) {
+        var route = Routing.generate('appointment_patient_info', {appt: id});
         $.get(route, callback);
     },
     appointment_finder_search: function(data, callback) {
@@ -20,13 +20,13 @@ calendar.ajax = {
         var route = Routing.generate('calendar_ajax_post');
         $.post(route, data, callback);
     },
-    category_columns: function(type, id, callback) {
-        var route = Routing.generate('category_columns',{type: type, id: id});
+    patient_allowed_categories: function(id, callback) {
+        var route = Routing.generate('patient_allowed_categories',{column: id});
         $.post(route, callback);
     },
-    category_duration: function(id, data, callback) {
-        var route = Routing.generate('category_duration',{id: id});
-        $.get(route, data, callback);
+    patient_allowed_duration: function(data, callback) {
+        var route = Routing.generate('patient_allowed_duration');
+        $.post(route, data, callback);
     }
 };
 
@@ -204,7 +204,7 @@ $.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
     _columnCategoryUpdate: function(){
         var that = this;
         if(this.column_input.val()){
-            calendar.ajax.category_columns(this.options.type,this.column_input.val(),function(data){
+            calendar.ajax.patient_allowed_categories(this.column_input.val(),function(data){
                 if(that.options.mode==='edit'){
                     var selected = that.category_input.find('option:selected');
                 }
@@ -218,18 +218,14 @@ $.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
         }
     },
     _durationUpdate: function(){
-        var data = {
-            date: this.time_input.val(),
-            column: this.column_input.val()
-        };
         var that = this;
-        calendar.ajax.category_duration(this.category_input.val(),data,function(data){
+        calendar.ajax.patient_allowed_duration(this.form.serialize(),function(data){
             if(that.options.mode==='edit'){
                     var selected = that.duration_input.find('option:selected');
                 }
                 that.duration_input.html(data);
                 if(that.options.mode==='edit' && selected){
-                    that.duration_input.find('[value="'+selected.attr('value')+'"]').remove();
+                    that.duration_input.find('[value="'+selected.attr('value')+'"]');
                     that.duration_input.prepend(selected);
                 }
         });
@@ -296,8 +292,8 @@ $.widget('millerveincalendar.appointment', {
             open: function(event, ui) {
                 var _elem = ui.tooltip;
                 var id = $(this).data('id');
-                var type = $(this).data('type');
-                calendar.ajax.appointment_info(type, id, function(data) {
+//                var type = $(this).data('type');
+                calendar.ajax.appointment_patient_info(id, function(data) {
                     _elem.find(".ui-tooltip-content").html(data);
                 });
             }
