@@ -41,6 +41,7 @@ $.widget('millerveincalendar.calendar_controls', {
     show_more: null,
     paperwork_button: null,
     staffing_button: null,
+    today_button: null,
     preop_button: null,
     secondary_controls: null,
     form: null,
@@ -55,6 +56,7 @@ $.widget('millerveincalendar.calendar_controls', {
         this.show_more = this.element.find('.show_more');
         this.paperwork_button = this.element.find('.paperwork_button');
         this.staffing_button = this.element.find('.staffing_button');
+        this.today_button = this.element.find('.today_button');
         this.preop_button = this.element.find('.preop_button');
         this.secondary_controls = this.element.find('.secondary');
         this.form = this.element.children('form');
@@ -84,6 +86,13 @@ $.widget('millerveincalendar.calendar_controls', {
             click: function(event) {
                 event.preventDefault();
                 calendar.staffing_dialog.staffing_dialog('open');
+            }
+        });
+        this._on(this.today_button, {
+            click: function(event) {
+                event.preventDefault();
+                this.changeDate(new Date());
+                this.submit();
             }
         });
         this._on(this.date_span, {

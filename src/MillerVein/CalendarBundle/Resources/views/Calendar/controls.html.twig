@@ -8,6 +8,9 @@
             {{ form_widget(controls.date, { 'attr': {'class' : 'date_input hidden' } }) }}
             <span class="date_span">{{ controls.date.vars.value | date('l n/d/Y') }}</span>
         </div>
+        <div>
+            <a href="#" class="today_button">Today</a>
+        </div>
         <div id="currentSite">
             {{ form_widget(controls.site, { 'attr': {'class' : 'site_input' } }) }}
         </div>
@@ -37,6 +40,9 @@
             </div>
             <div>
                 <button class="staffing_button">Staffing</button>
+            </div>
+            <div>
+                <a href="/calendar/test">Test</a>
             </div>
         </div>
     </div>
