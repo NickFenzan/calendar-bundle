@@ -14,7 +14,7 @@
 {#Javascripts#}
 {% block javascripts %}
     {{ parent()}}
-    {% javascripts '@MillerVeinCalendarBundle/Resources/public/js/calendar/*' %}
+    {% javascripts '@MillerVeinCalendarBundle/Resources/public/js/calendar/*' output='js/compiled/calendarV1.js'%}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
