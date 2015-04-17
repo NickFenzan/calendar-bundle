@@ -217,7 +217,7 @@ abstract class Appointment {
         return $pdo;
     }
     
-    protected function legacyInsert(){
+    public function legacyInsert(){
         
     }
     

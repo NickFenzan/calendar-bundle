@@ -133,7 +133,7 @@ class PatientAppointment extends Appointment {
 
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Legacy Database">
-    protected function legacyInsert() {
+    public function legacyInsert() {
 // <editor-fold defaultstate="collapsed" desc="Statement">
         $sql = "INSERT INTO openemr_postcalendar_events "
                 . " SET "
