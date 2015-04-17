@@ -43,7 +43,7 @@ class AppointmentFinder {
                 /* @var $column \MillerVein\CalendarBundle\Entity\Column */
                 /* @var $hours \MillerVein\CalendarBundle\Entity\Hours */
                 $hours = $column->findHours($workingDate);
-                if (!$hours) {
+                if (!$hours || !$hours->isOpen()) {
                     continue;
                 }
 
