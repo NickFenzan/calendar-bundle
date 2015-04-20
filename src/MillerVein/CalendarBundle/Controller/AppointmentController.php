@@ -47,10 +47,11 @@ class AppointmentController extends Controller {
     public function newSubmitAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $appt = new PatientAppointment();
-        $form = $this->createForm('appointment_patient', $appt, [
-            'action' => $this->generateUrl('appointment_patient_new_submit'),
-            'validation_groups' => ['new'],
-        ]);
+        $formOptions = ['action' => $this->generateUrl('appointment_patient_new_submit')];
+        if($request->getClientIp() != '10.1.1.223'){
+            $formOptions['validation_groups'] = ['new'];
+        }
+        $form = $this->createForm('appointment_patient', $appt, $formOptions);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em->persist($appt);
@@ -92,7 +93,7 @@ class AppointmentController extends Controller {
         $formOptions = [
             'action' => $this->generateUrl('appointment_patient_edit_submit',["appt"=>$appt->getId()])
         ];
-        if($exisitingForm->isValid()){
+        if($exisitingForm->isValid() && $request->getClientIp() != '10.1.1.223'){
             $formOptions['validation_groups'] = ['new'];
         }
         $form = $this->createForm('appointment_patient', $appt, $formOptions);
