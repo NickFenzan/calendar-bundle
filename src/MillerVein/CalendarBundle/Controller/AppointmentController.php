@@ -218,6 +218,6 @@ class AppointmentController extends Controller {
      * @Route("/category/duration/default/{id}", name="category_default_duration", options={"expose"=true})
      */
     public function categoryDefaultDuration(PatientCategory $category){
-        return $category->getDefaultDuration();
+        return new JsonResponse($category->getDefaultDuration());
     }
 }
