@@ -3,6 +3,7 @@
 namespace MillerVein\CalendarBundle\Controller;
 
 use DateTime;
+use MillerVein\CalendarBundle\Entity\Category\PatientCategory;
 use MillerVein\CalendarBundle\Entity\Column;
 use MillerVein\CalendarBundle\Model\Calendar;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -180,7 +181,6 @@ class AppointmentController extends Controller {
         $date = ($dateRequest) ? new \DateTime($dateRequest) : new \DateTime();
         $calHours = $column->findHours($date);
         
-        
         $options = array();
         $defaultSelected = false;
         for($i = $cat->getMinDuration();$i <= $cat->getMaxDuration();$i = $i + $calHours->getSchedulingIncrement()){
@@ -214,4 +214,10 @@ class AppointmentController extends Controller {
         return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:optionsMenu.html.twig", ['options' => $options]);
     }
 
+    /**
+     * @Route("/category/duration/default/{id}", name="category_default_duration", options={"expose"=true})
+     */
+    public function categoryDefaultDuration(PatientCategory $category){
+        return $category->getDefaultDuration();
+    }
 }

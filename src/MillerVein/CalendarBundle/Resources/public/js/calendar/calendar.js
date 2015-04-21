@@ -27,6 +27,10 @@ calendar.ajax = {
     category_duration: function(id, data, callback) {
         var route = Routing.generate('category_duration',{id: id});
         $.get(route, data, callback);
+    },
+    category_default_duration: function(id, callback) {
+        var route = Routing.generate('category_default_duration',{id: id});
+        $.get(route, callback);
     }
 };
 
@@ -365,6 +369,8 @@ $.widget('millerveincalendar.time_button', {
 $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
     results: null,
     resultsLoading: null,
+    category: null,
+    duration: null,
     form: null,
     options: {
         autoOpen: false,
@@ -378,7 +384,8 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
         this.resultsLoading = $('<div>').addClass('resultsLoading');
         this.element.append(this.resultsLoading);
         this.resultsLoading.progressbar({value: false});
-
+        this.category = this.element.find('.apptFinderCategory');
+        this.duration = this.element.find('.apptFinderDuration');
         this._on(this.element, {
             "click .result": function(event) {
                 var site = $(event.target).data('site');
@@ -409,6 +416,15 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
                     that.resultsLoading.hide();
                     console.log(data.status);
                     that.results.html(data.html);
+                });
+            }
+        });
+        this._on(this.category,{
+            change: function(){
+                var catId = this.category.val();
+                var that = this;
+                calendar.ajax.category_default_duration(catId, function(data){
+                    that.duration.val(data);
                 });
             }
         });
