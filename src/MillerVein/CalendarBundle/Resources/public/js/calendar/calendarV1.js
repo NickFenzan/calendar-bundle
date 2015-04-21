@@ -1,15 +1,15 @@
 var calendar = {};
 calendar.ajax = {
-    appointment_patient_new_form: function(data, callback) {
-        var route = Routing.generate('appointment_patient_new_form');
+    appointment_new_form: function(type, data, callback) {
+        var route = Routing.generate('appointment_new_form', {type: type});
         $.get(route, data, callback);
     },
-    appointment_patient_edit_form: function(id, callback, data) {
-        var route = Routing.generate('appointment_patient_edit_form', {appt: id});
+    appointment_edit_form: function(type, id, callback, data) {
+        var route = Routing.generate('appointment_edit_form', {type: type, id: id});
         $.get(route, data, callback);
     },
-    appointment_patient_info: function(id, callback) {
-        var route = Routing.generate('appointment_patient_info', {appt: id});
+    appointment_info: function(type, id, callback) {
+        var route = Routing.generate('appointment_info', {type: type, id: id});
         $.get(route, callback);
     },
     appointment_finder_search: function(data, callback) {
@@ -20,13 +20,17 @@ calendar.ajax = {
         var route = Routing.generate('calendar_ajax_post');
         $.post(route, data, callback);
     },
-    patient_allowed_categories: function(id, callback) {
-        var route = Routing.generate('patient_allowed_categories',{column: id});
+    category_columns: function(type, id, callback) {
+        var route = Routing.generate('category_columns',{type: type, id: id});
         $.post(route, callback);
     },
-    patient_allowed_duration: function(data, callback) {
-        var route = Routing.generate('patient_allowed_duration');
-        $.post(route, data, callback);
+    category_duration: function(id, data, callback) {
+        var route = Routing.generate('category_duration',{id: id});
+        $.get(route, data, callback);
+    },
+    category_default_duration: function(id, callback) {
+        var route = Routing.generate('category_default_duration',{id: id});
+        $.get(route, callback);
     }
 };
 
@@ -40,8 +44,6 @@ $.widget('millerveincalendar.calendar_controls', {
     show_cancelled: null,
     show_more: null,
     paperwork_button: null,
-    staffing_button: null,
-    today_button: null,
     preop_button: null,
     secondary_controls: null,
     form: null,
@@ -55,11 +57,9 @@ $.widget('millerveincalendar.calendar_controls', {
         this.show_cancelled = this.element.find('.show_cancelled');
         this.show_more = this.element.find('.show_more');
         this.paperwork_button = this.element.find('.paperwork_button');
-        this.staffing_button = this.element.find('.staffing_button');
-        this.today_button = this.element.find('.today_button');
         this.preop_button = this.element.find('.preop_button');
         this.secondary_controls = this.element.find('.secondary');
-        this.form = this.element.children('form');
+        this.form = this.element.find('form');
         this.element.find('a, button').button();
 
         this._on(this.previous_button, {
@@ -80,19 +80,6 @@ $.widget('millerveincalendar.calendar_controls', {
             click: function(event) {
                 event.preventDefault();
                 calendar.appointment_finder.appointment_finder('open');
-            }
-        });
-        this._on(this.staffing_button, {
-            click: function(event) {
-                event.preventDefault();
-                calendar.staffing_dialog.staffing_dialog('open');
-            }
-        });
-        this._on(this.today_button, {
-            click: function(event) {
-                event.preventDefault();
-                this.changeDate(new Date());
-                this.submit();
             }
         });
         this._on(this.date_span, {
@@ -141,30 +128,18 @@ $.widget('millerveincalendar.calendar_controls', {
         this.preop_button.attr('href',address);
     },
     changeDate: function(date) {
-        var dateM = moment(new Date(date));
-        this.date_span.text(dateM.format('dddd MM/DD/YYYY'));
-        this.date_input.val(dateM.format('MM/DD/YYYY'));
+        this.date_input.val(date).change();
     },
     changeSite: function(site) {
-        this.site_input.val(site);
+        this.site_input.val(site).change();
     },
     submit: function() {
-//        this.form.submit();
         var that = this;
-        $.post(this.form.prop('action'),this.form.serialize(),function(data) {
-            var calendarHTML = $(data).find('#calendar');
-            calendar.calendar.replaceWith(calendarHTML);
+        calendar.ajax.calendar_ajax_post(this.form.serialize(), function(data) {
+            calendar.calendar.replaceWith(data);
             calendarInit();
             that._refresh();
         });
-//        calendar.ajax.calendar_ajax_post(this.form.serialize(), );
-    },
-    getDate: function(){
-        var dateM = moment(new Date(this.date_input.val()));
-        return dateM.format('YYYY-MM-DD');
-    },
-    getSite: function(){
-        return this.site_input.val();
     },
     _refresh: function() {
         this._paperworkLinkUpdate();
@@ -195,10 +170,13 @@ $.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
         this._super();
     },
     _setOption: function(key, value) {
+        console.log(key + ' : ' + value);
         if (key === 'mode') {
             if (value === 'new') {
+                console.log('new');
                 this.options.appt_id = null;
             } else if (value === 'edit') {
+                console.log('edit');
                 this.options.appt_options = null;
             }
         }
@@ -210,9 +188,9 @@ $.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
     },
     _checkState: function(){
         if (this.options.mode === 'new' && this.options.appt_options !== null) {
-            calendar.ajax.appointment_patient_new_form(this.options.appt_options,$.proxy(this._redraw,this));
+            calendar.ajax.appointment_new_form(this.options.type, this.options.appt_options,$.proxy(this._redraw,this));
         } else if (this.options.mode === 'edit' && this.options.appt_id !== null) {
-            calendar.ajax.appointment_patient_edit_form(this.options.appt_id, $.proxy(this._redraw,this));
+            calendar.ajax.appointment_edit_form(this.options.type, this.options.appt_id, $.proxy(this._redraw,this));
         }
     },
     _redraw: function(data){
@@ -228,7 +206,7 @@ $.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
     _columnCategoryUpdate: function(){
         var that = this;
         if(this.column_input.val()){
-            calendar.ajax.patient_allowed_categories(this.column_input.val(),function(data){
+            calendar.ajax.category_columns(this.options.type,this.column_input.val(),function(data){
                 if(that.options.mode==='edit'){
                     var selected = that.category_input.find('option:selected');
                 }
@@ -242,14 +220,18 @@ $.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
         }
     },
     _durationUpdate: function(){
+        var data = {
+            date: this.time_input.val(),
+            column: this.column_input.val()
+        };
         var that = this;
-        calendar.ajax.patient_allowed_duration(this.form.serialize(),function(data){
+        calendar.ajax.category_duration(this.category_input.val(),data,function(data){
             if(that.options.mode==='edit'){
                     var selected = that.duration_input.find('option:selected');
                 }
                 that.duration_input.html(data);
                 if(that.options.mode==='edit' && selected){
-                    that.duration_input.find('[value="'+selected.attr('value')+'"]');
+                    that.duration_input.find('[value="'+selected.attr('value')+'"]').remove();
                     that.duration_input.prepend(selected);
                 }
         });
@@ -296,12 +278,11 @@ $.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
         });
         this._on(this.save_button,{
             "click": function(){
-                $.post(this.form.prop('action'),this.form.serialize(),$.proxy(this._redraw,this));
-//                if(this.options.mode === 'new'){
-//                    calendar.ajax.appointment_patient_new_form(this.form.serialize(),$.proxy(this._redraw,this));
-//                }else{
-//                    calendar.ajax.appointment_patient_edit_form(this.options.type,this.options.appt_id,$.proxy(this._redraw,this),this.form.serialize());
-//                }
+                if(this.options.mode === 'new'){
+                    calendar.ajax.appointment_new_form(this.options.type,this.form.serialize(),$.proxy(this._redraw,this));
+                }else{
+                    calendar.ajax.appointment_edit_form(this.options.type,this.options.appt_id,$.proxy(this._redraw,this),this.form.serialize());
+                }
             }
         })
     }
@@ -316,8 +297,8 @@ $.widget('millerveincalendar.appointment', {
             open: function(event, ui) {
                 var _elem = ui.tooltip;
                 var id = $(this).data('id');
-//                var type = $(this).data('type');
-                calendar.ajax.appointment_patient_info(id, function(data) {
+                var type = $(this).data('type');
+                calendar.ajax.appointment_info(type, id, function(data) {
                     _elem.find(".ui-tooltip-content").html(data);
                 });
             }
@@ -357,6 +338,7 @@ $.widget('millerveincalendar.appointment', {
         }
         calendar.appointment_dialog.appointment_dialog('option', options);
         calendar.appointment_dialog.appointment_dialog('open');
+//        });
     }
 });
 $.widget('millerveincalendar.time_button', {
@@ -387,6 +369,8 @@ $.widget('millerveincalendar.time_button', {
 $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
     results: null,
     resultsLoading: null,
+    category: null,
+    duration: null,
     form: null,
     options: {
         autoOpen: false,
@@ -400,29 +384,25 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
         this.resultsLoading = $('<div>').addClass('resultsLoading');
         this.element.append(this.resultsLoading);
         this.resultsLoading.progressbar({value: false});
-
+        this.category = this.element.find('.apptFinderCategory');
+        this.duration = this.element.find('.apptFinderDuration');
         this._on(this.element, {
             "click .result": function(event) {
                 var site = $(event.target).data('site');
                 var date = $(event.target).data('datetime');
-                var that = this;
-                $('body').on('initComplete',function(){
-                    that.close();
-                    var options = {
-                        mode: 'new',
-                        type: 'patient',
-                        appt_options: {
-                            datetime: $(event.target).data('datetime'),
-                            column: $(event.target).data('column')
-                        }
-                    };
-                    calendar.appointment_dialog.appointment_dialog('option', options);
-                    calendar.appointment_dialog.appointment_dialog('open');
-                    $('body').off('initComplete');
-                });
                 calendar.controls.calendar_controls('changeSite', site);
                 calendar.controls.calendar_controls('changeDate', date);
-                calendar.controls.calendar_controls('submit');
+                this.close();
+                var options = {
+                    mode: 'new',
+                    type: 'patient',
+                    appt_options: {
+                        datetime: $(event.target).data('datetime'),
+                        column: $(event.target).data('column')
+                    }
+                };
+                calendar.appointment_dialog.appointment_dialog('option', options);
+                calendar.appointment_dialog.appointment_dialog('open');
             }
         });
 
@@ -434,32 +414,22 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
                 var that = this;
                 calendar.ajax.appointment_finder_search(this.form.serialize(), function(data) {
                     that.resultsLoading.hide();
+                    console.log(data.status);
                     that.results.html(data.html);
+                });
+            }
+        });
+        this._on(this.category,{
+            change: function(){
+                var catId = this.category.val();
+                var that = this;
+                calendar.ajax.category_default_duration(catId, function(data){
+                    that.duration.val(data);
                 });
             }
         });
         return this._super();
     }
-});
-$.widget('millerveincalendar.staffing_dialog', $.ui.dialog, {
-    options: {
-        autoOpen: false,
-        modal: true,
-        width: '600px'
-    },
-    open: function(){
-        var that = this;
-        console.log(calendar.controls);
-        var data = {
-            siteId:calendar.controls.calendar_controls('getSite'),
-            date:calendar.controls.calendar_controls('getDate')
-        };
-        $.get('/interface/misc/staffingTable.php',data,function(data){
-            that.element.html(data);
-        });
-        return this._super();
-    }
-    
 });
 
 $(function() {
@@ -468,20 +438,18 @@ $(function() {
         calendar.controls = $('#controls').calendar_controls();
         calendar.appointment_dialog = $('#appointment-dialog').appointment_dialog();
         calendar.appointment_finder = $('#appointmentFinder-dialog').appointment_finder();
-        calendar.staffing_dialog= $('#staffing-dialog').staffing_dialog();
         $('.appt').appointment({appointment_dialog: calendar.appointment_dialog});
-        $('.time:not(.read-only)').time_button({appointment_dialog: calendar.appointment_dialog});
+        $('.time').time_button({appointment_dialog: calendar.appointment_dialog});
 
         var calendarColumnBodies = $(".calendar-column .column-body");
-        calendarColumnBodies.scroll( $.throttle( 150, function() {
+        calendarColumnBodies.scroll(function() {
             calendarColumnBodies.scrollTop($(this).scrollTop());
-        }));
+        });
 
         calendar.calendar.delayOn('scroll', function(event) {
             var currentScroll = calendar.calendar.scrollLeft();
             calendar.calendar.scrollLeft(Math.round(currentScroll / 600) * 600);
         }, 50);
-        $('body').trigger('initComplete');
     };
     calendarInit();
 
