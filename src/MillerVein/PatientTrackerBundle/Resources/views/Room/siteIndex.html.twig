@@ -1,0 +1,19 @@
+<ul>
+{% for room in rooms %}
+    <li>
+        {{room.name}}
+        <a  class='editRoom'
+            href="{{path('rooms_edit',{'room':room.id})}}">
+            Edit
+        </a>
+        <a  class='deleteRoom'
+            href="{{path('rooms_delete',{'room':room.id})}}">
+            Delete
+        </a>
+    </li>
+{% endfor %}
+</ul>
+<a  class='newRoom'
+    href="{{path('rooms_add',{'site':site.id})}}">
+    Add Room
+</a>

@@ -1,0 +1,54 @@
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+body{
+    background-color: whitesmoke;
+}
+.center{
+    text-align: center;
+}
+.full{
+    width:100%;
+}
+.margin-auto{
+    margin-left: auto;
+    margin-right: auto;
+}
+.hide{
+    display:none;
+}
+.room-header{
+    background-color: #8497bf;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    padding:5px;
+    height: 30px;
+}
+.room{
+    background-color: white;
+    float: left;
+    height:300px;
+    width:300px;
+    border:1px solid grey;
+    border-radius: 5px;
+    margin:5px;
+    overflow-y: auto;
+}
+.room ul{
+    list-style: none;
+    padding:5px;
+    margin:0;
+    height:calc(100% - 30px);
+}
+.room li{
+    margin-bottom: 10px;
+}
+#LobbyDiv{
+    height:610px;
+}

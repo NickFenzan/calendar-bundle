@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new MillerVein\CalendarBundle\MillerVeinCalendarBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new MillerVein\EMRBundle\MillerVeinEMRBundle(),
+            new MillerVein\PatientTrackerBundle\MillerVeinPatientTrackerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

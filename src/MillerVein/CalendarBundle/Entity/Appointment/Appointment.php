@@ -181,7 +181,7 @@ abstract class Appointment {
 //        $this->legacyUpdate();
     }
 
-
+    
     /**
      * @ORM\PreRemove
      */

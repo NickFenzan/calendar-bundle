@@ -1,3 +1,8 @@
+miller_vein_patient_tracker:
+    resource: "@MillerVeinPatientTrackerBundle/Controller/"
+    type:     annotation
+    prefix:   /patient_tracker
+
 miller_vein_calendar:
     resource: "@MillerVeinCalendarBundle/Controller/"
     type:     annotation

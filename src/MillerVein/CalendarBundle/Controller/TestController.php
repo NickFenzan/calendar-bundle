@@ -6,11 +6,13 @@ use DateTime;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Exception;
 use MillerVein\CalendarBundle\Entity\Appointment\PatientAppointment;
-use MillerVein\CalendarBundle\Model\AppointmentFinder;
-use MillerVein\CalendarBundle\Model\AppointmentFinderRequest;
+use MillerVein\CalendarBundle\Session\LegacySessionStorage;
+use MillerVein\CalendarBundle\Session\RootAttributeBag;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Description of TestController
@@ -18,6 +20,59 @@ use Symfony\Component\HttpFoundation\Response;
  * @author Nick Fenzan <nickf@millervein.com>
  */
 class TestController extends Controller {
+    /**
+     * @Route("/fix", name="fix_stuff", options={"expose"=true})
+     */
+    public function fixAction(){
+        $em = $this->getDoctrine()->getManager();
+        $q = $em->createQuery(
+                'SELECT  a '
+                . ' FROM MillerVeinCalendarBundle:Appointment\PatientAppointment a '
+                . ' WHERE a.id > 74336'
+                );
+        $results = $q->getResult();
+        foreach($results as $result){
+            echo $result->getId()."<br>";
+            $result->legacyInsert();
+        }
+        return new \Symfony\Component\HttpFoundation\Response();
+    }
+    
+    /**
+     * @Route("/test")
+     */
+    public function theAction(Request $request){
+//        session_start();
+        echo "<HR>";
+        $sessionStorage = new LegacySessionStorage();
+        $session = new Session($sessionStorage);
+
+        // before: $_SESSION['attribute']
+        $legacyBag = new RootAttributeBag('attribute');
+        $legacyBag->setName('legacy');
+
+        // after: $session->getBag('legacy')->get()
+        $session->registerBag($legacyBag);
+        
+//        echo session_id();
+//        $sessionHandler = new NativeSessionHandler();
+//        $sessionHandler->open('/var/php/session', session_id());
+//        echo $sessionHandler->read(session_id());
+//        $session = $request->getSession();
+//        $session = new Session();
+//        $session = new Session(new PhpBridgeSessionStorage());
+        $session->start();
+        $session->migrate();
+        echo $session->get('legacy');
+        print_r($_SESSION);
+//        $session->migrate();
+//        $session->save();
+        foreach($session->all() as $key=>$something){
+            echo $key.'<br>';
+        }
+//        echo $session->get('calendar_request_date')->format('Y-m-d');
+        return new Response();
+    }
 
     /**
      * @Route("/test/1")

@@ -1,0 +1,24 @@
+{% extends "MillerVeinPatientTrackerBundle::base.html.twig" %}
+{#Title#}
+{% block title %}Rooms{% endblock %}
+
+{#Body#}
+{% block body %}
+    <h2>Rooms</h2>
+    {{form(site_form, {'attr': {'id': 'site_form'}})}}
+    <div id="Rooms">
+
+    </div>
+    <div id='roomsDialog'>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    {% javascripts 
+    '@MillerVeinPatientTrackerBundle/Resources/public/js/admin/room/*'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

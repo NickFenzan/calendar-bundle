@@ -1,0 +1,215 @@
+#calendar {
+  display: inline-flex;
+  overflow-x: auto;
+  white-space: nowrap; }
+  @media (max-width: 600px) {
+    #calendar .calendar-column {
+      min-width: 600px; } }
+  #calendar .calendar-column {
+    flex: 1 0 0;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid grey; }
+    #calendar .calendar-column .column-header {
+      /*flex: 0 1 0;*/
+      text-align: center;
+      font-weight: bold;
+      padding: 5px;
+      border-bottom: 1px solid grey;
+      background-color: #8ca3d2;
+      color: white;
+      height: 2em; }
+    #calendar .calendar-column .column-body {
+      flex: 1 0 0;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto; }
+      #calendar .calendar-column .column-body .timeslot {
+        width: 100%;
+        display: flex;
+        flex: 1 0 2em;
+        /*border-bottom:1px solid grey;*/ }
+        #calendar .calendar-column .column-body .timeslot .time {
+          padding: 5px;
+          border-right: 1px solid grey;
+          cursor: pointer;
+          width: 65px;
+          text-align: center;
+          min-height: 2em;
+          height: 100%; }
+        #calendar .calendar-column .column-body .timeslot .time:hover {
+          font-weight: bold; }
+        #calendar .calendar-column .column-body .timeslot .appts {
+          flex: 1 1 0;
+          display: flex;
+          min-height: 2em;
+          height: 100%; }
+          #calendar .calendar-column .column-body .timeslot .appts .appointment-hover {
+            cursor: pointer;
+            font-weight: bold; }
+          #calendar .calendar-column .column-body .timeslot .appts .appt {
+            flex: 1 0 0;
+            background-color: white;
+            padding: 5px;
+            border-left: 1px solid grey;
+            border-right: 1px solid grey;
+            height: 100%;
+            min-height: 2em; }
+            #calendar .calendar-column .column-body .timeslot .appts .appt a {
+              text-decoration: none;
+              color: black; }
+          #calendar .calendar-column .column-body .timeslot .appts .appt-firstSlot {
+            border-top: 1px solid grey; }
+          #calendar .calendar-column .column-body .timeslot .appts .appt-lastSlot {
+            border-bottom: 1px solid grey; }
+        #calendar .calendar-column .column-body .timeslot .hasAppointments {
+          border-bottom: none; }
+      #calendar .calendar-column .column-body .timeslot.read-only .time {
+        cursor: default;
+        background-color: lightgrey; }
+      #calendar .calendar-column .column-body .timeslot.read-only .time:hover {
+        font-weight: normal; }
+      #calendar .calendar-column .column-body .timeslot.read-only .appts {
+        background-color: grey; }
+      #calendar .calendar-column .column-body .timeslot.lunch .appts {
+        background-color: grey; }
+  #calendar .calendar-column:last-of-type {
+    border-right: none; }
+
+#appointment-dialog .appt_form textarea, #appointment-dialog .appt_form input, #appointment-dialog .appt_form select {
+  width: 100%; }
+#appointment-dialog .appt_form a, #appointment-dialog .appt_form button {
+  font-size: .75em; }
+#appointment-dialog .appt_form .buttons {
+  margin-top: 7px;
+  text-align: center; }
+
+.apptInfo tr td:first-of-type {
+  font-weight: bold;
+  padding: 2px; }
+
+/*# sourceMappingURL=calendar.css.map */
+
+{
+"version": 3,
+"mappings": "AACA,SAAS;EACL,OAAO,EAAE,WAAW;EACpB,UAAU,EAAE,IAAI;EAChB,WAAW,EAAE,MAAM;EAEnB,yBAA0B;IACtB,0BAAgB;MACZ,SAAS,EAAC,KAAK;EAIvB,0BAAgB;IACZ,IAAI,EAAE,KAAK;IACX,OAAO,EAAE,IAAI;IACb,cAAc,EAAE,MAAM;IACtB,YAAY,EAAC,cAAc;IAE3B,yCAAc;;MAEV,UAAU,EAAE,MAAM;MAClB,WAAW,EAAE,IAAI;MACjB,OAAO,EAAC,GAAG;MACX,aAAa,EAAE,cAAc;MAC7B,gBAAgB,EAAE,OAAO;MACzB,KAAK,EAAE,KAAK;MACZ,MAAM,EAAE,GAAG;IAGf,uCAAY;MACR,IAAI,EAAE,KAAK;MACX,OAAO,EAAE,IAAI;MACb,cAAc,EAAE,MAAM;MACtB,UAAU,EAAE,IAAI;MAEhB,iDAAS;QACL,KAAK,EAAC,IAAI;QACV,OAAO,EAAC,IAAI;QACZ,IAAI,EAAE,OAAO;;QAGb,uDAAK;UACD,OAAO,EAAC,GAAG;UACX,YAAY,EAAC,cAAc;UAC3B,MAAM,EAAE,OAAO;UACf,KAAK,EAAE,IAAI;UACX,UAAU,EAAE,MAAM;UAClB,UAAU,EAAE,GAAG;UACf,MAAM,EAAE,IAAI;QAEhB,6DAAW;UACP,WAAW,EAAE,IAAI;QAGrB,wDAAM;UACF,IAAI,EAAE,KAAK;UACX,OAAO,EAAE,IAAI;UACb,UAAU,EAAE,GAAG;UACf,MAAM,EAAE,IAAI;UAEZ,2EAAkB;YACd,MAAM,EAAC,OAAO;YACd,WAAW,EAAE,IAAI;UAGrB,8DAAK;YACD,IAAI,EAAE,KAAK;YACX,gBAAgB,EAAE,KAAK;YACvB,OAAO,EAAE,GAAG;YACZ,WAAW,EAAE,cAAc;YAC3B,YAAY,EAAE,cAAc;YAC5B,MAAM,EAAE,IAAI;YACZ,UAAU,EAAE,GAAG;YAEf,gEAAC;cACG,eAAe,EAAE,IAAI;cACrB,KAAK,EAAE,KAAK;UAGpB,wEAAe;YACX,UAAU,EAAE,cAAc;UAE9B,uEAAc;YACV,aAAa,EAAE,cAAc;QAGrC,kEAAgB;UACZ,aAAa,EAAC,IAAI;MAIrB,iEAAK;QACF,MAAM,EAAE,OAAO;QACf,gBAAgB,EAAE,SAAS;MAE/B,uEAAW;QACP,WAAW,EAAE,MAAM;MAEvB,kEAAM;QACF,gBAAgB,EAAE,IAAI;MAK1B,8DAAM;QACF,gBAAgB,EAAE,IAAI;EAKtC,uCAA6B;IACzB,YAAY,EAAE,IAAI;;AAKtB,oHAAqB;EACjB,KAAK,EAAE,IAAI;AAEf,uEAAS;EACL,SAAS,EAAE,KAAK;AAEpB,uCAAQ;EACJ,UAAU,EAAE,GAAG;EACf,UAAU,EAAE,MAAM;;AAMlB,6BAAgB;EACZ,WAAW,EAAE,IAAI;EACjB,OAAO,EAAE,GAAG",
+"sources": ["../../../scss/calendar/calendar.scss"],
+"names": [],
+"file": "calendar.css"
+}
+
+{
+"version": 3,
+"mappings": "",
+"sources": [],
+"names": [],
+"file": "column.css"
+}
+
+#controls form {
+  /*display: flex;*/ }
+  #controls form .primary, #controls form .secondary {
+    display: flex; }
+    #controls form .primary div, #controls form .secondary div {
+      text-align: center;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+  #controls form .secondary {
+    margin-top: 10px;
+    display: none;
+    /*height:500px;*/ }
+    #controls form .secondary .options {
+      display: flex;
+      margin: 5px; }
+    #controls form .secondary .buttons {
+      display: flex;
+      margin: 5px; }
+#controls button, #controls a {
+  font-size: .75em; }
+
+#appointmentFinder-dialog .hasDatepicker {
+  width: 100px; }
+#appointmentFinder-dialog .buttons {
+  font-size: .75em;
+  text-align: center;
+  margin-top: 5px; }
+#appointmentFinder-dialog .form div:nth-of-type(odd) {
+  margin-top: 7px; }
+#appointmentFinder-dialog .form div:first-of-type {
+  margin-top: 0; }
+#appointmentFinder-dialog .resultsLoading {
+  display: none;
+  margin-top: 30px;
+  margin-bottom: 30px; }
+
+/*# sourceMappingURL=controls.css.map */
+
+{
+"version": 3,
+"mappings": "AACI,cAAI;;EAEA,kDAAoB;IAChB,OAAO,EAAE,IAAI;IACb,0DAAG;MACC,UAAU,EAAE,MAAM;MAClB,IAAI,EAAE,QAAQ;MACd,OAAO,EAAE,IAAI;MACb,eAAe,EAAE,MAAM;MACvB,WAAW,EAAE,MAAM;EAG3B,yBAAU;IACN,UAAU,EAAE,IAAI;IAChB,OAAO,EAAE,IAAI;;IACb,kCAAQ;MACJ,OAAO,EAAE,IAAI;MACb,MAAM,EAAE,GAAG;IAEf,kCAAQ;MACJ,OAAO,EAAE,IAAI;MACb,MAAM,EAAE,GAAG;AAKvB,6BAAQ;EACJ,SAAS,EAAE,KAAK;;AAKpB,wCAAc;EACV,KAAK,EAAE,KAAK;AAEhB,kCAAQ;EACJ,SAAS,EAAE,KAAK;EAChB,UAAU,EAAE,MAAM;EAClB,UAAU,EAAE,GAAG;AAGf,oDAAoB;EAChB,UAAU,EAAC,GAAG;AAElB,iDAAiB;EACb,UAAU,EAAC,CAAC;AAGpB,yCAAe;EACX,OAAO,EAAE,IAAI;EACb,UAAU,EAAC,IAAI;EACf,aAAa,EAAC,IAAI",
+"sources": ["../../../scss/calendar/controls.scss"],
+"names": [],
+"file": "controls.css"
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  /*overflow: hidden;*/ }
+
+.width-25 {
+  width: 25%; }
+
+.width-33 {
+  width: 33.33333%; }
+
+.width-50 {
+  width: 50%; }
+
+.width-100 {
+  width: 100%; }
+
+#topLevelFlex {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%; }
+
+#controls {
+  width: 100%;
+  padding: 5px;
+  background-color: #565656;
+  color: white;
+  /*box-shadow: 0px 1px 3px grey;*/ }
+
+#calendar {
+  flex: 1 0 0; }
+
+/*# sourceMappingURL=layout.css.map */
+
+{
+"version": 3,
+"mappings": "AAAA,UAAU;EACN,MAAM,EAAE,CAAC;EACT,OAAO,EAAC,CAAC;EACT,MAAM,EAAC,IAAI;EACX,KAAK,EAAC,IAAI;;;AAId,SAAS;EAAC,KAAK,EAAE,GAAY;;AAC7B,SAAS;EAAC,KAAK,EAAE,SAAY;;AAC7B,SAAS;EAAC,KAAK,EAAE,GAAY;;AAC7B,UAAU;EAAC,KAAK,EAAE,IAAY;;AAE9B,aAAa;EACT,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;EACtB,MAAM,EAAC,IAAI;EACX,KAAK,EAAC,IAAI;;AAEd,SAAS;EACL,KAAK,EAAC,IAAI;EACV,OAAO,EAAE,GAAG;EACZ,gBAAgB,EAAE,OAAO;EACzB,KAAK,EAAE,KAAK;;;AAGhB,SAAS;EACL,IAAI,EAAE,KAAK",
+"sources": ["../../../scss/calendar/layout.scss"],
+"names": [],
+"file": "layout.css"
+}
+
+/*@import "main.scss";
+@import "calendar/layout.scss";
+@import "calendar/controls.scss";
+@import "calendar/calendar.scss";*/
+
+/*# sourceMappingURL=master.css.map */
+
+{
+"version": 3,
+"mappings": "",
+"sources": [],
+"names": [],
+"file": "master.css"
+}

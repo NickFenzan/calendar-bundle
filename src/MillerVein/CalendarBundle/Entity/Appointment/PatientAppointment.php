@@ -36,8 +36,15 @@ class PatientAppointment extends Appointment {
      * @var string
      * @ORM\Column(length=10)
      */
-    protected $leg; // </editor-fold>
+    protected $leg;
 
+    /**
+     * This gets set on appointments that created a new encounter.
+     * This is so that later on doctrine listeners can know.
+     */
+    protected $creatingAnEncounterFlag = false;
+
+// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Getters">
 
     public function getType() {
@@ -66,9 +73,7 @@ class PatientAppointment extends Appointment {
 // <editor-fold defaultstate="collapsed" desc="Encounter Creation">
     protected function createEncounterCondition() {
         return (
-                null === $this->encounter_id
-                && $this->start->format('Y-m-d') === date('Y-m-d') 
-                && $this->status->isAutoCreateEncounter()
+                (null === $this->encounter_id && $this->start->format('Y-m-d') === date('Y-m-d') && $this->status->isAutoCreateEncounter()) || $this->creatingAnEncounterFlag
                 ) ? true : false;
     }
 
@@ -111,6 +116,7 @@ class PatientAppointment extends Appointment {
         }
         if($commit){
             $this->encounter_id = $encounterNumber;
+            $this->creatingAnEncounterFlag = true;
         }
     }
 

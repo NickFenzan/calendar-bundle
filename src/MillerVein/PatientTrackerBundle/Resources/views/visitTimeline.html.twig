@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Visit Timeline</title>
+        <meta charset="utf-8">
+        <script src="/library/js/jquery/current.js"></script>
+        <script src="/library/js/jqueryui/current.js"></script>
+        <link type="text/css" rel="stylesheet" href="/library/css/jqueryui/default.css">
+        <style>
+            html {
+                box-sizing: border-box;
+            }
+            *, *:before, *:after {
+                box-sizing: inherit;
+            }
+            body{
+                background-color: whitesmoke;
+            }
+            .center{
+                text-align: center;
+            }
+            .full{
+                width:100%;
+            }
+            .margin-auto{
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hide{
+                display:none;
+            }
+            .room-header{
+                background-color: #8497bf;
+                color: white;
+                text-align: center;
+                font-weight: bold;
+                border-top-right-radius: 5px;
+                border-top-left-radius: 5px;
+                padding:5px;
+                height: 30px;
+            }
+            .room{
+                background-color: white;
+                float: left;
+                height:300px;
+                width:300px;
+                border:1px solid grey;
+                border-radius: 5px;
+                margin:5px;
+                overflow-y: auto;
+            }
+            .room ul{
+                list-style: none;
+                padding:5px;
+                margin:0;
+                height:calc(100% - 30px);
+            }
+            .room li{
+                margin-bottom: 10px;
+            }
+            #LobbyDiv{
+                height:610px;
+            }
+            #visitTimeline{
+                background-color: white;
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            #visitTimeline td{
+                padding: 5px;
+            }
+            #visitTimeline th{
+                background-color: #8497bf;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <h2 class="center">{{Appointment.Date}} - {{ Appointment.Patient.FnameLname }}</h2>
+        <table id="visitTimeline" class="margin-auto">
+            <tr>
+                <th>Time</th>
+                <th>Room</th>
+                <th>Time in Room</th>
+            </tr>
+            {% for Step in Visit.Steps %}
+            <tr>
+                <td>
+                    {{ Step.Timestamp | date("g:i a") }}
+                </td>
+                <td>
+                    {{ Step.Room }}
+                </td>
+                <td>
+                    {{ Step.TimeUntilNextStep }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
