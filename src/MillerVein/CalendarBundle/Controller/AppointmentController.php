@@ -191,5 +191,11 @@ class AppointmentController extends Controller {
         }
         return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:optionsMenu.html.twig", ['options' => $options]);
     }
-
+    
+    /**
+     * @Route("/category/duration/default/{id}", name="category_default_duration", options={"expose"=true})
+     */
+    public function categoryDefaultDuration(PatientCategory $category){
+        return new JsonResponse($category->getDefaultDuration());
+    }
 }
