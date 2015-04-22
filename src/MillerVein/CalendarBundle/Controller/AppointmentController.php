@@ -4,6 +4,7 @@ namespace MillerVein\CalendarBundle\Controller;
 
 use DateTime;
 use MillerVein\CalendarBundle\Entity\Appointment\PatientAppointment;
+use MillerVein\CalendarBundle\Entity\Category\PatientCategory;
 use MillerVein\CalendarBundle\Entity\Column;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
