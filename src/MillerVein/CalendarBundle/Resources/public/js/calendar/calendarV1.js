@@ -446,15 +446,19 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
             }
         });
         this._on(this.category,{
-            change: function(){
-                var catId = this.category.val();
-                var that = this;
-                calendar.ajax.category_default_duration(catId, function(data){
-                    that.duration.val(data);
-                });
-            }
+            change: this.refreshDefaultDuration
         });
+        
+        this.refreshDefaultDuration();
+        
         return this._super();
+    },
+    refreshDefaultDuration: function(){
+        var catId = this.category.val();
+        var that = this;
+        calendar.ajax.category_default_duration(catId, function(data){
+            that.duration.val(data);
+        });
     }
 });
 $.widget('millerveincalendar.staffing_dialog', $.ui.dialog, {
