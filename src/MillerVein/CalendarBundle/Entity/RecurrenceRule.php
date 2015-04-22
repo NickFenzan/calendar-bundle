@@ -170,7 +170,7 @@ class RecurrenceRule extends EluceoRecurranceRule {
         }
         $array = split(",", $this->byMonth);
         foreach ($array as $val) {
-            if ($val < 1 || $val > 12 || !is_int($val)) {
+            if ($val < 1 || $val > 12 || !is_numeric($val)) {
                 return false;
             }
         }
