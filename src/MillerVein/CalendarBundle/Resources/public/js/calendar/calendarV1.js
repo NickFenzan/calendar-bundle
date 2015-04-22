@@ -27,6 +27,10 @@ calendar.ajax = {
     patient_allowed_duration: function(data, callback) {
         var route = Routing.generate('patient_allowed_duration');
         $.post(route, data, callback);
+    },
+    category_default_duration: function(id, callback) {
+        var route = Routing.generate('category_default_duration',{id: id});
+        $.get(route, callback);
     }
 };
 
@@ -55,7 +59,7 @@ $.widget('millerveincalendar.calendar_controls', {
         this.show_cancelled = this.element.find('.show_cancelled');
         this.show_more = this.element.find('.show_more');
         this.paperwork_button = this.element.find('.paperwork_button');
-        this.staffing_button = this.element.find('.staffing_button');
+                this.staffing_button = this.element.find('.staffing_button');
         this.today_button = this.element.find('.today_button');
         this.preop_button = this.element.find('.preop_button');
         this.secondary_controls = this.element.find('.secondary');
@@ -302,7 +306,7 @@ $.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
 //                }else{
 //                    calendar.ajax.appointment_patient_edit_form(this.options.type,this.options.appt_id,$.proxy(this._redraw,this),this.form.serialize());
 //                }
-            }
+                }
         })
     }
 });
@@ -387,6 +391,8 @@ $.widget('millerveincalendar.time_button', {
 $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
     results: null,
     resultsLoading: null,
+    category: null,
+    duration: null,
     form: null,
     options: {
         autoOpen: false,
@@ -400,7 +406,8 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
         this.resultsLoading = $('<div>').addClass('resultsLoading');
         this.element.append(this.resultsLoading);
         this.resultsLoading.progressbar({value: false});
-
+        this.category = this.element.find('.apptFinderCategory');
+        this.duration = this.element.find('.apptFinderDuration');
         this._on(this.element, {
             "click .result": function(event) {
                 var site = $(event.target).data('site');
@@ -408,16 +415,16 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
                 var that = this;
                 $('body').on('initComplete',function(){
                     that.close();
-                    var options = {
-                        mode: 'new',
-                        type: 'patient',
-                        appt_options: {
-                            datetime: $(event.target).data('datetime'),
-                            column: $(event.target).data('column')
-                        }
-                    };
-                    calendar.appointment_dialog.appointment_dialog('option', options);
-                    calendar.appointment_dialog.appointment_dialog('open');
+                var options = {
+                    mode: 'new',
+                    type: 'patient',
+                    appt_options: {
+                        datetime: $(event.target).data('datetime'),
+                        column: $(event.target).data('column')
+                    }
+                };
+                calendar.appointment_dialog.appointment_dialog('option', options);
+                calendar.appointment_dialog.appointment_dialog('open');
                     $('body').off('initComplete');
                 });
                 calendar.controls.calendar_controls('changeSite', site);
@@ -435,6 +442,15 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
                 calendar.ajax.appointment_finder_search(this.form.serialize(), function(data) {
                     that.resultsLoading.hide();
                     that.results.html(data.html);
+                });
+            }
+        });
+        this._on(this.category,{
+            change: function(){
+                var catId = this.category.val();
+                var that = this;
+                calendar.ajax.category_default_duration(catId, function(data){
+                    that.duration.val(data);
                 });
             }
         });
@@ -459,7 +475,7 @@ $.widget('millerveincalendar.staffing_dialog', $.ui.dialog, {
         });
         return this._super();
     }
-    
+
 });
 
 $(function() {
