@@ -58,7 +58,6 @@ class Hours {
     /**
      * Office opening time
      * @var DateTime
-     * @Assert\Time() 
      * @ORM\Column(type="time", nullable=true)
      */
     protected $open_time;
@@ -66,7 +65,6 @@ class Hours {
     /**
      * Office closing time
      * @var DateTime 
-     * @Assert\Time()
      * @ORM\Column(type="time", nullable=true)
      */
     protected $close_time;
@@ -74,7 +72,6 @@ class Hours {
     /**
      * Lunch start
      * @var DateTime
-     * @Assert\Time() 
      * @ORM\Column(type="time", nullable=true)
      */
     protected $lunch_start;
@@ -82,7 +79,6 @@ class Hours {
     /**
      * Lunch end
      * @var DateTime 
-     * @Assert\Time()
      * @ORM\Column(type="time", nullable=true)
      */
     protected $lunch_end;
