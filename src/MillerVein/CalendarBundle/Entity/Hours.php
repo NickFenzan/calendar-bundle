@@ -171,19 +171,19 @@ class Hours {
         $this->end_date = $end_date;
     }
 
-    public function setOpenTime(DateTime $open_time) {
+    public function setOpenTime(DateTime $open_time = null) {
         $this->open_time = $open_time;
     }
 
-    public function setCloseTime(DateTime $close_time) {
+    public function setCloseTime(DateTime $close_time = null) {
         $this->close_time = $close_time;
     }
     
-    public function setLunchStart(DateTime $lunch_start) {
+    public function setLunchStart(DateTime $lunch_start = null) {
         $this->lunch_start = $lunch_start;
     }
 
-    public function setLunchEnd(DateTime $lunch_end) {
+    public function setLunchEnd(DateTime $lunch_end = null) {
         $this->lunch_end = $lunch_end;
     }
 
