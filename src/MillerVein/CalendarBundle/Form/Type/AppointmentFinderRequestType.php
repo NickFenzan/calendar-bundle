@@ -18,7 +18,7 @@ class AppointmentFinderRequestType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $today = new DateTime();
         $nextMonth = clone $today;
-        $nextMonth->add(new DateInterval('P1M'));
+        $nextMonth->add(new DateInterval('P1Y'));
         $builder
                 ->add('category', 'entity', [
                     'class' => 'MillerVeinCalendarBundle:Category\PatientCategory',
