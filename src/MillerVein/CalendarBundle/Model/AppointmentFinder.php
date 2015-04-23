@@ -86,6 +86,9 @@ class AppointmentFinder {
     }
 
     protected function loopTimes(DateTime $start, DateTime $end, Hours $hours, Column $column) {
+        if (count($this->results) >= static::RESULT_LIMIT) {
+            return;
+        }
         $appointmentInterval = $this->getRequestedInterval();
         for ($currentTime = clone $start; $currentTime < $end; $currentTime->add($hours->getSchedulingInterval())) {
             $requestedEndTime = clone $currentTime;
