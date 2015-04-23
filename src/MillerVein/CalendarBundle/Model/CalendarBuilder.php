@@ -37,6 +37,8 @@ class CalendarBuilder {
 
         $earliestTime = (!$fragments->isEmpty()) ? DateTimeUtility::moveTimeToDate($date, $fragments->earliestTime()) : null;
         $latestTime = (!$fragments->isEmpty()) ? DateTimeUtility::moveTimeToDate($date, $fragments->latestTime()) : null;
+        $smallestIncrement = null;
+        
         if($latestTime){
             //We have to add one step to this because we want to use it as an outer limit.
             $latestTime->add($interval);
@@ -54,6 +56,9 @@ class CalendarBuilder {
                 if ($closeTime > $latestTime) {
                     $latestTime = $closeTime;
                 }
+                if ($smallestIncrement == null || $smallestIncrement > $hours->getSchedulingInterval()){
+                    $smallestIncrement = $hours->getSchedulingInterval();
+                }
             }
         }
 
@@ -63,25 +68,26 @@ class CalendarBuilder {
             /* @var $column Column */
             $hours = $column->findHours($date);
             if ($hours && $hours->isOpen()) {
+                $interval = $hours->getSchedulingInterval();
                 $openTime = DateTimeUtility::moveTimeToDate($date, $hours->getOpenTime());
                 $closeTime = DateTimeUtility::moveTimeToDate($date, $hours->getCloseTime());
                 if ($earliestTime !== null && $earliestTime < $openTime) {
-                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $earliestTime, $openTime, $interval, true);
+                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $earliestTime, $openTime, $smallestIncrement, $interval, true);
                 }
                 if ($hours->hasLunch()) {
                     $lunchStart = DateTimeUtility::moveTimeToDate($date, $hours->getLunchStart());
                     $lunchEnd = DateTimeUtility::moveTimeToDate($date, $hours->getLunchEnd());
-                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $openTime, $lunchStart, $interval);
-                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $lunchStart, $lunchEnd, $interval, true, 'Lunch');
-                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $lunchEnd, $closeTime, $interval);
+                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $openTime, $lunchStart, $smallestIncrement, $interval);
+                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $lunchStart, $lunchEnd, $smallestIncrement, $interval, true, 'Lunch');
+                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $lunchEnd, $closeTime, $smallestIncrement, $interval);
                 } else {
-                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $openTime, $closeTime, $interval);
+                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $openTime, $closeTime, $smallestIncrement, $interval);
                 }
                 if ($closeTime !== null && $closeTime < $latestTime) {
-                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $closeTime, $latestTime, $interval, true);
+                    TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $closeTime, $latestTime, $smallestIncrement, $interval, true);
                 }
             } elseif ($fragments->hasColumn($column)) {
-                TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $earliestTime, $latestTime, $interval, true);
+                TimeSlotCollectionFactory::addTimeSlots($timeSlotCollection, $column, $earliestTime, $latestTime, $smallestIncrement, $interval, true);
             } else {
                 continue;
             }
