@@ -50,10 +50,10 @@ class CalendarBuilder {
             if ($hours && $hours->isOpen()) {
                 $openTime = DateTimeUtility::moveTimeToDate($date, $hours->getOpenTime());
                 $closeTime = DateTimeUtility::moveTimeToDate($date, $hours->getCloseTime());
-                if ($openTime < $earliestTime) {
+                if ($openTime < $earliestTime || $earliestTime == null) {
                     $earliestTime = $openTime;
                 }
-                if ($closeTime > $latestTime) {
+                if ($closeTime > $latestTime || $latestTime == null) {
                     $latestTime = $closeTime;
                 }
                 if ($smallestIncrement == null || $smallestIncrement > $hours->getSchedulingInterval()){
