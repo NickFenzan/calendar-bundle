@@ -35,6 +35,15 @@ abstract class DefaultController extends Controller {
         return $this->formAction($request,$id);
     }
     
+    public function deleteAction($id, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $fullClassName = static::ENTITY_PATH . static::CLASS_NAME;
+        $entity = $em->find($fullClassName, $id);
+        $em->remove($entity);
+        $em->flush();
+        return new \Symfony\Component\HttpFoundation\Response('Success');
+    }
+    
 
     protected function formAction(Request $request, $id = null) {
         $fullClassName = static::ENTITY_PATH . static::CLASS_NAME;
