@@ -71,7 +71,7 @@ class PatientAppointment extends Appointment {
 
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Encounter Creation">
-    protected function createEncounterCondition() {
+    public function createEncounterCondition() {
         return (
                 (null === $this->encounter_id && $this->start->format('Y-m-d') === date('Y-m-d') && $this->status->isAutoCreateEncounter()) || $this->creatingAnEncounterFlag
                 ) ? true : false;
