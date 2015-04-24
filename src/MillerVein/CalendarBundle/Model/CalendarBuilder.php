@@ -67,6 +67,7 @@ class CalendarBuilder {
             $timeSlotCollection = new TimeSlotCollection();
             /* @var $column Column */
             $hours = $column->findHours($date);
+            $columnView->setHours($hours);
             if ($hours && $hours->isOpen()) {
                 $interval = $hours->getSchedulingInterval();
                 $openTime = DateTimeUtility::moveTimeToDate($date, $hours->getOpenTime());

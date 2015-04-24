@@ -3,6 +3,7 @@
 namespace MillerVein\CalendarBundle\Model;
 
 use MillerVein\CalendarBundle\Entity\Column;
+use MillerVein\CalendarBundle\Entity\Hours;
 use MillerVein\CalendarBundle\Model\Collections\TimeSlotCollection;
 
 /**
@@ -20,6 +21,10 @@ class ColumnView {
      */
     protected $column;
     /**
+     * @var Column
+     */
+    protected $hours;
+    /**
      * @var TimeSlotCollection
      */
     protected $time_slot_collection;
@@ -35,6 +40,14 @@ class ColumnView {
     
     public function setLabel($label){
         $this->label = $label;
+    }
+    
+    public function getHours(){
+        return $this->hours;
+    }
+    
+    public function setHours(Hours $hours = null){
+        $this->hours = $hours;
     }
     
     public function setTimeSlotCollection(TimeSlotCollection $time_slot_collection) {

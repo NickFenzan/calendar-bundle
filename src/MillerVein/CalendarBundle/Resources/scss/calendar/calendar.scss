@@ -21,6 +21,15 @@ $apptMargin: 0px;
             text-align: center;
             font-weight: bold;
             padding:5px;
+            /*border-bottom: 1px solid grey;*/
+            background-color: #8ca3d2;
+            color: white;
+            height: 2em;
+        }
+        .column-hours{
+            /*flex: 0 1 0;*/
+            text-align: center;
+            padding:5px;
             border-bottom: 1px solid grey;
             background-color: #8ca3d2;
             color: white;
