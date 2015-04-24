@@ -18,15 +18,15 @@ class PatientAppointmentType extends AppointmentType {
         parent::buildForm($builder, $options);
 
         /* @var $calCol CalendarColumn */
-        $calCol = $options['calendar_column'];
+//        $calCol = $options['calendar_column'];
 
         $builder->add('category', 'entity', [
                     'class' => 'MillerVeinCalendarBundle:Category\PatientCategory',
                     'property' => 'name',
-                    'choices' =>
-                    function(EntityRepository $er) {
-                return $er->findAllowedByTags($calCol->getColumn()->getTags());
-            },
+//                    'choices' =>
+//                    function(EntityRepository $er) {
+//                return $er->findAllowedByTags($calCol->getColumn()->getTags());
+//            },
                 ])
                     ->add('leg', 'choice', [
                         'required' => false,

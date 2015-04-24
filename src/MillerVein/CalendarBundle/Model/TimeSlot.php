@@ -2,6 +2,7 @@
 namespace MillerVein\CalendarBundle\Model;
 
 use DateTime;
+use MillerVein\CalendarBundle\Entity\Column;
 /**
  * Description of TimeSlot
  *
@@ -9,36 +10,77 @@ use DateTime;
  */
 class TimeSlot {
     /**
+     * @var string
+     */
+    protected $label;
+    /**
      * @var DateTime
      */
-    protected $time;
-    /**
-     * @var CalendarColumn
-     */
-    protected $column;
+    protected $date_time;
     /**
      * @var Array
      */
-    protected $appointments;
+    protected $appointments_fragments;
+    /**
+     * @var Column
+     */
+    protected $column;
+    /**
+     * @var bool
+     */
+    protected $read_only;
     
-    public function __construct(DateTime $time, CalendarColumn $column) {
-        $this->time = $time;
+    public function __construct(Column $column, DateTime $date_time = null) {
         $this->column = $column;
+        if($date_time){
+            $this->date_time = $date_time;
+            $this->label = $date_time->format('h:i');
+        }
     }
-    public function getTime() {
-        return $this->time;
+    
+    public function getLabel() {
+        return $this->label;
     }
+    
     public function getDateTime(){
-        $date = $this->getColumn()->getCalendar()->getDate();
-        return new DateTime($date->format("Y-m-d") . " " . $this->time->format("H:i:s"));
+        return $this->date_time;
     }
-    public function getColumn() {
+    
+    public function getAppointmentFragments() {
+        return $this->appointments_fragments;
+    }
+    
+    public function getColumn(){
         return $this->column;
     }
-    public function getAppointments() {
-        return $this->appointments;
+    
+    public function isReadOnly(){
+        return $this->read_only;
     }
-    public function setAppointment(DisplayAppointmentFragment $appt){
-        $this->appointments[] = $appt;
+    
+    function setLabel($label) {
+        $this->label = $label;
     }
+
+    function setDateTime(DateTime $date_time) {
+        $this->date_time = $date_time;
+    }
+
+    public function setAppointmentFragments($appointment_fragments){
+        $this->appointments_fragments = $appointment_fragments;
+    }
+    
+    public function addAppointmentFragment($appointment_fragments){
+        $this->appointments_fragments[] = $appointment_fragments;
+    }
+    
+    public function setColumn(Column $column){
+        $this->column = $column;
+    }
+    
+    function setReadOnly($read_only) {
+        $this->read_only = $read_only;
+    }
+
+
 }

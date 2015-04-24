@@ -36,5 +36,12 @@ class HoursController extends DefaultController{
     public function editAction($id, Request $request) {
         return parent::editAction($id, $request);
     }
+    
+    /**
+     * @Route("/delete/{id}")
+     */
+    public function deleteAction($id, Request $request) {
+        return parent::deleteAction($id, $request);
+    }
 
 }

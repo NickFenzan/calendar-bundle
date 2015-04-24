@@ -4,13 +4,10 @@ namespace MillerVein\CalendarBundle\Entity\Appointment;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use MillerVein\CalendarBundle\Entity\AppointmentRepository;
 use MillerVein\CalendarBundle\Entity\AppointmentStatus;
 use MillerVein\CalendarBundle\Entity\Category\Category;
 use MillerVein\CalendarBundle\Entity\Column;
-use MillerVein\CalendarBundle\Validator\UniqueAppointmentTime;
-use MillerVein\CalendarBundle\Validator\HoursAppointmentTime;
-use MillerVein\CalendarBundle\Validator\CategoryColumn;
+use MillerVein\CalendarBundle\Validator as MVAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -22,12 +19,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"patient" = "PatientAppointment", "provider" = "ProviderAppointment"})
- * @UniqueAppointmentTime()
- * @HoursAppointmentTime()
- * @CategoryColumn()
+ * @MVAssert\UniqueAppointmentTime(groups={"new"})
+ * @MVAssert\HoursAppointmentTime(groups={"new"})
+ * @MVAssert\CategoryColumn(groups={"new"})
+ * @MVAssert\NoPastAppointments()
  * @author Nick Fenzan <nickf@millervein.com>
  */
 abstract class Appointment {
+    
+    const TYPE_PATIENT = 'patient';
+    const TYPE_PROVIDER = 'provider';
 
 // <editor-fold defaultstate="collapsed" desc="Properties">
     /**
@@ -127,6 +128,8 @@ abstract class Appointment {
     public function getStatus() {
         return $this->status;
     }
+    
+    abstract function getType();
 
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Setters">
@@ -171,14 +174,14 @@ abstract class Appointment {
      * @ORM\PrePersist
      */
     public function prePersist() {
-//        $this->legacyInsert();
+        $this->legacyInsert();
     }
 
     /**
      * @ORM\PreUpdate
      */
     public function preUpdate() {
-//        $this->legacyUpdate();
+        $this->legacyUpdate();
     }
 
     
@@ -186,7 +189,7 @@ abstract class Appointment {
      * @ORM\PreRemove
      */
     public function preRemove() {
-//        $this->legacyDelete();
+        $this->legacyDelete();
     }
 
 // </editor-fold>
@@ -214,7 +217,7 @@ abstract class Appointment {
         return $pdo;
     }
     
-    protected function legacyInsert(){
+    public function legacyInsert(){
         
     }
     

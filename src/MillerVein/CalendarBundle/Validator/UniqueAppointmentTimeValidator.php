@@ -20,6 +20,10 @@ class UniqueAppointmentTimeValidator extends ConstraintValidator {
     }
 
     public function validate($object, Constraint $constraint) {
+        //Temporary Hack to make Free consults non-blocking
+        if($object->getCategory()->getId() == 17){
+            return;
+        }
         $conflicts = $this->em
                 ->getRepository('MillerVeinCalendarBundle:Appointment\Appointment')
                 ->findOverlappingAppointmentsByColumn($object->getColumn(), $object->getStart(), $object->getEnd(), [$object->getId()]);

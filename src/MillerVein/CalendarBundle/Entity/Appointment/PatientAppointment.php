@@ -30,7 +30,7 @@ class PatientAppointment extends Appointment {
      * @ORM\Column(type="integer")
      */
     protected $encounter_id;
-    
+
     /**
      *
      * @var string
@@ -91,13 +91,26 @@ class PatientAppointment extends Appointment {
                 . " provider_id = :provider_id, "
                 . " billing_facility = 3 "
         ;
+        $formsSql = "INSERT INTO forms "
+                . " SET "
+                . " date = NOW(),"
+                . " encounter = :encounter, "
+                . " form_name = 'New Patient Encounter', "
+                . " form_id = :formId, "
+                . " pid = :pid, "
+                . " user = 'admin', "
+                . " groupname = 'Default', "
+                . " authorized = 1, "
+                . " deleted = 0, "
+                . " formdir = 'newpatient' "
+        ;
         try {
             $pdo = $this->sqlConnect();
             $pdo->beginTransaction();
             $pdo->exec('UPDATE sequences SET id = id+1');
             $sequenceResults = $pdo->query("SELECT id FROM sequences")->fetch();
             $encounterNumber = $sequenceResults[0];
-            if(empty($encounterNumber)){
+            if (empty($encounterNumber)) {
                 $pdo->rollBack();
             }
             $statement = $pdo->prepare($sql);
@@ -109,12 +122,18 @@ class PatientAppointment extends Appointment {
             $statement->bindValue(':catid', $this->category->getLegacyId());
             $statement->bindValue(':provider_id', $this->column->getProvider()->getId());
             $statement->execute();
+            $formId = $pdo->lastInsertId();
+            $formStatement = $pdo->prepare($formsSql);
+            $formStatement->bindValue(':formId', $formId);
+            $formStatement->bindValue(':encounter', $encounterNumber);
+            $formStatement->bindValue(':pid', $this->patient->getId());
+            $formStatement->execute();
             $commit = $pdo->commit();
         } catch (\PDOException $ex) {
             echo $ex->getMessage();
             die();
         }
-        if($commit){
+        if ($commit) {
             $this->encounter_id = $encounterNumber;
             $this->creatingAnEncounterFlag = true;
         }
@@ -122,7 +141,7 @@ class PatientAppointment extends Appointment {
 
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Legacy Database">
-    protected function legacyInsert() {
+    public function legacyInsert() {
 // <editor-fold defaultstate="collapsed" desc="Statement">
         $sql = "INSERT INTO openemr_postcalendar_events "
                 . " SET "
@@ -246,14 +265,14 @@ class PatientAppointment extends Appointment {
 
 // </editor-fold>
     public function prePersist() {
-        if($this->createEncounterCondition()){
+        if ($this->createEncounterCondition()) {
             $this->createEncounter();
         }
         parent::prePersist();
     }
 
     public function preUpdate() {
-        if($this->createEncounterCondition()){
+        if ($this->createEncounterCondition()) {
             $this->createEncounter();
         }
         parent::preUpdate();

@@ -6,7 +6,6 @@
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets 'bundles/millerveincalendar/css/calendar/*'
-    'bundles/millerveincalendar/css/main.css'
     filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
@@ -15,7 +14,7 @@
 {#Javascripts#}
 {% block javascripts %}
     {{ parent()}}
-    {% javascripts '@MillerVeinCalendarBundle/Resources/public/js/calendar/*' %}
+    {% javascripts '@MillerVeinCalendarBundle/Resources/public/js/calendar/*' output='js/compiled/calendarV2.js'%}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}

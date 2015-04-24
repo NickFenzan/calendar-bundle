@@ -175,6 +175,7 @@ class Site
      * Site this column belongs to.
      * @var \MillerVein\CalendarBundle\Entity\Column
      * @ORM\OneToMany(targetEntity="MillerVein\CalendarBundle\Entity\Column", mappedBy="site")
+     * @ORM\OrderBy({"name" = "ASC"})
      */
     protected $columns;
     

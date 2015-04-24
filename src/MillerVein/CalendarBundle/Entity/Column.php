@@ -60,7 +60,7 @@ class Column {
      * Regular hours of this column
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Hours")
-     * @ORM\OrderBy({"start_date" = "DESC"})
+     * @ORM\OrderBy({"start_date" = "DESC", "id" = "DESC"})
      */
     protected $hours; 
 
@@ -145,6 +145,14 @@ class Column {
      */
     public function findHours(\DateTime $date) {
         $date = new \DateTime($date->format('Y-m-d'));
+        //This is a dirty to hack to make closures take priority over open hours
+        foreach ($this->hours as $hours) {
+            if ($hours->doHoursApplyToDate($date)) {
+                if(!$hours->isOpen()){
+                    return $hours;
+                }
+            }
+        }
         foreach ($this->hours as $hours) {
             if ($hours->doHoursApplyToDate($date)) {
                 return $hours;

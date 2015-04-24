@@ -4,6 +4,7 @@ namespace MillerVein\CalendarBundle\Form\Type;
 
 use DateInterval;
 use DateTime;
+use Doctrine\ORM\EntityRepository;
 use MillerVein\CalendarBundle\Form\DataTransformer\TimeStringToDateTimeTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,11 +17,15 @@ class AppointmentFinderRequestType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $today = new DateTime();
-        $nextWeek = clone $today;
-        $nextWeek->add(new DateInterval('P1W'));
+        $nextMonth = clone $today;
+        $nextMonth->add(new DateInterval('P1Y'));
         $builder
                 ->add('category', 'entity', [
                     'class' => 'MillerVeinCalendarBundle:Category\PatientCategory',
+                    'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('c')
+                                ->orderBy('c.name', 'ASC');
+                    },
                     'property' => 'name',
                 ])
                 ->add('site', 'entity', [
@@ -35,7 +40,7 @@ class AppointmentFinderRequestType extends AbstractType {
                 ->add('max_date', 'date', [
                     'widget' => 'single_text',
                     'format' => 'MM/dd/yyyy',
-                    'data' => $nextWeek
+                    'data' => $nextMonth
                 ])
                 ->add(
                         $builder->create('min_time', 'choice', [

@@ -5,6 +5,7 @@ namespace MillerVein\CalendarBundle\Entity\Appointment;
 use DateTime;
 use Doctrine\ORM\EntityRepository;
 use MillerVein\CalendarBundle\Entity\Column;
+use MillerVein\EMRBundle\Entity\Site;
 
 /**
  * Description of AppointmentRepository
@@ -13,13 +14,30 @@ use MillerVein\CalendarBundle\Entity\Column;
  */
 class AppointmentRepository extends EntityRepository {
 
+    public function findAppointmentsBySiteDate(Site $site, DateTime $date) {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('a,col')
+                ->from('MillerVeinCalendarBundle:Appointment\Appointment', 'a')
+                ->leftJoin('a.column', 'col')
+                ->where('a.start BETWEEN :dateOpen AND :dateClose')
+                ->andWhere('col.site = :site');
+        $qb->orderBy('a.start');
+        $query = $qb->getQuery();
+
+        $query
+                ->setParameter('dateOpen', $date->format('Y-m-d 00:00:00'))
+                ->setParameter('dateClose', $date->format('Y-m-d 23:59:59'))
+                ->setParameter('site', $site);
+        return $query->getResult();
+    }
+    
     public function findAppointmentsByColumnDate(Column $column, DateTime $date, $showCancelled = false) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('a,c')
                 ->from('MillerVeinCalendarBundle:Appointment\Appointment', 'a')
                 ->join('a.category', 'c')
                 ->leftJoin('a.status', 's')
-                ->where('DATE(a.start) = :date')
+                ->where('a.start BETWEEN :dateOpen AND :dateClose')
                 ->andWhere('a.column = :column');
         if (!$showCancelled) {
             $qb->andWhere('s.cancelled != 1 OR s.cancelled IS null');
@@ -28,7 +46,8 @@ class AppointmentRepository extends EntityRepository {
         $query = $qb->getQuery();
 
         $query
-                ->setParameter('date', $date->format('Y-m-d'))
+                ->setParameter('dateOpen', $date->format('Y-m-d 00:00:00'))
+                ->setParameter('dateClose', $date->format('Y-m-d 23:59:59'))
                 ->setParameter('column', $column);
         return $query->getResult();
     }

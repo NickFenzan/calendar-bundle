@@ -1,0 +1,26 @@
+<div class="appt
+     {# Any variables adjusting display should be implemented via classes here #}
+     {% if fragment.first %}appt-firstSlot{% endif %}
+     {% if fragment.last %}appt-lastSlot{% endif %}
+     "
+     {# Any data that should be acessible to JS for this appt should be inserted here #}
+     data-id="{{fragment.appointment.id}}"
+     data-type="{{fragment.appointment.type}}"
+     {# This is a style override based on the category #}
+     style="background-color: {{fragment.appointment.category.color}}"
+     >
+    
+    {# What actually displays #}
+    {# If there is a target this becomes a link #}
+    {% if fragment.linkTarget %}
+        <a href="{{fragment.linkTarget}}">
+    {% endif %}
+    
+    {% if fragment.text %}
+        {{fragment.text}}
+    {% endif %}
+    
+    {% if fragment.linkTarget %}
+        </a>
+    {% endif %}
+</div>

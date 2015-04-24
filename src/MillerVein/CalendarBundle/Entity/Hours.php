@@ -58,36 +58,28 @@ class Hours {
     /**
      * Office opening time
      * @var DateTime
-     * @Assert\NotBlank()
-     * @Assert\Time() 
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      */
     protected $open_time;
 
     /**
      * Office closing time
      * @var DateTime 
-     * @Assert\NotBlank()
-     * @Assert\Time()
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      */
     protected $close_time;
     
     /**
      * Lunch start
      * @var DateTime
-     * @Assert\NotBlank()
-     * @Assert\Time() 
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      */
     protected $lunch_start;
 
     /**
      * Lunch end
      * @var DateTime 
-     * @Assert\NotBlank()
-     * @Assert\Time()
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      */
     protected $lunch_end;
 
@@ -144,9 +136,17 @@ class Hours {
     public function getLunchEnd() {
         return $this->lunch_end;
     }
+    
+    public function hasLunch() {
+        return ($this->lunch_start !== null && $this->lunch_end !== null);
+    }
 
     public function getSchedulingIncrement() {
         return $this->scheduling_increment;
+    }
+    
+    public function getSchedulingInterval(){
+        return new \DateInterval('PT' . $this->scheduling_increment . 'M');
     }
 
     public function getRecurrenceRule() {
@@ -171,19 +171,19 @@ class Hours {
         $this->end_date = $end_date;
     }
 
-    public function setOpenTime(DateTime $open_time) {
+    public function setOpenTime(DateTime $open_time = null) {
         $this->open_time = $open_time;
     }
 
-    public function setCloseTime(DateTime $close_time) {
+    public function setCloseTime(DateTime $close_time = null) {
         $this->close_time = $close_time;
     }
     
-    public function setLunchStart(DateTime $lunch_start) {
+    public function setLunchStart(DateTime $lunch_start = null) {
         $this->lunch_start = $lunch_start;
     }
 
-    public function setLunchEnd(DateTime $lunch_end) {
+    public function setLunchEnd(DateTime $lunch_end = null) {
         $this->lunch_end = $lunch_end;
     }
 
@@ -257,6 +257,10 @@ class Hours {
         }else{
             return false;
         }
+    }
+    
+    public function isOpen(){
+        return ($this->open_time !== null && $this->close_time !== null);
     }
 
     public function getIterator(){
