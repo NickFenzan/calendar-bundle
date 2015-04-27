@@ -6,36 +6,14 @@
         {% include 'MillerVeinPatientTrackerBundle:Tracker:sites.html.twig' %}
     </div>
     <div id='roomsDiv'>
-        {{ tracker.RoomBlock("Lobby") }}
-        {{ tracker.RoomBlock("Exam 1") }}
-        {{ tracker.RoomBlock("Exam 2") }}
-        {{ tracker.RoomBlock("Exam 3") }}
-        {{ tracker.RoomBlock("Exam 4") }}
-        {{ tracker.RoomBlock("Exam 5") }}
-        {{ tracker.RoomBlock("Ultrasound 1") }}
-        {{ tracker.RoomBlock("Ultrasound 2") }}
-        {{ tracker.RoomBlock("Procedure 1") }}
-        {{ tracker.RoomBlock("Procedure 2") }}
-        {{ tracker.RoomBlock("Checked Out") }}
     </div>
 </body>
 {% endblock %}
 {% block javascripts %}
     {{parent()}}
-    <script>
-        $('#siteDiv').find('select').change(function(){
-            var form = $('#siteDiv').find('form');
-            $.post(form.attr('action'),form.serialize(),function(data){
-                $('#roomsDiv').html(data);
-            });
-        });
-    </script>
+    {% javascripts 
+    '@MillerVeinPatientTrackerBundle/Resources/public/js/patient_tracker.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
-{% macro RoomBlock(name) %}
-    <div class="room" id="{{name|replace({' ':'_'})}}Div">
-        <div class="room-header">{{name}}</div>
-        <ul id="{{name|replace({' ':'_'})}}">
-
-        </ul>
-    </div>
-{% endmacro %}

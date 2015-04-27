@@ -1,0 +1,27 @@
+<li data-id="{{ visit.id }}">
+    <div class='center'>
+        <strong>
+            {% set patient = visit.appointment.patient %}
+            {{ patient.fname }} {{ patient.lname }}
+        </strong>
+    </div>
+    <div class='center'>
+        {{ visit.appointment.category.name }}
+    </div>
+    <div class='center'>
+        <strong>
+            In Room: 
+        </strong>
+        <span class='stepTime'>
+            {{ visit.timeSinceLastStep }}
+        </span>
+    </div>
+    <div class='center'>
+        <strong>
+            In Office: 
+        </strong>
+        <span class='stepTime'>
+            {{ visit.totalVisitTime }}
+        </span>
+    </div>
+</li>

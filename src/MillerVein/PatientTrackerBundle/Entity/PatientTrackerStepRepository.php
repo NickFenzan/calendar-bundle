@@ -16,7 +16,6 @@ class PatientTrackerStepRepository extends \Doctrine\ORM\EntityRepository{
         $datetime = (null === $date) ? new DateTime() : $date;
         $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $qb->select('step')
-                ->distinct()
                 ->from('MillerVeinPatientTrackerBundle:PatientTrackerStep', 'step')
                 ->join('MillerVeinEMRBundle:Site', 'site')
                 ->where($qb->expr()->eq('site.id', ':site'))

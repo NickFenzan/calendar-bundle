@@ -2,8 +2,8 @@
 
 namespace MillerVein\PatientTrackerBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use MillerVein\CalendarBundle\Entity\Appointment\PatientAppointment;
 use MillerVein\PatientTrackerBundle\Entity\Room;
 
 /**
@@ -21,17 +21,17 @@ class PatientTrackerStep {
      */
     protected $id;
     /**
-     * @var Room
-     * @ORM\ManyToOne(targetEntity="\MillerVein\PatientTrackerBundle\Entity\PatientTrackerVisit", inversedBy="steps")
+     * @var PatientTrackerVisit
+     * @ORM\ManyToOne(targetEntity="PatientTrackerVisit", inversedBy="steps")
      */
     protected $visit;
     /**
      * @var Room
-     * @ORM\ManyToOne(targetEntity="\MillerVein\PatientTrackerBundle\Entity\Room")
+     * @ORM\ManyToOne(targetEntity="Room")
      */
     protected $room;
     /**
-     * @var \DateTime
+     * @var DateTime
      * @ORM\Column(type="datetime")
      */
     protected $datetime;
@@ -42,6 +42,10 @@ class PatientTrackerStep {
 
     function getRoom() {
         return $this->room;
+    }
+    
+    function getVisit() {
+        return $this->visit;
     }
 
     function getDatetime() {
@@ -55,8 +59,12 @@ class PatientTrackerStep {
     function setRoom(Room $room) {
         $this->room = $room;
     }
+    
+    function setVisit(PatientTrackerVisit $visit) {
+        $this->visit = $visit;
+    }
 
-    function setDatetime(\DateTime $datetime) {
+    function setDatetime(DateTime $datetime) {
         $this->datetime = $datetime;
     }
 
