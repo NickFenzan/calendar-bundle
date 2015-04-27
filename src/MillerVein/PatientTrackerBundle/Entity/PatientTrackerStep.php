@@ -36,6 +36,10 @@ class PatientTrackerStep {
      */
     protected $datetime;
     
+    public function __construct() {
+        $this->datetime = new \DateTime();
+    }
+    
     function getId() {
         return $this->id;
     }

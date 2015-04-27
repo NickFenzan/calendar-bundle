@@ -1,15 +1,25 @@
-timingCheck();
-(function statusPoll() {
-    setTimeout(function () {
-        timingCheck();
-        statusPoll();
-    }, 10000);
-})();
-
 var $site = $('#siteDiv').find('select');
 
 $site.change(updateRooms);
+
+$('#roomsDiv').on("sortreceive", '.room ul', function (event, ui) {
+    var room = $(this).parents('.room');
+    if(room.hasClass('checked-out')){
+        var data = {visit : ui.item.data('id')};
+        var addStepRoute = Routing.generate('patient_tracker_checkout',data);
+        $.get(addStepRoute,updateRooms);
+    }else{
+        var data = {};
+        data.visit = ui.item.data('id');
+        data.room = $(this).parents('.room').attr('id');
+        var addStepRoute = Routing.generate('patient_tracker_add_step');
+        $.post(addStepRoute, data, updateRooms);
+    }
+});
+
 updateRooms();
+timingCheck();
+
 function updateRooms(){
     var form = $('#siteDiv').find('form');
     $.post(form.attr('action'), form.serialize(), function (data) {
@@ -37,14 +47,6 @@ function timingCheck() {
     }, 'json');
 }
 
-$(".room ul").on("sortreceive", function (event, ui) {
-    var data = {};
-    data.id = ui.item.data('id');
-    data.site = $('#site').val();
-    data.room = $(this).attr('id');
-    $.post("ajaxStep.php", data);
-});
-
 (function fakeTimers() {
     setTimeout(function () {
         $(".stepTime").each(function () {
@@ -60,4 +62,11 @@ $(".room ul").on("sortreceive", function (event, ui) {
         });
         fakeTimers();
     }, 1000);
+})();
+
+(function statusPoll() {
+    setTimeout(function () {
+        timingCheck();
+        statusPoll();
+    }, 10000);
 })();
