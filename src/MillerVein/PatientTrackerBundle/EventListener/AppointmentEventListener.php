@@ -23,42 +23,43 @@ class AppointmentEventListener {
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
             if ($entity instanceof PatientAppointment) {
                 if($entity->createEncounterCondition()){
-                    $this->createAppointmentReminderStep($em, $entity);
+                $this->createAppointmentReminderStep($em, $entity);
                 }
             }
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
             if ($entity instanceof PatientAppointment) {
-//                if($entity->createEncounterCondition()){
-                    $this->createAppointmentReminderStep($em, $entity);
-//                }
+                if($entity->createEncounterCondition()){
+                $this->createAppointmentReminderStep($em, $entity);
+                }
             }
         }
-
     }
 
     protected function createAppointmentReminderStep(EntityManager $entityManager, PatientAppointment $entity) {
         $roomRepo = $entityManager->getRepository('MillerVeinPatientTrackerBundle:Room');
-        $lobby = $roomRepo->findLobbyBySite($entity->getColumn()->getSite());
-        if($lobby){
+        $site = $entity->getColumn()->getSite();
+        $lobby = $roomRepo->findLobbyBySite($site);
+
+        $stepMetadata = $entityManager->getClassMetadata('MillerVein\PatientTrackerBundle\Entity\PatientTrackerStep');
+        $visitMetadata = $entityManager->getClassMetadata('MillerVein\PatientTrackerBundle\Entity\PatientTrackerVisit');
+
+        if ($lobby) {
             $uow = $entityManager->getUnitOfWork();
-            
-            $step = new PatientTrackerStep();
-            $step->setDatetime(new DateTime());
-            $step->setRoom($lobby);
             
             $visit = new PatientTrackerVisit();
             $visit->setAppointment($entity);
-            $visit->addStep($step);
-//            $uow->persist($step);
-            $uow->persist($visit);
-
-            $visitMetadata = $entityManager->getClassMetadata('MillerVein\PatientTrackerBundle\Entity\PatientTrackerVisit');
+            $entityManager->persist($visit);
             $uow->computeChangeSet($visitMetadata, $visit);
-            $uow->recomputeSingleEntityChangeSet($visitMetadata, $visit);
-            $stepMetadata = $entityManager->getClassMetadata('MillerVein\PatientTrackerBundle\Entity\PatientTrackerStep');
+
+            $step = new PatientTrackerStep();
+            $step->setDatetime(new DateTime());
+            $step->setRoom($lobby);
+            $entityManager->persist($step);
             $uow->computeChangeSet($stepMetadata, $step);
+
+            $step->setVisit($visit);
             $uow->recomputeSingleEntityChangeSet($stepMetadata, $step);
         }
     }

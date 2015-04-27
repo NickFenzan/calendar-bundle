@@ -3,10 +3,14 @@
 namespace MillerVein\PatientTrackerBundle\Controller;
 
 use MillerVein\EMRBundle\Entity\Site;
+use MillerVein\PatientTrackerBundle\Entity\PatientTrackerStep;
+use MillerVein\PatientTrackerBundle\Entity\PatientTrackerVisit;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class TrackerController extends Controller {
 
@@ -15,7 +19,7 @@ class TrackerController extends Controller {
      * @Route("/tracker")
      */
     public function indexAction() {
-        $siteList = $this->createForm('site',null,[
+        $siteList = $this->createForm('site', null, [
             'action' => $this->generateUrl('tracker_site_post')
         ]);
         return $this->render('MillerVeinPatientTrackerBundle:Tracker:tracker.html.twig', [
@@ -34,7 +38,7 @@ class TrackerController extends Controller {
         $data = $siteForm->getData();
         return $this->siteRoomIndexAction($data['site']);
     }
-    
+
     /**
      * @Route("/tracker/site/{site}", name="tracker_site")
      * @Method({"GET"})
@@ -43,26 +47,78 @@ class TrackerController extends Controller {
         $roomRepo = $this->getDoctrine()->getRepository('MillerVeinPatientTrackerBundle:Room');
         $rooms = $roomRepo->findRoomBySite($site);
         return $this->render('MillerVeinPatientTrackerBundle:Tracker:rooms.html.twig', [
-            "rooms" => $rooms
+                    "rooms" => $rooms
         ]);
+    }
+
+    /**
+     * @Route("/timingCheck/{site}", name="patient_tracker_timing_check", options={"expose"=true})
+     */
+    public function timingCheckAction(Site $site) {
+        $em = $this->getDoctrine()->getManager();
+        $visitRepo = $em->getRepository('MillerVeinPatientTrackerBundle:PatientTrackerVisit');
+        $visits = $visitRepo->findActiveVisitsBySite($site);
+
+        $rooms = array();
+        foreach ($visits as $visit) {
+            /* @var $visit PatientTrackerVisit */
+            $rooms[$visit->getCurrentStep()->getRoom()->getId()][] = $this->renderView('MillerVeinPatientTrackerBundle:Tracker:visit.html.twig', ['visit' => $visit]);
+        }
+
+        return new JsonResponse($rooms);
+    }
+
+    /**
+     * @Route("/addStep", name="patient_tracker_add_step", options={"expose"=true})
+     */
+    public function stepAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $roomRepo = $em->getRepository('MillerVeinPatientTrackerBundle:Room');
+        $visitRepo = $em->getRepository('MillerVeinPatientTrackerBundle:PatientTrackerVisit');
+        
+        $room = $roomRepo->find($request->request->get('room'));
+        $visit = $visitRepo->find($request->request->get('visit'));
+        
+        if($room && $visit){
+            $step = new PatientTrackerStep();
+            $step->setRoom($room);
+            $step->setVisit($visit);
+
+            $em->persist($step);
+            $em->flush();
+        }
+        
+        return new Response();
     }
     
     /**
-     * @Route("/test")
+     * @Route("/checkout/{visit}", name="patient_tracker_checkout", options={"expose"=true})
      */
-    public function testAction(){
+    public function checkoutAction(PatientTrackerVisit $visit) {
         $em = $this->getDoctrine()->getManager();
-        $siteRepo = $em->getRepository('MillerVeinEMRBundle:Site');
-        $site = $siteRepo->findOneBy(['city'=>'Novi']);
         
-        $stepRepo = $em->getRepository('MillerVeinPatientTrackerBundle:PatientTrackerStep');
+        $roomRepo = $em->getRepository('MillerVeinPatientTrackerBundle:Room');
+        $statusRepo = $em->getRepository('MillerVeinCalendarBundle:AppointmentStatus');
         
-        $steps = $stepRepo->findCurrentStepsBySite($site);
+        $appointment = $visit->getAppointment();
+        $site = $appointment->getColumn()->getSite();
+        $lobby = $roomRepo->findLobbyBySite($site);
         
-        foreach($steps as $step){
-            echo $step->getId()."<br>";
-        }
-        return new \Symfony\Component\HttpFoundation\Response();
+        $checkedOut = $statusRepo->findOneBy(['name'=>'Checked out']);
+        $appointment->setStatus($checkedOut);
+        
+        $step = new PatientTrackerStep();
+        $step->setRoom($lobby);
+        $step->setVisit($visit);
+        
+        $visit->setCheckedOut(true);
+        
+        $em->persist($appointment);
+        $em->persist($visit);
+        $em->persist($step);
+        $em->flush();
+        
+        return new Response();
     }
 
 }
