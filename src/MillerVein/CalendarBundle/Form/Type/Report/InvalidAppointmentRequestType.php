@@ -12,8 +12,16 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class InvalidAppointmentRequestType extends AbstractType{
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('start_date', 'date')
-                ->add('end_date', 'date')
+        $builder->add('start_date', 'date',[
+            'data' => new \DateTime(),
+            'widget' => 'single_text',
+            'format' => 'MM/dd/yyyy'
+        ])
+                ->add('end_date', 'date',[
+            'data' => new \DateTime(),
+            'widget' => 'single_text',
+            'format' => 'MM/dd/yyyy'
+        ])
 //                ->add('sites', 'entity', [
 //                    'required' => false,
 //                    'multiple' => true,
