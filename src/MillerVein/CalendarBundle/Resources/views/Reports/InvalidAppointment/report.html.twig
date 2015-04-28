@@ -1,0 +1,61 @@
+{% extends "MillerVeinCalendarBundle::base.html.twig" %}
+{% block title %}Invalid Appointments Report{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts 
+    '@MillerVeinCalendarBundle/Resources/public/js/reports/invalidAppointment.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block body %}
+    <div class="controls">
+        {% include 'MillerVeinCalendarBundle:Reports:InvalidAppointment\\request.html.twig' %}
+    </div>
+    <div class="results">
+        {% for result in report.results %}
+            <div>
+                <div>
+                    {{ result.appointment.column.site.name }}-{{ result.appointment.column.name }}
+                </div>
+                <div>
+                    {{ result.appointment.patient.fname }} {{ result.appointment.patient.lname  }}
+                </div>
+                <div>
+                    {{ result.appointment.start | date("m/d/Y H:i") }}
+                </div>
+                <div>
+                    <ul>
+                    {% for error in result.errors %}
+                        <li>{{ error.message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+                    <div>
+                        <a href="{{ path('calendar_request_get', 
+                                    {   "siteId" : result.appointment.column.site.id,
+                                        "date" : result.appointment.start | date('Y-m-d')
+                                    })}}" target="_blank">Calendar</a>
+{#                        <a href="#" id="editApptButton" data-id="{{ result.appointment.id }}">Edit Appointment</a>#}
+                    </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="apptEdit">
+        
+    </div>
+        <style>
+            .results{
+                width: 100%;
+            }
+            .results>div{
+                margin: 10px;
+                border: 1px solid grey;
+                border-radius: 1em;
+                background-color: white;
+                padding:10px;
+            }
+        </style>
+{% endblock %}
+
+    
+    

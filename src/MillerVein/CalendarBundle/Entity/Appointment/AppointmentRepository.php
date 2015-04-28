@@ -14,7 +14,32 @@ use MillerVein\EMRBundle\Entity\Site;
  */
 class AppointmentRepository extends EntityRepository {
 
-    public function findAppointmentsBySiteDate(Site $site, DateTime $date) {
+    public function findAppointmentsByDate(DateTime $start, DateTime $end = null, $cancelled = false) {
+        if ($end === null) {
+            $end = $start;
+        }
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('a,col')
+                ->from('MillerVeinCalendarBundle:Appointment\Appointment', 'a')
+                ->leftJoin('a.column', 'col')
+                ->leftJoin('a.status', 's')
+                ->where('a.start BETWEEN :dateOpen AND :dateClose');
+        if (!$cancelled) {
+            $qb->andWhere('s.cancelled != 1 OR s.cancelled IS null');
+        }
+        $qb->orderBy('a.start');
+        $query = $qb->getQuery();
+
+        $query
+                ->setParameter('dateOpen', $start->format('Y-m-d 00:00:00'))
+                ->setParameter('dateClose', $end->format('Y-m-d 23:59:59'));
+        return $query->getResult();
+    }
+
+    public function findAppointmentsBySiteDate(Site $site, DateTime $start, DateTime $end = null) {
+        if ($end === null) {
+            $end = $start;
+        }
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('a,col')
                 ->from('MillerVeinCalendarBundle:Appointment\Appointment', 'a')
@@ -25,12 +50,12 @@ class AppointmentRepository extends EntityRepository {
         $query = $qb->getQuery();
 
         $query
-                ->setParameter('dateOpen', $date->format('Y-m-d 00:00:00'))
-                ->setParameter('dateClose', $date->format('Y-m-d 23:59:59'))
+                ->setParameter('dateOpen', $start->format('Y-m-d 00:00:00'))
+                ->setParameter('dateClose', $end->format('Y-m-d 23:59:59'))
                 ->setParameter('site', $site);
         return $query->getResult();
     }
-    
+
     public function findAppointmentsByColumnDate(Column $column, DateTime $date, $showCancelled = false) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('a,c')
@@ -76,4 +101,5 @@ class AppointmentRepository extends EntityRepository {
                 ->setParameter('exclude', implode(',', $exclude));
         return $query->getResult();
     }
+
 }

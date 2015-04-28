@@ -2,19 +2,7 @@
 
 namespace MillerVein\CalendarBundle\Controller;
 
-use DateInterval;
-use DateTime;
-use MillerVein\CalendarBundle\Entity\Appointment\AppointmentRepository;
-use MillerVein\CalendarBundle\Entity\Column;
-use MillerVein\CalendarBundle\Model\AppointmentFragmentBuilder;
 use MillerVein\CalendarBundle\Model\CalendarRequest;
-use MillerVein\CalendarBundle\Model\Collections\AppointmentFragmentCollection;
-use MillerVein\CalendarBundle\Model\Collections\ColumnViewCollection;
-use MillerVein\CalendarBundle\Model\Collections\TimeSlotCollection;
-use MillerVein\CalendarBundle\Model\ColumnView;
-use MillerVein\CalendarBundle\Model\DateTimeUtility;
-use MillerVein\CalendarBundle\Model\TimeSlot;
-use MillerVein\CalendarBundle\Model\TimeSlotCollectionFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -61,6 +49,27 @@ class CalendarController extends Controller {
         $session = $request->getSession();
         $controls = $this->createForm('calendar_request', $calendarRequest);
         $controls->handleRequest($request);
+        $calendarRequest->toSession($session);
+        return $this->redirectToRoute('calendar');
+    }
+    /**
+     * @Route("/request", name="calendar_request_get", options={"expose"=true})
+     * @Method({"GET"})
+     */
+    public function calendarGetRequest(Request $request) {
+        $siteId = $request->query->get('siteId');
+        $date = $request->query->get('date');
+        $siteRepo = $this->getDoctrine()->getManager()->getRepository('MillerVeinEMRBundle:Site');
+        $session = $request->getSession();
+        
+        $calendarRequest = new CalendarRequest($siteRepo);
+        $calendarRequest->fromSession($session);
+        if($siteId){
+            $calendarRequest->setSite($siteRepo->find($siteId));
+        }
+        if($date){
+            $calendarRequest->setDate(new \DateTime($date));
+        }
         $calendarRequest->toSession($session);
         return $this->redirectToRoute('calendar');
     }

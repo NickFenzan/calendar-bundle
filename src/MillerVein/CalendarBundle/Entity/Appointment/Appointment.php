@@ -19,9 +19,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"patient" = "PatientAppointment", "provider" = "ProviderAppointment"})
- * @MVAssert\UniqueAppointmentTime(groups={"new"})
- * @MVAssert\HoursAppointmentTime(groups={"new"})
- * @MVAssert\CategoryColumn(groups={"new"})
+ * @MVAssert\UniqueAppointmentTime(groups={"new","invalidAppointment"})
+ * @MVAssert\HoursAppointmentTime(groups={"new","invalidAppointment"})
+ * @MVAssert\CategoryColumn(groups={"new","invalidAppointment"})
  * @MVAssert\NoPastAppointments()
  * @author Nick Fenzan <nickf@millervein.com>
  */
