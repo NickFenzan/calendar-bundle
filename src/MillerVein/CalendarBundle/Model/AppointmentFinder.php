@@ -27,6 +27,7 @@ class AppointmentFinder {
     const CONFLICT_LIMIT = 0;
 
     public function __construct(EntityManager $em) {
+        set_time_limit(30);
         $this->em = $em;
         $this->results = array();
     }
@@ -111,8 +112,14 @@ class AppointmentFinder {
     protected function appointmentConflictCheck(Column $column, \DateTime $requestedStart, \DateTime $requestedEnd) {
         $apptRepo = $this->em->getRepository('MillerVeinCalendarBundle:Appointment\Appointment');
         $appointments = $apptRepo->findOverlappingAppointmentsByColumn($column, $requestedStart, $requestedEnd);
+        
+        $overlapsAllowed = $this->request->getCategory()->getOverlapsAllowed();
+        foreach($appointments as $appointment){
+            $appointmentOverlaps = $appointment->getCategory()->getOverlapsAllowed();
+            $overlapsAllowed = ( $appointmentOverlaps > $overlapsAllowed ) ? $appointmentOverlaps : $overlapsAllowed;
+        }
         $conflicts = count($appointments);
-        return ($conflicts <= static::CONFLICT_LIMIT);
+        return ($conflicts <= $overlapsAllowed);
     }
 
     protected function addResult(Column $column, \DateTime $start) {
