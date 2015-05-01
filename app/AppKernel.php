@@ -16,10 +16,10 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new MillerVein\CalendarBundle\MillerVeinCalendarBundle(),
+            new MillerVein\Bundle\CalendarBundle\MillerVeinCalendarBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-            new MillerVein\EMRBundle\MillerVeinEMRBundle(),
-            new MillerVein\PatientTrackerBundle\MillerVeinPatientTrackerBundle(),
+            new MillerVein\Bundle\EMRBundle\MillerVeinEMRBundle(),
+            new MillerVein\Bundle\PatientTrackerBundle\MillerVeinPatientTrackerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

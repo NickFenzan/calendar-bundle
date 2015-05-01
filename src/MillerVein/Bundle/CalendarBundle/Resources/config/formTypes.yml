@@ -1,0 +1,78 @@
+services:
+    millervein.calendar.form.type.recurrence_rule:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\RecurrenceRuleType
+        tags:
+            - { name: form.type, alias: recurrence_rule }
+    millervein.calendar.form.type.hours:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\HoursType
+        tags:
+            - { name: form.type, alias: hours }
+    millervein.calendar.form.type.column:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\ColumnType
+        tags:
+            - { name: form.type, alias: column }
+    millervein.calendar.form.type.column_tag:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\ColumnTagType
+        tags:
+            - { name: form.type, alias: column_tag }
+    millervein.calendar.form.type.site:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\SiteType
+        tags:
+            - { name: form.type, alias: site }
+    millervein.calendar.form.type.calendar:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\CalendarType
+        tags:
+            - { name: form.type, alias: calendar }
+    millervein.calendar.form.type.calendar_request:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\CalendarRequestType
+        tags:
+            - { name: form.type, alias: calendar_request }
+    millervein.calendar.form.type.patient_selector:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\PatientSelectorType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type, alias: patient_selector }
+    millervein.calendar.form.type.appointment_status:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\AppointmentStatusType
+        tags:
+            - { name: form.type, alias: appointment_status }
+            
+#-- Appointment -- #
+    millervein.calendar.form.type.appointment.patient:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\Appointment\PatientAppointmentType
+        tags:
+            - { name: form.type, alias: appointment_patient }
+    millervein.calendar.form.type.appointment.provider:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\Appointment\ProviderAppointmentType
+        tags:
+            - { name: form.type, alias: appointment_provider }
+    millervein.calendar.form.type.appointment_finder_request:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\AppointmentFinderRequestType
+        tags:
+            - { name: form.type, alias: appointment_finder_request }
+        
+#-- End Appointment -- #
+            
+#-- Category -- #
+    millervein.calendar.form.type.category.patient:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\Category\PatientCategoryType
+        tags:
+            - { name: form.type, alias: category_patient }
+    millervein.calendar.form.type.category.provider:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\Category\ProviderCategoryType
+        tags:
+            - { name: form.type, alias: category_provider }
+#-- End Category -- #
+            
+#   Form Fields
+    millervein.calendar.form.type.fields.color:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\Fields\ColorType
+        tags:
+            - { name: form.type, alias: color }
+            
+#   Admin
+    millervein.calendar.form.type.admin.hours:
+        class: MillerVein\Bundle\CalendarBundle\Form\Type\Admin\HoursAdminType
+        tags:
+            - { name: form.type, alias: hours_admin }
+            
