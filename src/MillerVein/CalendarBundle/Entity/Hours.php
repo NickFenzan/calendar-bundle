@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * These apply to Calendar\Columns. One should be able to link to many columns.
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="MillerVein\CalendarBundle\Entity\Repository\HoursRepository")
  * @ORM\Table("calendar.hours")
  */
 class Hours {

@@ -1,8 +1,13 @@
 <?php
+
 namespace MillerVein\CalendarBundle\Controller\Admin;
 
-use MillerVein\CalendarBundle\Controller\DefaultController;
+use MillerVein\CalendarBundle\DomainManager\HoursManager;
+use MillerVein\CalendarBundle\Entity\Hours;
+use MillerVein\CalendarBundle\Form\Handler\HoursFormHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -11,37 +16,65 @@ use Symfony\Component\HttpFoundation\Request;
  * @author Nick Fenzan <nickf@millervein.com>
  * @Route("/admin/hours")
  */
-class HoursController extends DefaultController{
-    const CLASS_NAME = "Hours";
-    const FORM_SERVICE = "hours";
-    const DISPLAY_PROPERTY = "name";
-    
+class HoursController extends Controller {
+
     /**
-     * @Route("/")
+     * @Route("/", name="hours")
      */
     public function indexAction() {
-        return parent::indexAction();
+        /* @var $hoursManager HoursManager */
+        $hoursManager = $this->get('hours_manager');
+        $hours = $hoursManager->getAllHours();
+        return $this->render("MillerVeinCalendarBundle:Admin:Hours\index.html.twig", [
+                    'hours' => $hours
+        ]);
     }
 
     /**
-     * @Route("/new")
+     * @Route("/new", name="hours_new")
      */
     public function newAction(Request $request) {
-        return parent::newAction($request);
+        $form = $this->createForm('hours');
+        return $this->formAction($form, $request);
     }
 
     /**
-     * @Route("/edit/{id}")
+     * @Route("/edit/{hours}", name="hours_edit")
      */
-    public function editAction($id, Request $request) {
-        return parent::editAction($id, $request);
+    public function editAction(Hours $hours, Request $request) {
+        $form = $this->createForm('hours', $hours);
+        return $this->formAction($form, $request);
+    }
+
+    /**
+     * @Route("/copy/{hours}", name="hours_copy")
+     */
+    public function copyAction(Hours $hours, Request $request) {
+        $form = $this->createForm('hours', clone $hours);
+        return $this->formAction($form, $request);
+    }
+
+    protected function formAction(FormInterface $form, Request $request){
+        $form->add('submit', 'submit');
+        /* @var $formHandler HoursFormHandler */
+        $formHandler = $this->get('millervein.calendar.form.handler.hours');
+        if ($formHandler->handle($form, $request)) {
+            return $this->redirectToRoute('hours');
+        }
+        return $this->render("MillerVeinCalendarBundle:Admin:Hours\\form.html.twig", [
+                    'form' => $form->createView()
+        ]);
     }
     
     /**
-     * @Route("/delete/{id}")
+     * @Route("/delete/{hours}", name="hours_delete")
      */
-    public function deleteAction($id, Request $request) {
-        return parent::deleteAction($id, $request);
+    public function deleteAction(Hours $hours, Request $request) {
+        /* @var $hoursManager HoursManager */
+        $hoursManager = $this->get('hours_manager');
+        $hoursManager->delete($hours);
+        return $this->redirect($request->headers->get('referer'));
     }
+    
 
 }

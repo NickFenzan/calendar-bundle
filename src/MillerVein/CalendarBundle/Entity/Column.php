@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Description of Column
  *
- * @ORM\Entity(repositoryClass="ColumnRepository")
+ * @ORM\Entity(repositoryClass="MillerVein\CalendarBundle\Entity\Repository\ColumnRepository")
  * @ORM\Table("calendar.calendar_column")
  * @author Nick Fenzan <nickf@millervein.com>
  */

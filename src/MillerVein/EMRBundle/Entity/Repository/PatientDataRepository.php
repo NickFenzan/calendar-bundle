@@ -1,6 +1,6 @@
 <?php
 
-namespace MillerVein\EMRBundle\Entity;
+namespace MillerVein\EMRBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

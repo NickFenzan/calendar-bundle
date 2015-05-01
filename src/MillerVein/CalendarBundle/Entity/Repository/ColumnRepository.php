@@ -1,6 +1,6 @@
 <?php
 
-namespace MillerVein\CalendarBundle\Entity;
+namespace MillerVein\CalendarBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use MillerVein\EMRBundle\Entity\Site;

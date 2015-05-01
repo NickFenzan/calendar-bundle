@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * PatientData
  *
  * @ORM\Table(name="openemr.patient_data", uniqueConstraints={@ORM\UniqueConstraint(name="pid", columns={"pid"})}, indexes={@ORM\Index(name="phone_cell", columns={"phone_cell"}), @ORM\Index(name="phone_home", columns={"phone_home"}), @ORM\Index(name="phone_biz", columns={"phone_biz"}), @ORM\Index(name="marketink_campaign", columns={"marketing_campaign"}), @ORM\Index(name="referring_physician_auth", columns={"referring_physician"})})
- * @ORM\Entity(repositoryClass="PatientDataRepository")
+ * @ORM\Entity(repositoryClass="MillerVein\EMRBundle\Entity\Repository\PatientDataRepository")
  */
 class PatientData
 {

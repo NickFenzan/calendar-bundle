@@ -1,0 +1,84 @@
+{% extends "MillerVeinCalendarBundle::base.html.twig" %}
+{% block title %}Hours{% endblock %}
+{% block body %}
+    <a href="{{ path("hours_new") }}">New</a>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Start Date
+                </th>
+                <th>
+                    End Date
+                </th>
+                <th>
+                    Open
+                </th>
+                <th>
+                    Lunch Start
+                </th>
+                <th>
+                    Lunch End
+                </th>
+                <th>
+                    Close
+                </th>
+                <th>
+                    Increment
+                </th>
+                <th>
+                    
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hour in hours %}
+                <tr>
+                    <td>
+                        {{ hour.id }}
+                    </td>
+                    <td>
+                        {{ hour.name }}
+                    </td>
+                    <td>
+                        {{ hour.startDate is empty ? "" : hour.startDate | date('m/d/Y') }}
+                    </td>
+                    <td>
+                        {{ hour.endDate is empty ? "" : hour.endDate | date('m/d/Y') }}
+                    </td>
+                    <td>
+                        {{ hour.openTime is empty ? "" : hour.openTime | date('g:i a') }}
+                    </td>
+                    <td>
+                        {{ hour.lunchStart is empty ? "" : hour.lunchStart | date('g:i a') }}
+                    </td>
+                    <td>
+                        {{ hour.lunchEnd is empty ? "" : hour.lunchEnd | date('g:i a') }}
+                    </td>
+                    <td>
+                        {{ hour.closeTime is empty ? "" : hour.closeTime | date('g:i a') }}
+                    </td>
+                    <td>
+                        {{ hour.schedulingIncrement }}
+                    </td>
+                    <td>
+                        <a href="{{ path("hours_edit",{'hours':hour.id}) }}">Edit</a>
+                    </td>
+                    <td>
+                        <a href="{{ path("hours_copy",{'hours':hour.id}) }}">Copy</a>
+                    </td>
+                    <td>
+                        <a href="{{ path("hours_delete",{'hours':hour.id}) }}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

@@ -21,6 +21,17 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class TestController extends Controller {
     /**
+     * @Route("/yo")
+     */
+    public function yoAction(){
+        $colRepo = $this->getDoctrine()->getManager()->getRepository("MillerVeinCalendarBundle:Column");
+        $site = new \MillerVein\EMRBundle\Entity\Site();
+        $category = new \MillerVein\CalendarBundle\Entity\Category\Category();
+        $colRepo->findBySiteAndCategory($site,$category);
+        return new Response();
+    }
+    
+    /**
      * @Route("/fix", name="fix_stuff", options={"expose"=true})
      */
     public function fixAction(){

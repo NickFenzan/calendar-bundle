@@ -25,7 +25,7 @@ class PatientSelectorController extends Controller{
         }
         
         $patRepo = $this->getDoctrine()->getManager()->getRepository("MillerVeinEMRBundle:PatientData");
-        /* @var $patRepo \MillerVein\EMRBundle\Entity\PatientRepository */
+        /* @var $patRepo \MillerVein\EMRBundle\Entity\Repository\PatientDataRepository */
         $patients = $patRepo->findAllBySearchTerm($searchTerm);
 
         $patientResponse = array();
