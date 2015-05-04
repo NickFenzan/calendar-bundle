@@ -207,7 +207,7 @@ class PatientAppointment extends Appointment {
             $statement->bindValue(':defaultLocation', self::DefaultLocation);
             $statement->bindValue(':appt_status', $this->status->getLegacyId());
             $statement->bindValue(':facility', $this->column->getSite()->getId());
-            $statement->bindValue(':whichLeg', 'bilateral');
+            $statement->bindValue(':whichLeg', $this->getLeg());
             $statement->execute();
         } catch (\PDOException $ex) {
             echo $ex->getMessage();
@@ -255,7 +255,7 @@ class PatientAppointment extends Appointment {
             $statement->bindValue(':end_time', $this->end->format('H:i:s'));
             $statement->bindValue(':appt_status', $this->status->getLegacyId());
             $statement->bindValue(':facility', $this->column->getSite()->getId());
-            $statement->bindValue(':whichLeg', 'bilateral');
+            $statement->bindValue(':whichLeg', $this->getLeg());
             $statement->execute();
         } catch (\PDOException $ex) {
             echo $ex->getMessage();
