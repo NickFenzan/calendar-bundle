@@ -1,5 +1,0 @@
-services:
-    millervein.calendar.form.handler.hours:
-        class: MillerVein\Bundle\CalendarBundle\Form\Handler\HoursFormHandler
-        arguments:
-            - "@millervein.calendar.hours_manager"

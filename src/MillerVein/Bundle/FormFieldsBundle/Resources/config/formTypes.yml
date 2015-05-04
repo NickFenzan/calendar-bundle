@@ -1,0 +1,5 @@
+services:
+    millervein.formfields.form.type.datetime_range:
+        class: MillerVein\Component\Form\Type\DateTimeRangeType
+        tags:
+            - { name: form.type, alias: datetime_range }

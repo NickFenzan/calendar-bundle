@@ -1,5 +1,0 @@
-services:
-    millervein.calendar.report.form.type.invalid_appointment:
-        class: MillerVein\Bundle\CalendarBundle\Form\Type\Report\InvalidAppointmentRequestType
-        tags:
-            - { name: form.type, alias: invalid_appointment }
