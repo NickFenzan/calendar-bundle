@@ -1,6 +1,10 @@
+body {
+  overflow: hidden; }
+
 #calendar {
   display: inline-flex;
   overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap; }
   @media (max-width: 600px) {
     #calendar .calendar-column {
