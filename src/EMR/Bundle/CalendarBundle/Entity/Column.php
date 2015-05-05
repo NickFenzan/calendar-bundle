@@ -59,7 +59,7 @@ class Column {
     /**
      * Regular hours of this column
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Hours")
+     * @ORM\ManyToMany(targetEntity="Hours", inversedBy="columns")
      * @ORM\OrderBy({"start_date" = "DESC", "id" = "DESC"})
      */
     protected $hours; 

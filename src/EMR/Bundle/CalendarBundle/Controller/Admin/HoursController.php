@@ -22,16 +22,19 @@ class HoursController extends Controller {
     /**
      * @Route("/", name="hours")
      */
-    public function indexAction() {
+    public function indexAction(Request $request) {
         $hoursAdminRequest = new HoursAdminRequest();
-        $start = new \DateTime("2015-04-04 11:30:00");
-        $end = new \DateTime("2015-05-04 16:50:00");
-        $dateTimeRange = new \MillerVein\Component\DateTime\DateTimeRange($start, $end);
-        $hoursAdminRequest->setOpenTime($dateTimeRange);
         $form = $this->createForm('hours_admin',$hoursAdminRequest);
-        /* @var $hoursManager HoursManager */
-        $hoursManager = $this->get('hours_manager');
-        $hours = $hoursManager->getAllHours();
+        $form->add('submit','submit');
+        
+        $hours = array();
+        $form->handleRequest($request);
+        if($form->isValid()){
+            /* @var $hoursManager HoursManager */
+            $hoursManager = $this->get('hours_manager');
+            $hours = $hoursManager->findByRequest($hoursAdminRequest);
+        }
+        
         return $this->render("MillerVeinCalendarBundle:Admin:Hours\index.html.twig", [
                     'form' => $form->createView(),
                     'hours' => $hours,

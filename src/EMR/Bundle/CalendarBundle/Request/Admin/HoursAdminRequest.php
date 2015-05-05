@@ -44,7 +44,7 @@ class HoursAdminRequest {
     /**
      * @var DateTimeRange
      */
-    protected $close_end; // </editor-fold>
+    protected $close_time; // </editor-fold>
 
     public function __construct() {
         $this->columns = new ArrayCollection();
@@ -74,36 +74,36 @@ class HoursAdminRequest {
         return $this->lunch_end;
     }
 
-    function getCloseEnd() {
-        return $this->close_end;
+    function getCloseTime() {
+        return $this->close_time;
     }
 
     function setColumns(ArrayCollection $columns) {
         $this->columns = $columns;
     }
 
-    function setStartDate(DateTimeRange $start_date) {
+    function setStartDate(DateTimeRange $start_date = null) {
         $this->start_date = $start_date;
     }
 
-    function setEndDate(DateTimeRange $end_date) {
+    function setEndDate(DateTimeRange $end_date = null) {
         $this->end_date = $end_date;
     }
 
-    function setOpenTime(DateTimeRange $open_time) {
+    function setOpenTime(DateTimeRange $open_time = null) {
         $this->open_time = $open_time;
     }
 
-    function setLunchStart(DateTimeRange $lunch_start) {
+    function setLunchStart(DateTimeRange $lunch_start = null) {
         $this->lunch_start = $lunch_start;
     }
 
-    function setLunchEnd(DateTimeRange $lunch_end) {
+    function setLunchEnd(DateTimeRange $lunch_end = null) {
         $this->lunch_end = $lunch_end;
     }
 
-    function setCloseEnd(DateTimeRange $close_end) {
-        $this->close_end = $close_end;
+    function setCloseTime(DateTimeRange $close_time = null) {
+        $this->close_time = $close_time;
     }
 
 }

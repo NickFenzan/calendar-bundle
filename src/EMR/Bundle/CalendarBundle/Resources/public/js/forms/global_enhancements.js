@@ -1,5 +1,5 @@
 function runGlobalEnhancements() {
-    var $allDatepickers = $('form input[name*=date]');
+    var $allDatepickers = $('[data-hasDatepicker="true"]');
     if (!$allDatepickers.data("ui-datepicker")) {
         $allDatepickers.datepicker({
             changeMonth: true,

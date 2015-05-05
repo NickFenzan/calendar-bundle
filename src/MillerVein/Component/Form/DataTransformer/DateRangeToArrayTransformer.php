@@ -43,14 +43,12 @@ class DateRangeToArrayTransformer implements DataTransformerInterface{
      * @throws UnexpectedTypeException
      */
     public function reverseTransform($value) {
-        if (null === $value) {
-            return null;
-        }
-
         if (!is_array($value)) {
             throw new UnexpectedTypeException($value, 'array');
         }
-
+        if (empty($value['start']) && empty($value['end'])) {
+            return null;
+        }
         return new DateTimeRange($value['start'], $value['end']);
     }
 

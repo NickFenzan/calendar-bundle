@@ -5,6 +5,7 @@ namespace EMR\Bundle\CalendarBundle\DomainManager;
 use Doctrine\ORM\EntityManager;
 use EMR\Bundle\CalendarBundle\Entity\Hours;
 use EMR\Bundle\CalendarBundle\Entity\Repository\HoursRepository;
+use EMR\Bundle\CalendarBundle\Request\Admin\HoursAdminRequest;
 
 /**
  * Description of HoursManager
@@ -45,6 +46,10 @@ class HoursManager {
     public function delete(Hours $hours) {
         $this->entityManager->remove($hours);
         $this->entityManager->flush();
+    }
+    
+    public function findByRequest(HoursAdminRequest $request){
+        return $this->repository->findByRequest($request);
     }
 
 }

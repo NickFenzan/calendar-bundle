@@ -13,9 +13,33 @@ class HoursAdminType extends AbstractType{
         $builder->add('columns','entity',[
             'multiple' => true,
             'class' => 'EMR\Bundle\CalendarBundle\Entity\Column',
-            'property' => 'longName'
+            'property' => 'longName',
+            'required' => false
         ])
-            ->add('open_time','datetime_range')
+            ->add('start_date','datetime_range',[
+                'mode' => 'date',
+                'required' => false
+            ])
+            ->add('end_date','datetime_range',[
+                'mode' => 'date',
+                'required' => false
+            ])
+            ->add('open_time','datetime_range',[
+                'mode' => 'time',
+                'required' => false
+            ])
+            ->add('lunch_start','datetime_range',[
+                'mode' => 'time',
+                'required' => false
+            ])
+            ->add('lunch_end','datetime_range',[
+                'mode' => 'time',
+                'required' => false
+            ])
+            ->add('close_time','datetime_range',[
+                'mode' => 'time',
+                'required' => false
+            ])
             ;
     }
 

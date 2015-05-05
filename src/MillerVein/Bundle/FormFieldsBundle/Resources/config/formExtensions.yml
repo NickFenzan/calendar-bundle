@@ -1,0 +1,9 @@
+services:
+    millervein.form.extension.twelve_hour_time_extension:
+        class: MillerVein\Component\Form\Extension\TwelveHourTimeExtension
+        tags:
+            - { name: form.type_extension, alias: time }
+    millervein.form.extension.datepicker_extension:
+        class: MillerVein\Component\Form\Extension\DatepickerExtension
+        tags:
+            - { name: form.type_extension, alias: date }

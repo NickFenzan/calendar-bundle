@@ -3,6 +3,7 @@
 namespace EMR\Bundle\CalendarBundle\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use EMR\Bundle\CalendarBundle\Model\HoursIterator;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -101,8 +102,20 @@ class Hours {
      * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="RecurrenceRule", cascade={"persist"})
      */
-    protected $recurrence_rule; // </editor-fold>
+    protected $recurrence_rule; 
 
+    /**
+     * Regular hours of this column
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Column", mappedBy="hours")
+     */
+    protected $columns; 
+    
+// </editor-fold>
+
+    public function __construct() {
+        $this->columns = new ArrayCollection();
+    }
 
 // <editor-fold defaultstate="collapsed" desc="Property Getters">
     public function getId() {
@@ -152,6 +165,10 @@ class Hours {
     public function getRecurrenceRule() {
         return $this->recurrence_rule;
     }
+    
+    function getColumns() {
+        return $this->columns;
+    }
 
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Property Setters">
@@ -193,6 +210,10 @@ class Hours {
 
     public function setRecurrenceRule(RecurrenceRule $recurrence_rule) {
         $this->recurrence_rule = $recurrence_rule;
+    }
+    
+    function setColumns(ArrayCollection $columns) {
+        $this->columns = $columns;
     }
 
 // </editor-fold>

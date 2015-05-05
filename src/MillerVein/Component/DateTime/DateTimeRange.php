@@ -21,7 +21,13 @@ class DateTimeRange {
      */
     protected $end;
 
-    public function __construct(DateTime $start, DateTime $end) {
+    public function __construct(DateTime $start = null, DateTime $end = null) {
+        if($start === null){
+            $start = new \DateTime('0000-00-00 00:00:00');
+        }
+        if($end === null){
+            $end = new \DateTime('9999-12-31 23:59:59');
+        }
         $this->start = $start;
         $this->end = $end;
     }
