@@ -64,6 +64,10 @@ class CalendarBuilder {
             }
         }
 
+        if ($smallestIncrement == null){
+            $smallestIncrement = $interval;
+        }
+        
         foreach ($columns as $column) {
             $columnView = new ColumnView($column);
             $timeSlotCollection = new TimeSlotCollection();
