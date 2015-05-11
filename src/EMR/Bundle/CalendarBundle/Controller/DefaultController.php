@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class DefaultController extends Controller {
 
-    const ENTITY_PATH = "MillerVein\\CalendarBundle\\Entity\\";
+    const ENTITY_PATH = "EMR\\Bundle\\CalendarBundle\\Entity\\";
     const CLASS_NAME = null;
     const FORM_SERVICE = null;
     const DISPLAY_PROPERTY = null;
