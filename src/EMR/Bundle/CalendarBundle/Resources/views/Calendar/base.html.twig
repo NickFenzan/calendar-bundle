@@ -1,0 +1,32 @@
+{% extends "EMRCalendarBundle::base.html.twig" %}
+{#Title#}
+{% block title %}Calendar{% endblock %}
+
+{#Stylesheets#}
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets 'bundles/emrcalendar/css/calendar/*'
+    filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{#Javascripts#}
+{% block javascripts %}
+    {{ parent()}}
+    {% javascripts '@EMRCalendarBundle/Resources/public/js/calendar/*' output='js/compiled/calendarV3.js'%}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{#Body#}
+{% block body %}
+    <div id="topLevelFlex">
+        {% block controls %}
+            {% include 'EMRCalendarBundle:Calendar:controls.html.twig' %}
+        {% endblock %}
+        {% block calendar %}
+            {% include 'EMRCalendarBundle:Calendar:calendar.html.twig' %}
+        {% endblock %}
+    </div>
+{% endblock %}

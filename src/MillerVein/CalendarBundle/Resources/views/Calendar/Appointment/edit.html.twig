@@ -1,8 +1,0 @@
-{% extends "MillerVeinCalendarBundle:Calendar:Appointment/form.html.twig" %}
-{% block appointment_type_select %}{% endblock %}
-{% block appointment_buttons %} 
-<a class="reminder_button" href="#">Reminder</a>
-<a class="paperwork_button" href="#">Paperwork</a>
-{#<button onclick='window.location.assign("{{path('appointment_delete',{'id':id})}}");'>Delete</button>#}
-{{parent()}}
-{% endblock %}

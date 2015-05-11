@@ -1,0 +1,34 @@
+{% extends "::base.html.twig" %}
+{#Title#}
+{% block title %}{% endblock %}
+
+{#Stylesheets#}
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets 'bundles/emrcalendar/css/jqueryui/*'  
+    'bundles/emrveincalendar/css/forms/*'
+    'bundles/emrcalendar/css/main.css'
+    filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{#Javascripts#}
+{% block javascripts %}
+    {{ parent()}}
+    {% javascripts 
+    '@EMRCalendarBundle/Resources/public/js/jquery/*'
+    '@EMRCalendarBundle/Resources/public/js/jqueryui/*'
+    '@EMRCalendarBundle/Resources/public/js/jquerymobile/*'
+    '@EMRCalendarBundle/Resources/public/js/moment/*'
+    '@EMRCalendarBundle/Resources/public/js/forms/*' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+{% endblock %}
+
+{#Body#}
+{% block body %}
+
+{% endblock %}

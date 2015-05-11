@@ -1,0 +1,13 @@
+services:
+    emr.patient_tracker.form.type.site:
+        class: EMR\Bundle\PatientTrackerBundle\Form\Type\SiteType
+        tags:
+            - { name: form.type, alias: site }
+    emr.patient_tracker.form.type.room:
+        class: EMR\Bundle\PatientTrackerBundle\Form\Type\RoomType
+        tags:
+            - { name: form.type, alias: room }
+    emr.patient_tracker.listener.appointment.onflush:
+        class: EMR\Bundle\PatientTrackerBundle\EventListener\AppointmentEventListener
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }

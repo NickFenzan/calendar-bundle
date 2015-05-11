@@ -1,0 +1,11 @@
+{% extends "EMRPatientTrackerBundle::base.html.twig" %}
+{#Title#}
+{% block title %}New Room{% endblock %}
+{% block body %}
+    <div>
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.site,{label_attr:{style:"display:none"},attr:{style:"display:none"}}) }}
+    {{ form_end(form) }}
+    </div>
+{% endblock %}

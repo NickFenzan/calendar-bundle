@@ -1,0 +1,7 @@
+<div id="calendar">
+    {% for column in calendar.columns %}
+        {% include 'EMRCalendarBundle:Calendar:column.html.twig' %}
+    {% endfor %}
+    <div id="appointment-dialog">
+    </div>
+</div>

@@ -1,0 +1,19 @@
+{% extends "EMRPatientTrackerBundle::base.html.twig" %}
+{% import _self as tracker %}
+{% block title %}Patient Tracker{% endblock %}
+{% block body %}
+    <div id="siteDiv">
+        {% include 'EMRPatientTrackerBundle:Tracker:sites.html.twig' %}
+    </div>
+    <div id='roomsDiv'>
+    </div>
+</body>
+{% endblock %}
+{% block javascripts %}
+    {{parent()}}
+    {% javascripts 
+    '@EMRPatientTrackerBundle/Resources/public/js/patient_tracker.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
