@@ -22,6 +22,9 @@ abstract class CategoryType extends AbstractType {
                 ->add('min_duration', 'number')
                 ->add('max_duration', 'number')
                 ->add('default_duration', 'number')
+                ->add('overlaps_allowed', 'number', [
+                    'label' => 'Overlaps Allowed'
+                ])
                 ->add('required_column_tags', 'entity', [
                     'property' => 'name',
                     'class' => 'EMRCalendarBundle:ColumnTag',

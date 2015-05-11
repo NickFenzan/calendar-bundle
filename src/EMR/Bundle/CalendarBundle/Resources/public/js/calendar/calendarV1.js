@@ -34,7 +34,7 @@ calendar.ajax = {
     }
 };
 
-$.widget('millerveincalendar.calendar_controls', {
+$.widget('emrcalendar.calendar_controls', {
     previous_button: null,
     next_button: null,
     find_appointment_button: null,
@@ -175,7 +175,7 @@ $.widget('millerveincalendar.calendar_controls', {
         this._preopLinkUpdate();
     }
 });
-$.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
+$.widget('emrcalendar.appointment_dialog', $.ui.dialog, {
     form: null,
     appointment_type_select: null,
     column_input: null,
@@ -310,7 +310,7 @@ $.widget('millerveincalendar.appointment_dialog', $.ui.dialog, {
         })
     }
 });
-$.widget('millerveincalendar.appointment', {
+$.widget('emrcalendar.appointment', {
     options: {
         appointment_dialog: null,
         tooltip: {
@@ -363,7 +363,7 @@ $.widget('millerveincalendar.appointment', {
         calendar.appointment_dialog.appointment_dialog('open');
     }
 });
-$.widget('millerveincalendar.time_button', {
+$.widget('emrcalendar.time_button', {
     options: {
         appointment_dialog: null
     },
@@ -388,7 +388,7 @@ $.widget('millerveincalendar.time_button', {
         calendar.appointment_dialog.appointment_dialog('open');
     }
 });
-$.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
+$.widget('emrcalendar.appointment_finder', $.ui.dialog, {
     results: null,
     resultsLoading: null,
     category: null,
@@ -461,7 +461,7 @@ $.widget('millerveincalendar.appointment_finder', $.ui.dialog, {
         });
     }
 });
-$.widget('millerveincalendar.staffing_dialog', $.ui.dialog, {
+$.widget('emrcalendar.staffing_dialog', $.ui.dialog, {
     options: {
         autoOpen: false,
         modal: true,

@@ -47,14 +47,16 @@ class CalendarBuilder {
         foreach ($columns as $column) {
             /* @var $column Column */
             $hours = $column->findHours($date);
-            if ($hours && $hours->isOpen()) {
-                $openTime = DateTimeUtility::moveTimeToDate($date, $hours->getOpenTime());
-                $closeTime = DateTimeUtility::moveTimeToDate($date, $hours->getCloseTime());
-                if ($openTime < $earliestTime || $earliestTime == null) {
-                    $earliestTime = $openTime;
-                }
-                if ($closeTime > $latestTime || $latestTime == null) {
-                    $latestTime = $closeTime;
+            if ($hours) {
+                if($hours->isOpen()){
+                    $openTime = DateTimeUtility::moveTimeToDate($date, $hours->getOpenTime());
+                    $closeTime = DateTimeUtility::moveTimeToDate($date, $hours->getCloseTime());
+                    if ($openTime < $earliestTime || $earliestTime == null) {
+                        $earliestTime = $openTime;
+                    }
+                    if ($closeTime > $latestTime || $latestTime == null) {
+                        $latestTime = $closeTime;
+                    }
                 }
                 if ($smallestIncrement == null || $smallestIncrement < $hours->getSchedulingInterval()){
                     $smallestIncrement = $hours->getSchedulingInterval();
@@ -62,6 +64,10 @@ class CalendarBuilder {
             }
         }
 
+        if ($smallestIncrement == null){
+            $smallestIncrement = $interval;
+        }
+        
         foreach ($columns as $column) {
             $columnView = new ColumnView($column);
             $timeSlotCollection = new TimeSlotCollection();

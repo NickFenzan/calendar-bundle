@@ -73,6 +73,13 @@ class Category {
      * @ORM\ManyToMany(targetEntity="EMR\Bundle\CalendarBundle\Entity\ColumnTag", inversedBy="categories")
      */
     protected $required_column_tags;
+    
+    /**
+     * Number of overlapping appointments allowed
+     * @var int
+     * @ORM\Column(type="smallint")
+     */
+    protected $overlaps_allowed;
 
     public function __construct() {
         $this->required_column_tags = new ArrayCollection();
@@ -106,7 +113,11 @@ class Category {
     public function getDefaultDuration() {
         return $this->default_duration;
     }
-
+    
+    function getOverlapsAllowed() {
+        return $this->overlaps_allowed;
+    }
+    
     public function getRequiredColumnTags() {
         return $this->required_column_tags;
     }
@@ -139,6 +150,10 @@ class Category {
 
     public function setDefaultDuration($default_duration) {
         $this->default_duration = $default_duration;
+    }
+    
+    function setOverlapsAllowed($overlaps_allowed) {
+        $this->overlaps_allowed = $overlaps_allowed;
     }
 
     public function setRequiredColumnTags(ArrayCollection $required_column_tags) {

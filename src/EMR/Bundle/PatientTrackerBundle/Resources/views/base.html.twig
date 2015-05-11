@@ -5,9 +5,9 @@
 {#Stylesheets#}
 {% block stylesheets %}
     {{ parent() }}
-    {% stylesheets 'bundles/millerveincalendar/css/jqueryui/*'  
-    'bundles/millerveincalendar/css/main.css'
-    'bundles/millerveinpatienttracker/css/*'
+    {% stylesheets 'bundles/emrcalendar/css/jqueryui/*'  
+    'bundles/emrcalendar/css/main.css'
+    'bundles/emrpatienttracker/css/*'
     filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}

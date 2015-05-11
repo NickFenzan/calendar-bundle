@@ -20,16 +20,17 @@ class UniqueAppointmentTimeValidator extends ConstraintValidator {
     }
 
     public function validate($object, Constraint $constraint) {
-        //Temporary Hack to make Free consults non-blocking
-        if($object->getCategory()->getId() == 17){
-            return;
-        }
         $conflicts = $this->em
                 ->getRepository('EMRCalendarBundle:Appointment\Appointment')
                 ->findOverlappingAppointmentsByColumn($object->getColumn(), $object->getStart(), $object->getEnd(), [$object->getId()]);
 
-        if (count($conflicts) > 0) {
-            $this->context->addViolation('There is already an event during this time!');
+        $overlapsAllowed = $object->getCategory()->getOverlapsAllowed();
+        foreach($conflicts as $appointment){
+            $appointmentOverlaps = $appointment->getCategory()->getOverlapsAllowed();
+            $overlapsAllowed = ( $appointmentOverlaps > $overlapsAllowed ) ? $appointmentOverlaps : $overlapsAllowed;
+        }
+        if (count($conflicts) > $overlapsAllowed) {
+            $this->context->addViolation('This timeslot is full for appointments of this type.');
         }
     }
 
