@@ -39,7 +39,7 @@ twig:
         resources: ['form_table_layout.html.twig']
     form_themes:
         - 'EMRCalendarBundle:Form:fields.html.twig'
-        - 'FormFieldsBundle::fields.html.twig'
+        - 'MillerVeinFormFieldsBundle::fields.html.twig'
 
 # Assetic Configuration
 assetic:

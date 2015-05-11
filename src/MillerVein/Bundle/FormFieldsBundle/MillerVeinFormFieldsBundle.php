@@ -4,6 +4,6 @@ namespace MillerVein\Bundle\FormFieldsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class FormFieldsBundle extends Bundle
+class MillerVeinFormFieldsBundle extends Bundle
 {
 }

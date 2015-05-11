@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class FormFieldsExtension extends Extension
+class MillerVeinFormFieldsExtension extends Extension
 {
     /**
      * {@inheritdoc}

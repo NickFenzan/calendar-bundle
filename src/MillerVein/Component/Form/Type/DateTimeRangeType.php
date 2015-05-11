@@ -17,10 +17,28 @@ class DateTimeRangeType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $controlOptions = $options;
-        unset($controlOptions['mode']);
-        if ($options['mode'] !== 'datetime') {
-            unset($controlOptions['date_widget']);
-            unset($controlOptions['time_widget']);
+        switch($options['mode']){
+            case 'date':
+                $controlOptions = array_intersect_key($options, array_flip(array(
+                    'required',
+                    'format',
+                    'widget'
+                )));
+                break;
+            case 'time':
+                $controlOptions = array_intersect_key($options, array_flip(array(
+                    'required',
+                    'widget'
+                )));
+                break;
+            case 'datetime':
+            default:
+                $controlOptions = array_intersect_key($options, array_flip(array(
+                    'required',
+                    'widget',
+                    'date_widget',
+                    'time_widget'
+                )));
         }
         $builder->add('start', $options['mode'], $controlOptions)
                 ->add('end', $options['mode'], $controlOptions);
@@ -48,12 +66,21 @@ class DateTimeRangeType extends AbstractType {
         $timeWidget = function (Options $options) {
             return $options['widget'];
         };
+        
+        $dateFormat = function(Options $options){
+            if ($options['mode'] === 'date') {
+                return 'MM/dd/yyyy';
+            }else{
+                return null;
+            }
+        };
 
         $resolver->setDefaults([
             'mode' => 'datetime',
             'widget' => $widget,
             'date_widget' => $dateWidget,
             'time_widget' => $timeWidget,
+            'format' => $dateFormat
         ]);
 
         $resolver->setAllowedValues([
