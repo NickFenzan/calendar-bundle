@@ -20,7 +20,7 @@ abstract class DefaultController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository($fullClassName);
 
-        return $this->render("MillerVeinCalendarBundle:Default:index.html.twig", [
+        return $this->render("EMRCalendarBundle:Default:index.html.twig", [
                     'classname' => static::CLASS_NAME,
                     'entities' => $repo->findAll(),
                     'displayProperty' => static::DISPLAY_PROPERTY
@@ -61,7 +61,7 @@ abstract class DefaultController extends Controller {
             $em->flush();
         }
 
-        return $this->render("MillerVeinCalendarBundle:Default:form.html.twig", [
+        return $this->render("EMRCalendarBundle:Default:form.html.twig", [
                     'classname' => static::CLASS_NAME,
                     'form' => $form->createView(),
                     'indexPath' => ($id) ? '../' : './'

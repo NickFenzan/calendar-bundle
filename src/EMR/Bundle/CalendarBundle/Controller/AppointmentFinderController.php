@@ -22,7 +22,7 @@ class AppointmentFinderController extends Controller {
      */
     public function formAction() {
         $form = $this->createForm('appointment_finder_request');
-        return $this->render('MillerVeinCalendarBundle::form.html.twig',
+        return $this->render('EMRCalendarBundle::form.html.twig',
         ['form'=>$form->createView()]);
     }
     
@@ -41,7 +41,7 @@ class AppointmentFinderController extends Controller {
         if($form->isValid()){
             $apptFinder = new AppointmentFinder($em);
             $appts = $apptFinder->findAppointments($appt_request);
-            $results = $this->renderView('MillerVeinCalendarBundle:Calendar\AppointmentFinder:results.html.twig',['appts'=>$appts]);
+            $results = $this->renderView('EMRCalendarBundle:Calendar\AppointmentFinder:results.html.twig',['appts'=>$appts]);
             $response['status'] = 'Success';
             $response['html'] = $results;
         }else{

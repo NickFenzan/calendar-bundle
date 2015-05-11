@@ -1,15 +1,15 @@
-{% extends "MillerVeinCalendarBundle::base.html.twig" %}
+{% extends "EMRCalendarBundle::base.html.twig" %}
 {% block title %}Invalid Appointments Report{% endblock %}
 {% block javascripts %}
     {{ parent() }}
     {% javascripts 
-    '@MillerVeinCalendarBundle/Resources/public/js/reports/invalidAppointment.js' %}
+    '@EMRCalendarBundle/Resources/public/js/reports/invalidAppointment.js' %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
 {% block body %}
     <div class="controls">
-        {% include 'MillerVeinCalendarBundle:Reports:InvalidAppointment\\request.html.twig' %}
+        {% include 'EMRCalendarBundle:Reports:InvalidAppointment\\request.html.twig' %}
     </div>
     <div class="results">
         {% for result in report.results %}

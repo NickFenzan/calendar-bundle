@@ -2,7 +2,7 @@
 
 namespace EMR\Bundle\PatientTrackerBundle\Controller;
 
-use EMR\Bundle\EMRBundle\Entity\Site;
+use EMR\Bundle\LegacyBundle\Entity\Site;
 use EMR\Bundle\PatientTrackerBundle\Entity\Room;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -21,7 +21,7 @@ class RoomController extends Controller{
         $siteForm = $this->createForm('site',null,[
             'action' => $this->generateUrl('rooms_site_index')
         ]);
-        return $this->render('MillerVeinPatientTrackerBundle:Room:index.html.twig',[
+        return $this->render('EMRPatientTrackerBundle:Room:index.html.twig',[
             'site_form' => $siteForm->createView()
         ]);
     }
@@ -32,9 +32,9 @@ class RoomController extends Controller{
         $siteForm = $this->createForm('site');
         $siteForm->handleRequest($request);
         $data = $siteForm->getData();
-        $roomRepo = $this->getDoctrine()->getRepository('MillerVeinPatientTrackerBundle:Room');
+        $roomRepo = $this->getDoctrine()->getRepository('EMRPatientTrackerBundle:Room');
         $rooms = $roomRepo->findRoomBySite($data['site']);
-        return $this->render('MillerVeinPatientTrackerBundle:Room:siteIndex.html.twig',[
+        return $this->render('EMRPatientTrackerBundle:Room:siteIndex.html.twig',[
             'site' => $data['site'],
             'rooms' => $rooms
         ]);
@@ -50,7 +50,7 @@ class RoomController extends Controller{
         $form = $this->createForm('room',$room,[
             'action' => $this->generateUrl('rooms_add_submit')
         ]);
-        return $this->render('MillerVeinPatientTrackerBundle:Room:new.html.twig',[
+        return $this->render('EMRPatientTrackerBundle:Room:new.html.twig',[
             'form' => $form->createView()
         ]);
     }
@@ -68,7 +68,7 @@ class RoomController extends Controller{
             $em->flush();
             return new Response();
         }else{
-            return $this->render('MillerVeinPatientTrackerBundle:Room:new.html.twig',[
+            return $this->render('EMRPatientTrackerBundle:Room:new.html.twig',[
                 'form' => $form->createView()
             ]);
         }

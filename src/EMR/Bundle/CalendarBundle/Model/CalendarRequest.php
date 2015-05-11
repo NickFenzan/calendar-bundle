@@ -6,7 +6,7 @@ use DateTime;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManager;
 use EMR\Bundle\CalendarBundle\Model\Collections\ColumnCollection;
-use EMR\Bundle\EMRBundle\Entity\Site;
+use EMR\Bundle\LegacyBundle\Entity\Site;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**

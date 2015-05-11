@@ -21,7 +21,7 @@ class PatientAppointmentType extends AppointmentType {
 //        $calCol = $options['calendar_column'];
 
         $builder->add('category', 'entity', [
-                    'class' => 'MillerVeinCalendarBundle:Category\PatientCategory',
+                    'class' => 'EMRCalendarBundle:Category\PatientCategory',
                     'property' => 'name',
 //                    'choices' =>
 //                    function(EntityRepository $er) {
@@ -38,7 +38,7 @@ class PatientAppointmentType extends AppointmentType {
                 ])
                 ->add('status', 'entity', [
                     'property' => 'name',
-                    'class' => 'MillerVeinCalendarBundle:AppointmentStatus',
+                    'class' => 'EMRCalendarBundle:AppointmentStatus',
                     'query_builder' => function(EntityRepository $er) {
                 return $er->createQueryBuilder('a')
                         ->orderBy('a.display_position', 'ASC');

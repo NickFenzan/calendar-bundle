@@ -23,7 +23,7 @@ class CalendarRequestType extends AbstractType{
                     'format' => 'MM/dd/yyyy'
                 ])
                 ->add('site', 'entity', [
-                    'class' => 'MillerVeinEMRBundle:Site',
+                    'class' => 'EMRLegacyBundle:Site',
                     'property' => 'city',
                 ])
                 ->add('show_cancelled', 'checkbox', [

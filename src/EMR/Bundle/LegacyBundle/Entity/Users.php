@@ -1,6 +1,6 @@
 <?php
 
-namespace EMR\Bundle\EMRBundle\Entity;
+namespace EMR\Bundle\LegacyBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;

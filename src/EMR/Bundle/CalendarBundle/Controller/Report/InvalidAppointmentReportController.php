@@ -33,7 +33,7 @@ class InvalidAppointmentReportController extends Controller {
             $report->run();
         }
 
-        return $this->render('MillerVeinCalendarBundle:Reports:InvalidAppointment\report.html.twig', [
+        return $this->render('EMRCalendarBundle:Reports:InvalidAppointment\report.html.twig', [
                     'report' => $report
         ]);
     }

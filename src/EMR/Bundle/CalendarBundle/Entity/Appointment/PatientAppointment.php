@@ -4,7 +4,7 @@ namespace EMR\Bundle\CalendarBundle\Entity\Appointment;
 
 use Doctrine\ORM\Mapping as ORM;
 use EMR\Bundle\CalendarBundle\Entity\AppointmentStatus;
-use EMR\Bundle\EMRBundle\Entity\PatientData;
+use EMR\Bundle\LegacyBundle\Entity\PatientData;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -20,7 +20,7 @@ class PatientAppointment extends Appointment {
     /**
      * @var EMRPatient
      * @Assert\NotBlank()
-     * @ORM\ManyToOne(targetEntity="EMR\Bundle\EMRBundle\Entity\PatientData")
+     * @ORM\ManyToOne(targetEntity="EMR\Bundle\LegacyBundle\Entity\PatientData")
      * @ORM\JoinColumn(name="patient_id", referencedColumnName="pid")
      * */
     protected $patient;

@@ -17,7 +17,7 @@ class HoursRepository extends EntityRepository {
     public function findActiveHours() {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $qb->select('h')
-                ->from('MillerVeinCalendarBundle:Hours', 'h')
+                ->from('EMRCalendarBundle:Hours', 'h')
                 ->where($qb->expr()->gte('h.end_date', ':date'))
                 ->orWhere($qb->expr()->isNull('h.end_date'))
                 ->setParameter('date', '2015-05-01')
@@ -28,7 +28,7 @@ class HoursRepository extends EntityRepository {
     public function findByRequest(HoursAdminRequest $request) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('h')
-                ->from('MillerVeinCalendarBundle:Hours', 'h');
+                ->from('EMRCalendarBundle:Hours', 'h');
         
         $startDate = $request->getStartDate();
         $endDate = $request->getEndDate();

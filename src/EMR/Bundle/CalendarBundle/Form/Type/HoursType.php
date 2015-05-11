@@ -39,7 +39,7 @@ class HoursType extends AbstractType {
                 ->add('scheduling_increment', 'number')
                 ->add('recurrence_rule', 'entity', array(
                     'required' => false,
-                    'class' => 'MillerVeinCalendarBundle:RecurrenceRule',
+                    'class' => 'EMRCalendarBundle:RecurrenceRule',
                     'property' => 'name'
         ));
     }

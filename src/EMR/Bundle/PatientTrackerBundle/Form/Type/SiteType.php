@@ -14,7 +14,7 @@ class SiteType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('site','entity',[
-                    'class' => 'MillerVeinEMRBundle:Site',
+                    'class' => 'EMRLegacyBundle:Site',
                     'property' => 'city'
                 ])
         ;

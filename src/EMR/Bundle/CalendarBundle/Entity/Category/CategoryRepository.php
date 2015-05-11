@@ -20,7 +20,7 @@ class CategoryRepository extends EntityRepository {
         }
         $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $qb->addSelect('c')
-            ->from('MillerVeinCalendarBundle:'.static::ENTITY_NAME, 'c')
+            ->from('EMRCalendarBundle:'.static::ENTITY_NAME, 'c')
             ->join('c.required_column_tags', 'tags')
             ->where('tags IN(:tags)')
             ->orderBy('c.name')

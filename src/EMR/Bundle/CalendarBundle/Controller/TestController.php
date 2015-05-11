@@ -24,8 +24,8 @@ class TestController extends Controller {
      * @Route("/yo")
      */
     public function yoAction(){
-        $colRepo = $this->getDoctrine()->getManager()->getRepository("MillerVeinCalendarBundle:Column");
-        $site = new \EMR\Bundle\EMRBundle\Entity\Site();
+        $colRepo = $this->getDoctrine()->getManager()->getRepository("EMRCalendarBundle:Column");
+        $site = new \EMR\Bundle\LegacyBundle\Entity\Site();
         $category = new \EMR\Bundle\CalendarBundle\Entity\Category\Category();
         $colRepo->findBySiteAndCategory($site,$category);
         return new Response();
@@ -38,7 +38,7 @@ class TestController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $q = $em->createQuery(
                 'SELECT  a '
-                . ' FROM MillerVeinCalendarBundle:Appointment\PatientAppointment a '
+                . ' FROM EMRCalendarBundle:Appointment\PatientAppointment a '
                 . ' WHERE a.id > 74336'
                 );
         $results = $q->getResult();
@@ -94,10 +94,10 @@ class TestController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $db = $em->getConnection();
-        $columnRepo = $em->getRepository("MillerVeinCalendarBundle:Column");
-        $categoryRepo = $em->getRepository("MillerVeinCalendarBundle:Category\PatientCategory");
-        $apptStatusRepo = $em->getRepository("MillerVeinCalendarBundle:AppointmentStatus");
-        $patientRepo = $em->getRepository("MillerVeinEMRBundle:PatientData");
+        $columnRepo = $em->getRepository("EMRCalendarBundle:Column");
+        $categoryRepo = $em->getRepository("EMRCalendarBundle:Category\PatientCategory");
+        $apptStatusRepo = $em->getRepository("EMRCalendarBundle:AppointmentStatus");
+        $patientRepo = $em->getRepository("EMRLegacyBundle:PatientData");
 
         $maxAppt = $db->fetchColumn('SELECT MAX(id) FROM calendar.appointment');
         if(!$maxAppt){

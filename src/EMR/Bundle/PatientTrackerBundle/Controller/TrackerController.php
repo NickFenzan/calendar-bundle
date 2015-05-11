@@ -2,7 +2,7 @@
 
 namespace EMR\Bundle\PatientTrackerBundle\Controller;
 
-use EMR\Bundle\EMRBundle\Entity\Site;
+use EMR\Bundle\LegacyBundle\Entity\Site;
 use EMR\Bundle\PatientTrackerBundle\Entity\PatientTrackerStep;
 use EMR\Bundle\PatientTrackerBundle\Entity\PatientTrackerVisit;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -22,7 +22,7 @@ class TrackerController extends Controller {
         $siteList = $this->createForm('site', null, [
             'action' => $this->generateUrl('tracker_site_post')
         ]);
-        return $this->render('MillerVeinPatientTrackerBundle:Tracker:tracker.html.twig', [
+        return $this->render('EMRPatientTrackerBundle:Tracker:tracker.html.twig', [
                     'site_list' => $siteList->createView()
 //                    'All_Sites' => $siteRepo->findAll()
         ]);
@@ -44,9 +44,9 @@ class TrackerController extends Controller {
      * @Method({"GET"})
      */
     public function siteRoomIndexAction(Site $site) {
-        $roomRepo = $this->getDoctrine()->getRepository('MillerVeinPatientTrackerBundle:Room');
+        $roomRepo = $this->getDoctrine()->getRepository('EMRPatientTrackerBundle:Room');
         $rooms = $roomRepo->findRoomBySite($site);
-        return $this->render('MillerVeinPatientTrackerBundle:Tracker:rooms.html.twig', [
+        return $this->render('EMRPatientTrackerBundle:Tracker:rooms.html.twig', [
                     "rooms" => $rooms
         ]);
     }
@@ -56,13 +56,13 @@ class TrackerController extends Controller {
      */
     public function timingCheckAction(Site $site) {
         $em = $this->getDoctrine()->getManager();
-        $visitRepo = $em->getRepository('MillerVeinPatientTrackerBundle:PatientTrackerVisit');
+        $visitRepo = $em->getRepository('EMRPatientTrackerBundle:PatientTrackerVisit');
         $visits = $visitRepo->findActiveVisitsBySite($site);
 
         $rooms = array();
         foreach ($visits as $visit) {
             /* @var $visit PatientTrackerVisit */
-            $rooms[$visit->getCurrentStep()->getRoom()->getId()][] = $this->renderView('MillerVeinPatientTrackerBundle:Tracker:visit.html.twig', ['visit' => $visit]);
+            $rooms[$visit->getCurrentStep()->getRoom()->getId()][] = $this->renderView('EMRPatientTrackerBundle:Tracker:visit.html.twig', ['visit' => $visit]);
         }
 
         return new JsonResponse($rooms);
@@ -73,8 +73,8 @@ class TrackerController extends Controller {
      */
     public function stepAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $roomRepo = $em->getRepository('MillerVeinPatientTrackerBundle:Room');
-        $visitRepo = $em->getRepository('MillerVeinPatientTrackerBundle:PatientTrackerVisit');
+        $roomRepo = $em->getRepository('EMRPatientTrackerBundle:Room');
+        $visitRepo = $em->getRepository('EMRPatientTrackerBundle:PatientTrackerVisit');
         
         $room = $roomRepo->find($request->request->get('room'));
         $visit = $visitRepo->find($request->request->get('visit'));
@@ -97,8 +97,8 @@ class TrackerController extends Controller {
     public function checkoutAction(PatientTrackerVisit $visit) {
         $em = $this->getDoctrine()->getManager();
         
-        $roomRepo = $em->getRepository('MillerVeinPatientTrackerBundle:Room');
-        $statusRepo = $em->getRepository('MillerVeinCalendarBundle:AppointmentStatus');
+        $roomRepo = $em->getRepository('EMRPatientTrackerBundle:Room');
+        $statusRepo = $em->getRepository('EMRCalendarBundle:AppointmentStatus');
         
         $appointment = $visit->getAppointment();
         $site = $appointment->getColumn()->getSite();

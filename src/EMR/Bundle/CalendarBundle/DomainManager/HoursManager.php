@@ -26,7 +26,7 @@ class HoursManager {
 
     public function __construct(EntityManager $entityManager) {
         $this->entityManager = $entityManager;
-        $this->repository = $entityManager->getRepository('MillerVeinCalendarBundle:Hours');
+        $this->repository = $entityManager->getRepository('EMRCalendarBundle:Hours');
     }
 
     

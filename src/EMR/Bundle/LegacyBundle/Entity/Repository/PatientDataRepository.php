@@ -1,6 +1,6 @@
 <?php
 
-namespace EMR\Bundle\EMRBundle\Entity\Repository;
+namespace EMR\Bundle\LegacyBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -31,7 +31,7 @@ class PatientDataRepository extends EntityRepository{
         
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT p FROM MillerVeinEMRBundle:PatientData p '
+                'SELECT p FROM EMRLegacyBundle:PatientData p '
                     . ' WHERE '
                     . ' (p.lname LIKE :lname '
                     . $namesCondition . ' p.fname LIKE :fname)'

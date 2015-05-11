@@ -14,13 +14,13 @@ class ProviderAppointmentType extends AppointmentType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         parent::buildForm($builder, $options);
         $builder->add('category', 'entity', [
-                    'class' => 'MillerVeinCalendarBundle:Category\ProviderCategory',
+                    'class' => 'EMRCalendarBundle:Category\ProviderCategory',
                     'property' => 'name'
                 ]);
 //                ->add('recurrence_rule', 'entity', [
 //                    'label' => 'Repeats',
 //                    'required' => false,
-//                    'class' => 'MillerVeinCalendarBundle:RecurrenceRule',
+//                    'class' => 'EMRCalendarBundle:RecurrenceRule',
 //                    'property' => 'name'
 //                ]);
         $this->submitButtons($builder);

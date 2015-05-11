@@ -15,7 +15,7 @@ class RoomType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('name')
                 ->add('site','entity',[
-                    'class' => 'MillerVeinEMRBundle:Site',
+                    'class' => 'EMRLegacyBundle:Site',
                     'property' => 'city'
                 ])
         ;

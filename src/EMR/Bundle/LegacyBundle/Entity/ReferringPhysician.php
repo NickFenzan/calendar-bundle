@@ -1,6 +1,6 @@
 <?php
 
-namespace EMR\Bundle\EMRBundle\Entity;
+namespace EMR\Bundle\LegacyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -85,9 +85,9 @@ class ReferringPhysician
     private $lastupdated;
 
     /**
-     * @var \EMR\Bundle\EMRBundle\Entity\Users
+     * @var \EMR\Bundle\LegacyBundle\Entity\Users
      *
-     * @ORM\ManyToOne(targetEntity="EMR\Bundle\EMRBundle\Entity\Users")
+     * @ORM\ManyToOne(targetEntity="EMR\Bundle\LegacyBundle\Entity\Users")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="lastUpdatedBy", referencedColumnName="id")
      * })
@@ -316,10 +316,10 @@ class ReferringPhysician
     /**
      * Set lastupdatedby
      *
-     * @param \EMR\Bundle\EMRBundle\Entity\Users $lastupdatedby
+     * @param \EMR\Bundle\LegacyBundle\Entity\Users $lastupdatedby
      * @return ReferringPhysician
      */
-    public function setLastupdatedby(\EMR\Bundle\EMRBundle\Entity\Users $lastupdatedby = null)
+    public function setLastupdatedby(\EMR\Bundle\LegacyBundle\Entity\Users $lastupdatedby = null)
     {
         $this->lastupdatedby = $lastupdatedby;
 
@@ -329,7 +329,7 @@ class ReferringPhysician
     /**
      * Get lastupdatedby
      *
-     * @return \EMR\Bundle\EMRBundle\Entity\Users 
+     * @return \EMR\Bundle\LegacyBundle\Entity\Users 
      */
     public function getLastupdatedby()
     {

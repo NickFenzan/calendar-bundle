@@ -4,8 +4,8 @@ namespace EMR\Bundle\CalendarBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use EMR\Bundle\EMRBundle\Entity\Site;
-use EMR\Bundle\EMRBundle\Entity\Users;
+use EMR\Bundle\LegacyBundle\Entity\Site;
+use EMR\Bundle\LegacyBundle\Entity\Users;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -29,8 +29,8 @@ class Column {
     
     /**
      * Legacy Provider.
-     * @var \EMR\Bundle\EMRBundle\Entity\Users
-     * @ORM\ManyToOne(targetEntity="EMR\Bundle\EMRBundle\Entity\Users")
+     * @var \EMR\Bundle\LegacyBundle\Entity\Users
+     * @ORM\ManyToOne(targetEntity="EMR\Bundle\LegacyBundle\Entity\Users")
      */
     protected $legacy_provider;
     
@@ -45,14 +45,14 @@ class Column {
     /**
      * Site this column belongs to.
      * @var Site
-     * @ORM\ManyToOne(targetEntity="EMR\Bundle\EMRBundle\Entity\Site", inversedBy="columns")
+     * @ORM\ManyToOne(targetEntity="EMR\Bundle\LegacyBundle\Entity\Site", inversedBy="columns")
      */
     protected $site;
     
     /**
      * Associated Provider.
-     * @var EMR\Bundle\EMRBundle\Entity\Users
-     * @ORM\ManyToOne(targetEntity="EMR\Bundle\EMRBundle\Entity\Users", inversedBy="calendar_columns")
+     * @var EMR\Bundle\LegacyBundle\Entity\Users
+     * @ORM\ManyToOne(targetEntity="EMR\Bundle\LegacyBundle\Entity\Users", inversedBy="calendar_columns")
      */
     protected $provider;
 

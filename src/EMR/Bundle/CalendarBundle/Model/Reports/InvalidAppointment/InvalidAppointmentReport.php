@@ -54,7 +54,7 @@ class InvalidAppointmentReport {
     }
 
     public function run(){
-        $apptRepo = $this->em->getRepository('MillerVeinCalendarBundle:Appointment\Appointment');
+        $apptRepo = $this->em->getRepository('EMRCalendarBundle:Appointment\Appointment');
         $appts = $apptRepo->findAppointmentsByDate($this->request->getStartDate(), $this->request->getEndDate());
         foreach($appts as $appt){
             $errors = $this->validator->validate($appt,null,["invalidAppointment"]);

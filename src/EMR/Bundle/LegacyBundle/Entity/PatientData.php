@@ -1,6 +1,6 @@
 <?php
 
-namespace EMR\Bundle\EMRBundle\Entity;
+namespace EMR\Bundle\LegacyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * PatientData
  *
  * @ORM\Table(name="openemr.patient_data", uniqueConstraints={@ORM\UniqueConstraint(name="pid", columns={"pid"})}, indexes={@ORM\Index(name="phone_cell", columns={"phone_cell"}), @ORM\Index(name="phone_home", columns={"phone_home"}), @ORM\Index(name="phone_biz", columns={"phone_biz"}), @ORM\Index(name="marketink_campaign", columns={"marketing_campaign"}), @ORM\Index(name="referring_physician_auth", columns={"referring_physician"})})
- * @ORM\Entity(repositoryClass="EMR\Bundle\EMRBundle\Entity\Repository\PatientDataRepository")
+ * @ORM\Entity(repositoryClass="EMR\Bundle\LegacyBundle\Entity\Repository\PatientDataRepository")
  */
 class PatientData
 {
@@ -281,9 +281,9 @@ class PatientData
     private $pleasecollect;
 
     /**
-     * @var \EMR\Bundle\EMRBundle\Entity\ReferringPhysician
+     * @var \EMR\Bundle\LegacyBundle\Entity\ReferringPhysician
      *
-     * @ORM\ManyToOne(targetEntity="EMR\Bundle\EMRBundle\Entity\ReferringPhysician")
+     * @ORM\ManyToOne(targetEntity="EMR\Bundle\LegacyBundle\Entity\ReferringPhysician")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="referring_physician", referencedColumnName="id")
      * })
@@ -291,9 +291,9 @@ class PatientData
     private $referringPhysician;
 
     /**
-     * @var \EMR\Bundle\EMRBundle\Entity\MarketingCampaign
+     * @var \EMR\Bundle\LegacyBundle\Entity\MarketingCampaign
      *
-     * @ORM\ManyToOne(targetEntity="EMR\Bundle\EMRBundle\Entity\MarketingCampaign")
+     * @ORM\ManyToOne(targetEntity="EMR\Bundle\LegacyBundle\Entity\MarketingCampaign")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="marketing_campaign", referencedColumnName="id")
      * })
@@ -1176,10 +1176,10 @@ class PatientData
     /**
      * Set referringPhysician
      *
-     * @param \EMR\Bundle\EMRBundle\Entity\ReferringPhysician $referringPhysician
+     * @param \EMR\Bundle\LegacyBundle\Entity\ReferringPhysician $referringPhysician
      * @return PatientData
      */
-    public function setReferringPhysician(\EMR\Bundle\EMRBundle\Entity\ReferringPhysician $referringPhysician = null)
+    public function setReferringPhysician(\EMR\Bundle\LegacyBundle\Entity\ReferringPhysician $referringPhysician = null)
     {
         $this->referringPhysician = $referringPhysician;
 
@@ -1189,7 +1189,7 @@ class PatientData
     /**
      * Get referringPhysician
      *
-     * @return \EMR\Bundle\EMRBundle\Entity\ReferringPhysician 
+     * @return \EMR\Bundle\LegacyBundle\Entity\ReferringPhysician 
      */
     public function getReferringPhysician()
     {
@@ -1199,10 +1199,10 @@ class PatientData
     /**
      * Set marketingCampaign
      *
-     * @param \EMR\Bundle\EMRBundle\Entity\MarketingCampaign $marketingCampaign
+     * @param \EMR\Bundle\LegacyBundle\Entity\MarketingCampaign $marketingCampaign
      * @return PatientData
      */
-    public function setMarketingCampaign(\EMR\Bundle\EMRBundle\Entity\MarketingCampaign $marketingCampaign = null)
+    public function setMarketingCampaign(\EMR\Bundle\LegacyBundle\Entity\MarketingCampaign $marketingCampaign = null)
     {
         $this->marketingCampaign = $marketingCampaign;
 
@@ -1212,7 +1212,7 @@ class PatientData
     /**
      * Get marketingCampaign
      *
-     * @return \EMR\Bundle\EMRBundle\Entity\MarketingCampaign 
+     * @return \EMR\Bundle\LegacyBundle\Entity\MarketingCampaign 
      */
     public function getMarketingCampaign()
     {

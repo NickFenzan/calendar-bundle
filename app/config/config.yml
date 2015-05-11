@@ -38,14 +38,14 @@ twig:
     form:
         resources: ['form_table_layout.html.twig']
     form_themes:
-        - 'MillerVeinCalendarBundle:Form:fields.html.twig'
+        - 'EMRCalendarBundle:Form:fields.html.twig'
         - 'FormFieldsBundle::fields.html.twig'
 
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ 'MillerVeinCalendarBundle', 'MillerVeinPatientTrackerBundle' ]
+    bundles:        [ 'EMRCalendarBundle', 'EMRPatientTrackerBundle' ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -74,9 +74,9 @@ doctrine:
             default:
                 connection: default
                 mappings:
-                    MillerVeinCalendarBundle: ~
-                    MillerVeinEMRBundle: ~
-                    MillerVeinPatientTrackerBundle: ~
+                    EMRCalendarBundle: ~
+                    EMRLegacyBundle: ~
+                    EMRPatientTrackerBundle: ~
                 dql:
                     datetime_functions:
                         date:     Luxifer\DQL\Datetime\Date
@@ -84,7 +84,7 @@ doctrine:
 #            openemr:
 #                connection: openemr
 #                mappings:
-#                    MillerVeinEMRBundle: ~
+#                    EMRLegacyBundle: ~
                         
 # Swiftmailer Configuration
 swiftmailer:

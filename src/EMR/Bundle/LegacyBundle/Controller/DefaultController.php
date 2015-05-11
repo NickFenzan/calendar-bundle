@@ -1,6 +1,6 @@
 <?php
 
-namespace EMR\Bundle\EMRBundle\Controller;
+namespace EMR\Bundle\LegacyBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

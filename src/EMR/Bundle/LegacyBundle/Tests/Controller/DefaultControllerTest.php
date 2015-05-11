@@ -1,6 +1,6 @@
 <?php
 
-namespace EMR\Bundle\PatientTrackerBundle\Tests\Controller;
+namespace EMR\Bundle\LegacyBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

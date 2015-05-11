@@ -109,7 +109,7 @@ class AppointmentFinder {
     }
 
     protected function appointmentConflictCheck(Column $column, \DateTime $requestedStart, \DateTime $requestedEnd) {
-        $apptRepo = $this->em->getRepository('MillerVeinCalendarBundle:Appointment\Appointment');
+        $apptRepo = $this->em->getRepository('EMRCalendarBundle:Appointment\Appointment');
         $appointments = $apptRepo->findOverlappingAppointmentsByColumn($column, $requestedStart, $requestedEnd);
         $conflicts = count($appointments);
         return ($conflicts <= static::CONFLICT_LIMIT);
@@ -131,7 +131,7 @@ class AppointmentFinder {
     }
 
     protected function findColumnsBySite() {
-        $colRepo = $this->em->getRepository('MillerVeinCalendarBundle:Column');
+        $colRepo = $this->em->getRepository('EMRCalendarBundle:Column');
         $site = $this->request->getSite();
         $category = $this->request->getCategory();
 

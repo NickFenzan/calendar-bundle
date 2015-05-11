@@ -5,7 +5,7 @@ namespace EMR\Bundle\CalendarBundle\Entity\Appointment;
 use DateTime;
 use Doctrine\ORM\EntityRepository;
 use EMR\Bundle\CalendarBundle\Entity\Column;
-use EMR\Bundle\EMRBundle\Entity\Site;
+use EMR\Bundle\LegacyBundle\Entity\Site;
 
 /**
  * Description of AppointmentRepository
@@ -20,7 +20,7 @@ class AppointmentRepository extends EntityRepository {
         }
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('a,col')
-                ->from('MillerVeinCalendarBundle:Appointment\Appointment', 'a')
+                ->from('EMRCalendarBundle:Appointment\Appointment', 'a')
                 ->leftJoin('a.column', 'col')
                 ->leftJoin('a.status', 's')
                 ->where('a.start BETWEEN :dateOpen AND :dateClose');
@@ -42,7 +42,7 @@ class AppointmentRepository extends EntityRepository {
         }
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('a,col')
-                ->from('MillerVeinCalendarBundle:Appointment\Appointment', 'a')
+                ->from('EMRCalendarBundle:Appointment\Appointment', 'a')
                 ->leftJoin('a.column', 'col')
                 ->where('a.start BETWEEN :dateOpen AND :dateClose')
                 ->andWhere('col.site = :site');
@@ -59,7 +59,7 @@ class AppointmentRepository extends EntityRepository {
     public function findAppointmentsByColumnDate(Column $column, DateTime $date, $showCancelled = false) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('a,c')
-                ->from('MillerVeinCalendarBundle:Appointment\Appointment', 'a')
+                ->from('EMRCalendarBundle:Appointment\Appointment', 'a')
                 ->join('a.category', 'c')
                 ->leftJoin('a.status', 's')
                 ->where('a.start BETWEEN :dateOpen AND :dateClose')
@@ -80,7 +80,7 @@ class AppointmentRepository extends EntityRepository {
     public function findOverlappingAppointmentsByColumn($column, $startTime, $endTime, $exclude = array()) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('a')
-                ->from('MillerVeinCalendarBundle:Appointment\Appointment', 'a')
+                ->from('EMRCalendarBundle:Appointment\Appointment', 'a')
                 ->where(
                         $qb->expr()->orX(
                                 $qb->expr()->andX(

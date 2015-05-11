@@ -1,5 +1,5 @@
 services:
-    millervein.calendar.form.handler.hours:
+    emr.calendar.form.handler.hours:
         class: EMR\Bundle\CalendarBundle\Form\Handler\HoursFormHandler
         arguments:
-            - "@millervein.calendar.hours_manager"
+            - "@emr.calendar.hours_manager"

@@ -31,7 +31,7 @@ abstract class AppointmentType extends AbstractType {
                 ])
                 ->add('column', 'entity', [
                     'property' => 'name',
-                    'class' => 'MillerVeinCalendarBundle:Column'
+                    'class' => 'EMRCalendarBundle:Column'
                 ])
                 ->add('notes', 'textarea', [
                     'required' => false

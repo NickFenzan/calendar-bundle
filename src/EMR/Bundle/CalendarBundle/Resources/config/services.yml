@@ -1,25 +1,25 @@
 services:
-    millervein.calendar.repository.appointment_repository:
+    emr.calendar.repository.appointment_repository:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.entity_manager
         factory_method: getRepository
         arguments:
             - EMR\Bundle\CalendarBundle\Entity\Appointment\Appointment
             
-    millervein.calendar.repository.hours_repository:
+    emr.calendar.repository.hours_repository:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.entity_manager
         factory_method: getRepository
         arguments:
             - EMR\Bundle\CalendarBundle\Entity\Hours
             
-    millervein.calendar.calendar_builder:
+    emr.calendar.calendar_builder:
         class: EMR\Bundle\CalendarBundle\Model\CalendarBuilder
         arguments: 
-            - "@millervein.calendar.repository.appointment_repository"
+            - "@emr.calendar.repository.appointment_repository"
 #        alias: calendar_builder
 
-    millervein.calendar.unique_appointment_time_validator:
+    emr.calendar.unique_appointment_time_validator:
         class: EMR\Bundle\CalendarBundle\Validator\UniqueAppointmentTimeValidator
         arguments:
             - "@doctrine.orm.entity_manager"
@@ -27,7 +27,7 @@ services:
             -
                 name: validator.constraint_validator
                 alias: unique_appointment_time
-    millervein.calendar.appointment_time_hours_validator:
+    emr.calendar.appointment_time_hours_validator:
         class: EMR\Bundle\CalendarBundle\Validator\HoursAppointmentTimeValidator
         arguments:
             - "@doctrine.orm.entity_manager"
@@ -35,7 +35,7 @@ services:
             -
                 name: validator.constraint_validator
                 alias: valid_hours_appointment_time
-    millervein.calendar.category_column_validator:
+    emr.calendar.category_column_validator:
         class: EMR\Bundle\CalendarBundle\Validator\CategoryColumnValidator
         arguments:
             - "@doctrine.orm.entity_manager"
@@ -43,16 +43,16 @@ services:
             -
                 name: validator.constraint_validator
                 alias: category_column
-    millervein.calendar.no_past_appointments_validator:
+    emr.calendar.no_past_appointments_validator:
         class: EMR\Bundle\CalendarBundle\Validator\NoPastAppointmentsValidator
         tags:
             -
                 name: validator.constraint_validator
                 alias: no_past_appointments
                 
-    millervein.calendar.hours_manager:
+    emr.calendar.hours_manager:
         class: EMR\Bundle\CalendarBundle\DomainManager\HoursManager
         arguments:
             - "@doctrine.orm.entity_manager"
     hours_manager:
-        alias: millervein.calendar.hours_manager
+        alias: emr.calendar.hours_manager

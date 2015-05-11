@@ -64,7 +64,7 @@ class AppointmentFragmentBuilder {
     }
 
     protected function buildFirstPatientFragment(&$apptFragment, $appointment) {
-        /* @var $patient \EMR\Bundle\EMRBundle\Entity\PatientData */
+        /* @var $patient \EMR\Bundle\LegacyBundle\Entity\PatientData */
         $patient = $appointment->getPatient();
         $text = $appointment->getStatus()->getLegacyId() . ' ';
         $text .= ($patient->getNickname()) ? $patient->getNickname() : $patient->getFname();

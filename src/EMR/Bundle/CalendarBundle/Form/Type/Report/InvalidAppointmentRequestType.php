@@ -25,7 +25,7 @@ class InvalidAppointmentRequestType extends AbstractType{
 //                ->add('sites', 'entity', [
 //                    'required' => false,
 //                    'multiple' => true,
-//                    'class' => 'MillerVeinEMRBundle:Site',
+//                    'class' => 'EMRLegacyBundle:Site',
 //                    'property' => 'city',
 //                ])
 //                ->add('outside_of_hours', 'checkbox', [

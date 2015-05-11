@@ -1,4 +1,4 @@
-{% extends "MillerVeinCalendarBundle::base.html.twig" %}
+{% extends "EMRCalendarBundle::base.html.twig" %}
 {#Title#}
 {% block title %}Calendar{% endblock %}
 
@@ -14,7 +14,7 @@
 {#Javascripts#}
 {% block javascripts %}
     {{ parent()}}
-    {% javascripts '@MillerVeinCalendarBundle/Resources/public/js/calendar/*' output='js/compiled/calendarV2.js'%}
+    {% javascripts '@EMRCalendarBundle/Resources/public/js/calendar/*' output='js/compiled/calendarV2.js'%}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
@@ -23,10 +23,10 @@
 {% block body %}
     <div id="topLevelFlex">
         {% block controls %}
-            {% include 'MillerVeinCalendarBundle:Calendar:controls.html.twig' %}
+            {% include 'EMRCalendarBundle:Calendar:controls.html.twig' %}
         {% endblock %}
         {% block calendar %}
-            {% include 'MillerVeinCalendarBundle:Calendar:calendar.html.twig' %}
+            {% include 'EMRCalendarBundle:Calendar:calendar.html.twig' %}
         {% endblock %}
     </div>
 {% endblock %}

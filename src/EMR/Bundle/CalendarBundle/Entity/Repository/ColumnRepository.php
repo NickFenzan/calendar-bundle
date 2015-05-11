@@ -3,7 +3,7 @@
 namespace EMR\Bundle\CalendarBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use EMR\Bundle\EMRBundle\Entity\Site;
+use EMR\Bundle\LegacyBundle\Entity\Site;
 use EMR\Bundle\CalendarBundle\Entity\Category\Category;
 
 /**
@@ -16,7 +16,7 @@ class ColumnRepository extends EntityRepository{
         $qb = $this->getEntityManager()->createQueryBuilder();
         
         $qb->select('c')
-                ->from('MillerVeinCalendarBundle:Column', 'c')
+                ->from('EMRCalendarBundle:Column', 'c')
                 ->join('c.site', 's')
                 ->join('c.tags', 't')
                 ->join('t.categories', 'cat', \Doctrine\ORM\Query\Expr\Join::WITH, 'cat.id = :cat_id' )

@@ -35,7 +35,7 @@ class HoursController extends Controller {
             $hours = $hoursManager->findByRequest($hoursAdminRequest);
         }
         
-        return $this->render("MillerVeinCalendarBundle:Admin:Hours\index.html.twig", [
+        return $this->render("EMRCalendarBundle:Admin:Hours\index.html.twig", [
                     'form' => $form->createView(),
                     'hours' => $hours,
         ]);
@@ -68,11 +68,11 @@ class HoursController extends Controller {
     protected function formAction(FormInterface $form, Request $request){
         $form->add('submit', 'submit');
         /* @var $formHandler HoursFormHandler */
-        $formHandler = $this->get('millervein.calendar.form.handler.hours');
+        $formHandler = $this->get('emr.calendar.form.handler.hours');
         if ($formHandler->handle($form, $request)) {
             return $this->redirectToRoute('hours');
         }
-        return $this->render("MillerVeinCalendarBundle:Admin:Hours\\form.html.twig", [
+        return $this->render("EMRCalendarBundle:Admin:Hours\\form.html.twig", [
                     'form' => $form->createView()
         ]);
     }

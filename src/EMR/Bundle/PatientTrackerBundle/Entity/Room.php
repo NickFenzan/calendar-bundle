@@ -3,7 +3,7 @@
 namespace EMR\Bundle\PatientTrackerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use EMR\Bundle\EMRBundle\Entity\Site;
+use EMR\Bundle\LegacyBundle\Entity\Site;
 
 /**
  * Description of Room
@@ -26,7 +26,7 @@ class Room {
     protected $name;
     /**
      * @var Site
-     * @ORM\ManyToOne(targetEntity="\EMR\Bundle\EMRBundle\Entity\Site")
+     * @ORM\ManyToOne(targetEntity="\EMR\Bundle\LegacyBundle\Entity\Site")
      */
     protected $site;
     

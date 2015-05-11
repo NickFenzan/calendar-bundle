@@ -16,26 +16,26 @@ class ColumnType extends AbstractType {
         $builder->add('name', 'text')
                 ->add('legacy_provider','entity',[
                     'label' => 'Legacy Provider',
-                    'class' => 'MillerVeinEMRBundle:Users',
+                    'class' => 'EMRLegacyBundle:Users',
                     'property' => 'username'
                 ])
                 ->add('site','entity',[
-                    'class' => 'MillerVeinEMRBundle:Site',
+                    'class' => 'EMRLegacyBundle:Site',
                     'property' => 'city'
                 ])
                 ->add('provider','entity',[
                     'label' => 'Provider',
-                    'class' => 'MillerVeinEMRBundle:Users',
+                    'class' => 'EMRLegacyBundle:Users',
                     'property' => 'username'
                 ])
                 ->add('hours','entity',[
-                    'class' => 'MillerVeinCalendarBundle:Hours',
+                    'class' => 'EMRCalendarBundle:Hours',
                     'property' => 'name',
                     'multiple' => 'true',
                     'required' => false,
                 ])
                 ->add('tags','entity',[
-                    'class' => 'MillerVeinCalendarBundle:ColumnTag',
+                    'class' => 'EMRCalendarBundle:ColumnTag',
                     'property' => 'name',
                     'multiple' => 'true',
                     'required' => false,

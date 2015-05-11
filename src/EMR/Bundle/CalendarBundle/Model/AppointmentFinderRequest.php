@@ -4,7 +4,7 @@ namespace EMR\Bundle\CalendarBundle\Model;
 
 use DateTime;
 use EMR\Bundle\CalendarBundle\Entity\Category\PatientCategory;
-use EMR\Bundle\EMRBundle\Entity\Site;
+use EMR\Bundle\LegacyBundle\Entity\Site;
 
 /**
  * @author Nick Fenzan <nickf@millervein.com>

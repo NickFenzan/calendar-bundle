@@ -25,7 +25,7 @@ class UniqueAppointmentTimeValidator extends ConstraintValidator {
             return;
         }
         $conflicts = $this->em
-                ->getRepository('MillerVeinCalendarBundle:Appointment\Appointment')
+                ->getRepository('EMRCalendarBundle:Appointment\Appointment')
                 ->findOverlappingAppointmentsByColumn($object->getColumn(), $object->getStart(), $object->getEnd(), [$object->getId()]);
 
         if (count($conflicts) > 0) {

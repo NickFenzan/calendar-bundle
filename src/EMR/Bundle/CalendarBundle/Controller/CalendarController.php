@@ -19,7 +19,7 @@ class CalendarController extends Controller {
      * @Method({"GET"})
      */
     public function mainViewAction(Request $request) {
-        $siteRepo = $this->getDoctrine()->getManager()->getRepository('MillerVeinEMRBundle:Site');
+        $siteRepo = $this->getDoctrine()->getManager()->getRepository('EMRLegacyBundle:Site');
         $calendarRequest = new CalendarRequest($siteRepo);
         $session = $request->getSession();
         $calendarRequest->fromSession($session);
@@ -27,11 +27,11 @@ class CalendarController extends Controller {
             'action' => $this->generateUrl('calendar_request')
         ]);
         $appointmentFinder = $this->createForm('appointment_finder_request');
-        $calendarBuilder = $this->get('millervein.calendar.calendar_builder');
+        $calendarBuilder = $this->get('emr.calendar.calendar_builder');
         $calendar = $calendarBuilder->buildCalendar($calendarRequest);
         
 
-        return $this->render('MillerVeinCalendarBundle:Calendar:base.html.twig', [
+        return $this->render('EMRCalendarBundle:Calendar:base.html.twig', [
                     'calendar' => $calendar,
                     'controls' => $controls->createView(),
                     'appointment_finder' => $appointmentFinder->createView()
@@ -44,7 +44,7 @@ class CalendarController extends Controller {
      * @Method({"POST"})
      */
     public function calendarRequest(Request $request) {
-        $siteRepo = $this->getDoctrine()->getManager()->getRepository('MillerVeinEMRBundle:Site');
+        $siteRepo = $this->getDoctrine()->getManager()->getRepository('EMRLegacyBundle:Site');
         $calendarRequest = new CalendarRequest($siteRepo);
         $session = $request->getSession();
         $controls = $this->createForm('calendar_request', $calendarRequest);
@@ -59,7 +59,7 @@ class CalendarController extends Controller {
     public function calendarGetRequest(Request $request) {
         $siteId = $request->query->get('siteId');
         $date = $request->query->get('date');
-        $siteRepo = $this->getDoctrine()->getManager()->getRepository('MillerVeinEMRBundle:Site');
+        $siteRepo = $this->getDoctrine()->getManager()->getRepository('EMRLegacyBundle:Site');
         $session = $request->getSession();
         
         $calendarRequest = new CalendarRequest($siteRepo);
@@ -76,10 +76,10 @@ class CalendarController extends Controller {
 
     /**
      * @Route("/ajax/post", name="calendar_ajax_post", options={"expose"=true})
-     * @ Template("MillerVeinCalendarBundle:Calendar:calendar.html.twig")
+     * @ Template("EMRCalendarBundle:Calendar:calendar.html.twig")
      */
     public function calendarOnlyAction(Request $request) {
-        $siteRepo = $this->getDoctrine()->getManager()->getRepository('MillerVeinEMRBundle:Site');
+        $siteRepo = $this->getDoctrine()->getManager()->getRepository('EMRLegacyBundle:Site');
         $calendarRequest = new CalendarRequest($siteRepo);
         $calendarRequestForm = $this->createForm('calendar_request', $calendarRequest);
         $calendarRequestForm->handleRequest($request);

@@ -26,20 +26,20 @@ class PatientAppointmentType extends AppointmentType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         parent::buildForm($builder, $options);
 
-        $repo = $this->em->getRepository('MillerVeinCalendarBundle:Category\PatientCategory');
+        $repo = $this->em->getRepository('EMRCalendarBundle:Category\PatientCategory');
 
         /* @var $calCol CalendarColumn */
         $calCol = $options['calendar_column'];
         $categoryChoices = $repo->findAllowedByTags($calCol->getColumn()->getTags());
 
         $builder->add('category', 'entity', [
-                    'class' => 'MillerVeinCalendarBundle:Category\PatientCategory',
+                    'class' => 'EMRCalendarBundle:Category\PatientCategory',
                     'property' => 'name',
                     'choices' => $categoryChoices
                 ])
                 ->add('status', 'entity', [
                     'property' => 'name',
-                    'class' => 'MillerVeinCalendarBundle:AppointmentStatus',
+                    'class' => 'EMRCalendarBundle:AppointmentStatus',
                     'query_builder' => function(EntityRepository $er) {
                 return $er->createQueryBuilder('a')
                         ->orderBy('a.display_position', 'ASC');

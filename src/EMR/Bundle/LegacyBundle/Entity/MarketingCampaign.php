@@ -1,6 +1,6 @@
 <?php
 
-namespace EMR\Bundle\EMRBundle\Entity;
+namespace EMR\Bundle\LegacyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -57,9 +57,9 @@ class MarketingCampaign
     private $created;
 
     /**
-     * @var \EMR\Bundle\EMRBundle\Entity\MarketingSource
+     * @var \EMR\Bundle\LegacyBundle\Entity\MarketingSource
      *
-     * @ORM\ManyToOne(targetEntity="EMR\Bundle\EMRBundle\Entity\MarketingSource")
+     * @ORM\ManyToOne(targetEntity="EMR\Bundle\LegacyBundle\Entity\MarketingSource")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="marketing_source", referencedColumnName="id")
      * })
@@ -67,9 +67,9 @@ class MarketingCampaign
     private $marketingSource;
 
     /**
-     * @var \EMR\Bundle\EMRBundle\Entity\Users
+     * @var \EMR\Bundle\LegacyBundle\Entity\Users
      *
-     * @ORM\ManyToOne(targetEntity="EMR\Bundle\EMRBundle\Entity\Users")
+     * @ORM\ManyToOne(targetEntity="EMR\Bundle\LegacyBundle\Entity\Users")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user", referencedColumnName="id")
      * })
@@ -206,10 +206,10 @@ class MarketingCampaign
     /**
      * Set marketingSource
      *
-     * @param \EMR\Bundle\EMRBundle\Entity\MarketingSource $marketingSource
+     * @param \EMR\Bundle\LegacyBundle\Entity\MarketingSource $marketingSource
      * @return MarketingCampaign
      */
-    public function setMarketingSource(\EMR\Bundle\EMRBundle\Entity\MarketingSource $marketingSource = null)
+    public function setMarketingSource(\EMR\Bundle\LegacyBundle\Entity\MarketingSource $marketingSource = null)
     {
         $this->marketingSource = $marketingSource;
 
@@ -219,7 +219,7 @@ class MarketingCampaign
     /**
      * Get marketingSource
      *
-     * @return \EMR\Bundle\EMRBundle\Entity\MarketingSource 
+     * @return \EMR\Bundle\LegacyBundle\Entity\MarketingSource 
      */
     public function getMarketingSource()
     {
@@ -229,10 +229,10 @@ class MarketingCampaign
     /**
      * Set user
      *
-     * @param \EMR\Bundle\EMRBundle\Entity\Users $user
+     * @param \EMR\Bundle\LegacyBundle\Entity\Users $user
      * @return MarketingCampaign
      */
-    public function setUser(\EMR\Bundle\EMRBundle\Entity\Users $user = null)
+    public function setUser(\EMR\Bundle\LegacyBundle\Entity\Users $user = null)
     {
         $this->user = $user;
 
@@ -242,7 +242,7 @@ class MarketingCampaign
     /**
      * Get user
      *
-     * @return \EMR\Bundle\EMRBundle\Entity\Users 
+     * @return \EMR\Bundle\LegacyBundle\Entity\Users 
      */
     public function getUser()
     {

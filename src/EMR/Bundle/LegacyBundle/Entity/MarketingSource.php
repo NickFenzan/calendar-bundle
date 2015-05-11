@@ -1,6 +1,6 @@
 <?php
 
-namespace EMR\Bundle\EMRBundle\Entity;
+namespace EMR\Bundle\LegacyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,9 +36,9 @@ class MarketingSource
     private $created;
 
     /**
-     * @var \EMR\Bundle\EMRBundle\Entity\Users
+     * @var \EMR\Bundle\LegacyBundle\Entity\Users
      *
-     * @ORM\ManyToOne(targetEntity="EMR\Bundle\EMRBundle\Entity\Users")
+     * @ORM\ManyToOne(targetEntity="EMR\Bundle\LegacyBundle\Entity\Users")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user", referencedColumnName="id")
      * })
@@ -106,10 +106,10 @@ class MarketingSource
     /**
      * Set user
      *
-     * @param \EMR\Bundle\EMRBundle\Entity\Users $user
+     * @param \EMR\Bundle\LegacyBundle\Entity\Users $user
      * @return MarketingSource
      */
-    public function setUser(\EMR\Bundle\EMRBundle\Entity\Users $user = null)
+    public function setUser(\EMR\Bundle\LegacyBundle\Entity\Users $user = null)
     {
         $this->user = $user;
 
@@ -119,7 +119,7 @@ class MarketingSource
     /**
      * Get user
      *
-     * @return \EMR\Bundle\EMRBundle\Entity\Users 
+     * @return \EMR\Bundle\LegacyBundle\Entity\Users 
      */
     public function getUser()
     {

@@ -1,9 +1,9 @@
-{% extends "MillerVeinPatientTrackerBundle::base.html.twig" %}
+{% extends "EMRPatientTrackerBundle::base.html.twig" %}
 {% import _self as tracker %}
 {% block title %}Patient Tracker{% endblock %}
 {% block body %}
     <div id="siteDiv">
-        {% include 'MillerVeinPatientTrackerBundle:Tracker:sites.html.twig' %}
+        {% include 'EMRPatientTrackerBundle:Tracker:sites.html.twig' %}
     </div>
     <div id='roomsDiv'>
     </div>
@@ -12,7 +12,7 @@
 {% block javascripts %}
     {{parent()}}
     {% javascripts 
-    '@MillerVeinPatientTrackerBundle/Resources/public/js/patient_tracker.js'
+    '@EMRPatientTrackerBundle/Resources/public/js/patient_tracker.js'
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

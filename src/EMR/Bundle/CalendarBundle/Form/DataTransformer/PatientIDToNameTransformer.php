@@ -39,7 +39,7 @@ class PatientIDToNameTransformer implements DataTransformerInterface {
 
         /* @var $patient \EMR\Bundle\CalendarBundle\Entity\Patient  */
         $patient = $this->om
-            ->getRepository('MillerVeinEMRBundle:PatientData')
+            ->getRepository('EMRLegacyBundle:PatientData')
             ->find($id);
 
         if (null === $patient) {

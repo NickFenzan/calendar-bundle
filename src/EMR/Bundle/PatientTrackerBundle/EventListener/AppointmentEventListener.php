@@ -38,7 +38,7 @@ class AppointmentEventListener {
     }
 
     protected function createAppointmentReminderStep(EntityManager $entityManager, PatientAppointment $entity) {
-        $roomRepo = $entityManager->getRepository('MillerVeinPatientTrackerBundle:Room');
+        $roomRepo = $entityManager->getRepository('EMRPatientTrackerBundle:Room');
         $site = $entity->getColumn()->getSite();
         $lobby = $roomRepo->findLobbyBySite($site);
 

@@ -4,7 +4,7 @@ namespace EMR\Bundle\PatientTrackerBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\EntityRepository;
-use EMR\Bundle\EMRBundle\Entity\Site;
+use EMR\Bundle\LegacyBundle\Entity\Site;
 
 /**
  * Description of PatientTrackerStepRepository
@@ -16,8 +16,8 @@ class PatientTrackerStepRepository extends \Doctrine\ORM\EntityRepository{
         $datetime = (null === $date) ? new DateTime() : $date;
         $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $qb->select('step')
-                ->from('MillerVeinPatientTrackerBundle:PatientTrackerStep', 'step')
-                ->join('MillerVeinEMRBundle:Site', 'site')
+                ->from('EMRPatientTrackerBundle:PatientTrackerStep', 'step')
+                ->join('EMRLegacyBundle:Site', 'site')
                 ->where($qb->expr()->eq('site.id', ':site'))
                 ->setParameter('site', $site->getId())
                 ->getQuery();

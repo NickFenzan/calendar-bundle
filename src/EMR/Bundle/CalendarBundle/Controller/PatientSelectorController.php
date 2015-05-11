@@ -24,13 +24,13 @@ class PatientSelectorController extends Controller{
             return new JsonResponse();
         }
         
-        $patRepo = $this->getDoctrine()->getManager()->getRepository("MillerVeinEMRBundle:PatientData");
-        /* @var $patRepo \EMR\Bundle\EMRBundle\Entity\Repository\PatientDataRepository */
+        $patRepo = $this->getDoctrine()->getManager()->getRepository("EMRLegacyBundle:PatientData");
+        /* @var $patRepo \EMR\Bundle\LegacyBundle\Entity\Repository\PatientDataRepository */
         $patients = $patRepo->findAllBySearchTerm($searchTerm);
 
         $patientResponse = array();
         foreach($patients as $patient){
-            /* @var $patient \EMR\Bundle\EMRBundle\Entity\PatientData */
+            /* @var $patient \EMR\Bundle\LegacyBundle\Entity\PatientData */
             $displayFormat = '%1$s, %2$s (%3$d)';
 //        $displayFormat = '(%3$d) %2$s %1$s';
             $patientResponse[] = sprintf($displayFormat,

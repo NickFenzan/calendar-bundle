@@ -4,7 +4,7 @@ namespace EMR\Bundle\CalendarBundle\Model\Reports\InvalidAppointment;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use EMR\Bundle\EMRBundle\Entity\Site;
+use EMR\Bundle\LegacyBundle\Entity\Site;
 
 /**
  * Description of InvalidAppointments

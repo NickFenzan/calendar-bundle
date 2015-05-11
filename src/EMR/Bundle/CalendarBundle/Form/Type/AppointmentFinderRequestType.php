@@ -21,7 +21,7 @@ class AppointmentFinderRequestType extends AbstractType {
         $nextMonth->add(new DateInterval('P1Y'));
         $builder
                 ->add('category', 'entity', [
-                    'class' => 'MillerVeinCalendarBundle:Category\PatientCategory',
+                    'class' => 'EMRCalendarBundle:Category\PatientCategory',
                     'query_builder' => function(EntityRepository $er) {
                         return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
@@ -29,7 +29,7 @@ class AppointmentFinderRequestType extends AbstractType {
                     'property' => 'name',
                 ])
                 ->add('site', 'entity', [
-                    'class' => 'MillerVeinEMRBundle:Site',
+                    'class' => 'EMRLegacyBundle:Site',
                     'property' => 'city',
                 ])
                 ->add('min_date', 'date', [

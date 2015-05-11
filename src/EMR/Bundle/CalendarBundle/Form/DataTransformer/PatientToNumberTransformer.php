@@ -55,7 +55,7 @@ class PatientToNumberTransformer implements DataTransformerInterface {
         }
 
         $patient = $this->om
-            ->getRepository('MillerVeinEMRBundle:PatientData')
+            ->getRepository('EMRLegacyBundle:PatientData')
             ->find($id);
         
 

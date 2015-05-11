@@ -1,4 +1,4 @@
-{% extends "MillerVeinPatientTrackerBundle::base.html.twig" %}
+{% extends "EMRPatientTrackerBundle::base.html.twig" %}
 {#Title#}
 {% block title %}Rooms{% endblock %}
 
@@ -17,7 +17,7 @@
 {% block javascripts %}
     {{parent()}}
     {% javascripts 
-    '@MillerVeinPatientTrackerBundle/Resources/public/js/admin/room/*'
+    '@EMRPatientTrackerBundle/Resources/public/js/admin/room/*'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

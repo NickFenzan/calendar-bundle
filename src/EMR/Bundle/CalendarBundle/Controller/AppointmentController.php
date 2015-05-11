@@ -28,7 +28,7 @@ class AppointmentController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $appt = new PatientAppointment();
         $dateTime = new DateTime($request->query->get('datetime'));
-        $column = $em->find("MillerVeinCalendarBundle:Column", $request->query->get('column'));
+        $column = $em->find("EMRCalendarBundle:Column", $request->query->get('column'));
 
         $appt->setStart($dateTime);
         $appt->setColumn($column);
@@ -38,7 +38,7 @@ class AppointmentController extends Controller {
         ]);
         return new JsonResponse([
             'action' => 'refreshForm',
-            'html' => $this->renderView("MillerVeinCalendarBundle:Calendar/Appointment:new.html.twig", ['form' => $form->createView()])
+            'html' => $this->renderView("EMRCalendarBundle:Calendar/Appointment:new.html.twig", ['form' => $form->createView()])
         ]);
     }
 
@@ -63,7 +63,7 @@ class AppointmentController extends Controller {
         } else {
             return new JsonResponse([
                 'action' => 'refreshForm',
-                'html' => $this->renderView("MillerVeinCalendarBundle:Calendar/Appointment:new.html.twig", ['form' => $form->createView()])
+                'html' => $this->renderView("EMRCalendarBundle:Calendar/Appointment:new.html.twig", ['form' => $form->createView()])
             ]);
         }
     }
@@ -77,7 +77,7 @@ class AppointmentController extends Controller {
         ]);
         return new JsonResponse([
             'action' => 'refreshForm',
-            'html' => $this->renderView("MillerVeinCalendarBundle:Calendar/Appointment:edit.html.twig", ['form' => $form->createView(),'id' => $appt->getId()])
+            'html' => $this->renderView("EMRCalendarBundle:Calendar/Appointment:edit.html.twig", ['form' => $form->createView(),'id' => $appt->getId()])
         ]);
     }
     /**
@@ -109,7 +109,7 @@ class AppointmentController extends Controller {
         } else {
             return new JsonResponse([
                 'action' => 'refreshForm',
-                'html' => $this->renderView("MillerVeinCalendarBundle:Calendar/Appointment:edit.html.twig", ['form' => $form->createView(),'id' => $appt->getId()])
+                'html' => $this->renderView("EMRCalendarBundle:Calendar/Appointment:edit.html.twig", ['form' => $form->createView(),'id' => $appt->getId()])
             ]);
         }
     }
@@ -118,7 +118,7 @@ class AppointmentController extends Controller {
      * @Route("/info/{appt}", name="appointment_patient_info", options={"expose"=true})
      */
     public function infoAction(PatientAppointment $appt) {
-        return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:patientInfo.html.twig", ['appt' => $appt]);
+        return $this->render("EMRCalendarBundle:Calendar/Appointment:patientInfo.html.twig", ['appt' => $appt]);
     }
 
     /**
@@ -137,9 +137,9 @@ class AppointmentController extends Controller {
     public function columnCategoryOptions(Column $column) {
         $em = $this->getDoctrine()->getManager();
         $allowedTags = $column->getTags();
-        $catRepo = $em->getRepository('MillerVeinCalendarBundle:Category\PatientCategory');
+        $catRepo = $em->getRepository('EMRCalendarBundle:Category\PatientCategory');
         $allowedCats = $catRepo->findAllowedByTags($allowedTags);
-        return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:optionsMenu.html.twig", ['options' => $allowedCats]);
+        return $this->render("EMRCalendarBundle:Calendar/Appointment:optionsMenu.html.twig", ['options' => $allowedCats]);
     }
 
     /**
@@ -190,7 +190,7 @@ class AppointmentController extends Controller {
             }
             $options[] = $option;
         }
-        return $this->render("MillerVeinCalendarBundle:Calendar/Appointment:optionsMenu.html.twig", ['options' => $options]);
+        return $this->render("EMRCalendarBundle:Calendar/Appointment:optionsMenu.html.twig", ['options' => $options]);
     }
     
 
