@@ -29,54 +29,49 @@ class HoursRepository extends EntityRepository {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('h')
                 ->from('EMRCalendarBundle:Hours', 'h');
-        
+
         $startDate = $request->getStartDate();
         $endDate = $request->getEndDate();
         $openTime = $request->getOpenTime();
         $lunchStart = $request->getLunchStart();
         $lunchEnd = $request->getLunchEnd();
         $closeTime = $request->getCloseTime();
-        if($startDate){
-            $this->dateRangeWhere($qb, 'h.start_date', $startDate, 'date');
-        }
-        if($endDate){
-            $this->dateRangeWhere($qb, 'h.end_date', $endDate, 'date');
-        }
-        if($openTime){
-            $this->dateRangeWhere($qb, 'h.open_time', $openTime, 'time');
-        }
-        if($lunchStart){
-            $this->dateRangeWhere($qb, 'h.lunch_start', $lunchStart, 'time');
-        }
-        if($lunchEnd){
-            $this->dateRangeWhere($qb, 'h.lunch_end', $lunchEnd, 'time');
-        }
-        if($closeTime){
-            $this->dateRangeWhere($qb, 'h.close_time', $closeTime, 'time');
-        }
-        
-        if(!$request->getColumns()->isEmpty()){
+
+        $this->dateRangeWhere($qb, 'h.start_date', $startDate, 'date');
+        $this->dateRangeWhere($qb, 'h.end_date', $endDate, 'date');
+        $this->dateRangeWhere($qb, 'h.open_time', $openTime, 'time');
+        $this->dateRangeWhere($qb, 'h.lunch_start', $lunchStart, 'time');
+        $this->dateRangeWhere($qb, 'h.lunch_end', $lunchEnd, 'time');
+        $this->dateRangeWhere($qb, 'h.close_time', $closeTime, 'time');
+
+        if (!$request->getColumns()->isEmpty()) {
             $columns = [];
-            foreach($request->getColumns() as $column){
+            foreach ($request->getColumns() as $column) {
                 $columns[] = $column->getId();
             }
             $qb->join('h.columns', 'c');
             $qb->andWhere($qb->expr()->in('c.id', implode(',', $columns)));
         }
-        
+
         $query = $qb->getQuery();
         return $query->getResult();
     }
-    
-    private function dateRangeWhere(QueryBuilder $qb, $fieldName, DateTimeRange $value, $type='datetime'){
+
+    private function dateRangeWhere(QueryBuilder $qb, $fieldName, DateTimeRange $value = null, $type = 'datetime') {
+        if ($value === null) {
+            $qb->andWhere($qb->expr()->isNull($fieldName));
+            return;
+        }
         $escapedFieldName = str_replace('.', '_', $fieldName);
-        $qb->andWhere($qb->expr()->between($fieldName, ":{$escapedFieldName}_start", ":{$escapedFieldName}_end"));
-            $qb->setParameter(":{$escapedFieldName}_start", $this->extractDateTimePortion($value->getStart(),$type));
-            $qb->setParameter(":{$escapedFieldName}_end", $this->extractDateTimePortion($value->getEnd(),$type));
+        $between = $qb->expr()->between($fieldName, ":{$escapedFieldName}_start", ":{$escapedFieldName}_end");
+        $criteria = ($value->getNullValid()) ? $qb->expr()->orX($between, $qb->expr()->isNull($fieldName)) : $between;
+        $qb->andWhere($criteria);
+        $qb->setParameter(":{$escapedFieldName}_start", $this->extractDateTimePortion($value->getStart(), $type));
+        $qb->setParameter(":{$escapedFieldName}_end", $this->extractDateTimePortion($value->getEnd(), $type));
     }
-    
-    private function extractDateTimePortion(\DateTime $value, $type){
-        switch($type){
+
+    private function extractDateTimePortion(\DateTime $value, $type) {
+        switch ($type) {
             case "date":
                 return $value->format('Y-m-d');
             case "time":

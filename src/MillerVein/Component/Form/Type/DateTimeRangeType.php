@@ -5,6 +5,8 @@ namespace MillerVein\Component\Form\Type;
 use MillerVein\Component\Form\DataTransformer\DateRangeToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -42,10 +44,17 @@ class DateTimeRangeType extends AbstractType {
         }
         $builder->add('start', $options['mode'], $controlOptions)
                 ->add('end', $options['mode'], $controlOptions);
+        if($options['nullable']){
+            $builder->add('null','checkbox');
+        }
         $transformer = new DateRangeToArrayTransformer();
         $builder->addModelTransformer($transformer);
     }
 
+    public function buildView(FormView $view, FormInterface $form, array $options) {
+        $view->vars['nullable'] = $options['nullable'];
+    }
+    
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $widget = function(Options $options) {
             if ($options['mode'] === 'date') {
@@ -80,7 +89,9 @@ class DateTimeRangeType extends AbstractType {
             'widget' => $widget,
             'date_widget' => $dateWidget,
             'time_widget' => $timeWidget,
-            'format' => $dateFormat
+            'format' => $dateFormat,
+            'nullable' => true,
+            'data_class' => null
         ]);
 
         $resolver->setAllowedValues([

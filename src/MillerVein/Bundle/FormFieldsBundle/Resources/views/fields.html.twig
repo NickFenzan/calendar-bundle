@@ -8,3 +8,13 @@
         {{ form_widget(form.ampm) }}
     {% endspaceless %}
 {% endblock %}
+
+{% block datetime_range_widget %}
+    {{ form_widget(form.start)}}
+    -
+    {{ form_widget(form.end)}}
+    {% if nullable %}
+        Null
+        {{form_widget(form.null)}}
+    {% endif %}
+{% endblock %}

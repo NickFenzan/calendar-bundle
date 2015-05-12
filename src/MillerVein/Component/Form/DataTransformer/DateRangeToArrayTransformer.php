@@ -9,7 +9,7 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 /**
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class DateRangeToArrayTransformer implements DataTransformerInterface{
+class DateRangeToArrayTransformer implements DataTransformerInterface {
 
     /**
      * Model to Norm
@@ -28,10 +28,12 @@ class DateRangeToArrayTransformer implements DataTransformerInterface{
             throw new UnexpectedTypeException($dateRange, 'DateRange');
         }
 
-        return array(
-            'start' => $dateRange->getStart(),
-            'end' => $dateRange->getEnd()
-        );
+        $array = array();
+        $array['start'] = ($dateRange->getStart()->format('Y') == '0000') ? null : $dateRange->getStart();
+        $array['end'] = ($dateRange->getEnd()->format('Y') == '9999') ? null : $dateRange->getEnd();
+        $array['null'] = $dateRange->getNullValid();
+        
+        return $array;
     }
 
     /**
@@ -47,9 +49,16 @@ class DateRangeToArrayTransformer implements DataTransformerInterface{
             throw new UnexpectedTypeException($value, 'array');
         }
         if (empty($value['start']) && empty($value['end'])) {
-            return null;
+            if ($value['null']) {
+                return null;
+            }
+            return new DateTimeRange();
         }
-        return new DateTimeRange($value['start'], $value['end']);
+        $range = new DateTimeRange($value['start'], $value['end']);
+        if ($value['null']) {
+            $range->setNullValid(true);
+        }
+        return $range;
     }
 
 }
