@@ -20,8 +20,14 @@ class TwentyFourToTwelveHourArray implements DataTransformerInterface{
             throw new UnexpectedTypeException($value, 'array');
         }
 
-        if($value['ampm'] == 'PM' && $value['hour']>0){
-            $value['hour'] = $value['hour'] + 12;
+        if($value['ampm'] == 'AM'){
+            if($value['hour'] == 12){
+                $value['hour'] = 0;
+            }
+        }else{
+            if($value['hour'] != 12){
+                $value['hour'] = $value['hour'] + 12;
+            }
         }
         unset($value['ampm']);
         return $value;
