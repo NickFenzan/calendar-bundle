@@ -37,7 +37,7 @@ services:
         tags:
             - { name: form.type, alias: appointment_status }
             
-#-- Appointment -- #
+    # Appointment #
     emr.calendar.form.type.appointment.patient:
         class: EMR\Bundle\CalendarBundle\Form\Type\Appointment\PatientAppointmentType
         tags:
@@ -51,9 +51,8 @@ services:
         tags:
             - { name: form.type, alias: appointment_finder_request }
         
-#-- End Appointment -- #
             
-#-- Category -- #
+    # Category #
     emr.calendar.form.type.category.patient:
         class: EMR\Bundle\CalendarBundle\Form\Type\Category\PatientCategoryType
         tags:
@@ -62,15 +61,14 @@ services:
         class: EMR\Bundle\CalendarBundle\Form\Type\Category\ProviderCategoryType
         tags:
             - { name: form.type, alias: category_provider }
-#-- End Category -- #
             
-#   Form Fields
+    # Form Fields #
     emr.calendar.form.type.fields.color:
         class: EMR\Bundle\CalendarBundle\Form\Type\Fields\ColorType
         tags:
             - { name: form.type, alias: color }
             
-#   Admin
+    # Admin #
     emr.calendar.form.type.admin.hours:
         class: EMR\Bundle\CalendarBundle\Form\Type\Admin\HoursAdminType
         tags:

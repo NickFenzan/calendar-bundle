@@ -1,11 +1,11 @@
 services:
+    # Repos #
     emr.calendar.repository.appointment_repository:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.entity_manager
         factory_method: getRepository
         arguments:
             - EMR\Bundle\CalendarBundle\Entity\Appointment\Appointment
-            
     emr.calendar.repository.hours_repository:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.entity_manager
@@ -13,12 +13,7 @@ services:
         arguments:
             - EMR\Bundle\CalendarBundle\Entity\Hours
             
-    emr.calendar.calendar_builder:
-        class: EMR\Bundle\CalendarBundle\Model\CalendarBuilder
-        arguments: 
-            - "@emr.calendar.repository.appointment_repository"
-#        alias: calendar_builder
-
+    # Validators #
     emr.calendar.unique_appointment_time_validator:
         class: EMR\Bundle\CalendarBundle\Validator\UniqueAppointmentTimeValidator
         arguments:
@@ -49,125 +44,17 @@ services:
             -
                 name: validator.constraint_validator
                 alias: no_past_appointments
-                
+            
+    # Managers #
     emr.calendar.hours_manager:
         class: EMR\Bundle\CalendarBundle\DomainManager\HoursManager
         arguments:
             - "@doctrine.orm.entity_manager"
     hours_manager:
         alias: emr.calendar.hours_manager
-    emr.calendar.form.type.recurrence_rule:
-        class: EMR\Bundle\CalendarBundle\Form\Type\RecurrenceRuleType
-        tags:
-            - { name: form.type, alias: recurrence_rule }
-    emr.calendar.form.type.hours:
-        class: EMR\Bundle\CalendarBundle\Form\Type\HoursType
-        tags:
-            - { name: form.type, alias: hours }
-    emr.calendar.form.type.column:
-        class: EMR\Bundle\CalendarBundle\Form\Type\ColumnType
-        tags:
-            - { name: form.type, alias: column }
-    emr.calendar.form.type.column_tag:
-        class: EMR\Bundle\CalendarBundle\Form\Type\ColumnTagType
-        tags:
-            - { name: form.type, alias: column_tag }
-    emr.calendar.form.type.site:
-        class: EMR\Bundle\CalendarBundle\Form\Type\SiteType
-        tags:
-            - { name: form.type, alias: site }
-    emr.calendar.form.type.calendar:
-        class: EMR\Bundle\CalendarBundle\Form\Type\CalendarType
-        tags:
-            - { name: form.type, alias: calendar }
-    emr.calendar.form.type.calendar_request:
-        class: EMR\Bundle\CalendarBundle\Form\Type\CalendarRequestType
-        tags:
-            - { name: form.type, alias: calendar_request }
-    emr.calendar.form.type.patient_selector:
-        class: EMR\Bundle\CalendarBundle\Form\Type\PatientSelectorType
-        arguments: ["@doctrine.orm.entity_manager"]
-        tags:
-            - { name: form.type, alias: patient_selector }
-    emr.calendar.form.type.appointment_status:
-        class: EMR\Bundle\CalendarBundle\Form\Type\AppointmentStatusType
-        tags:
-            - { name: form.type, alias: appointment_status }
-            
-#-- Appointment -- #
-    emr.calendar.form.type.appointment.patient:
-        class: EMR\Bundle\CalendarBundle\Form\Type\Appointment\PatientAppointmentType
-        tags:
-            - { name: form.type, alias: appointment_patient }
-    emr.calendar.form.type.appointment.provider:
-        class: EMR\Bundle\CalendarBundle\Form\Type\Appointment\ProviderAppointmentType
-        tags:
-            - { name: form.type, alias: appointment_provider }
-    emr.calendar.form.type.appointment_finder_request:
-        class: EMR\Bundle\CalendarBundle\Form\Type\AppointmentFinderRequestType
-        tags:
-            - { name: form.type, alias: appointment_finder_request }
         
-#-- End Appointment -- #
-            
-#-- Category -- #
-    emr.calendar.form.type.category.patient:
-        class: EMR\Bundle\CalendarBundle\Form\Type\Category\PatientCategoryType
-        tags:
-            - { name: form.type, alias: category_patient }
-    emr.calendar.form.type.category.provider:
-        class: EMR\Bundle\CalendarBundle\Form\Type\Category\ProviderCategoryType
-        tags:
-            - { name: form.type, alias: category_provider }
-#-- End Category -- #
-            
-#   Form Fields
-    emr.calendar.form.type.fields.color:
-        class: EMR\Bundle\CalendarBundle\Form\Type\Fields\ColorType
-        tags:
-            - { name: form.type, alias: color }
-            
-            
-    emr.calendar.repository.appointment_repository:
-        class: Doctrine\ORM\EntityRepository
-        factory_service: doctrine.orm.entity_manager
-        factory_method: getRepository
-        arguments:
-            - EMR\Bundle\CalendarBundle\Entity\Appointment\Appointment
-            
+    # Misc #    
     emr.calendar.calendar_builder:
         class: EMR\Bundle\CalendarBundle\Model\CalendarBuilder
         arguments: 
             - "@emr.calendar.repository.appointment_repository"
-#        alias: calendar_builder
-
-    emr.calendar.unique_appointment_time_validator:
-        class: EMR\Bundle\CalendarBundle\Validator\UniqueAppointmentTimeValidator
-        arguments:
-            - "@doctrine.orm.entity_manager"
-        tags:
-            -
-                name: validator.constraint_validator
-                alias: unique_appointment_time
-    emr.calendar.appointment_time_hours_validator:
-        class: EMR\Bundle\CalendarBundle\Validator\HoursAppointmentTimeValidator
-        arguments:
-            - "@doctrine.orm.entity_manager"
-        tags:
-            -
-                name: validator.constraint_validator
-                alias: valid_hours_appointment_time
-    emr.calendar.category_column_validator:
-        class: EMR\Bundle\CalendarBundle\Validator\CategoryColumnValidator
-        arguments:
-            - "@doctrine.orm.entity_manager"
-        tags:
-            -
-                name: validator.constraint_validator
-                alias: category_column
-    emr.calendar.no_past_appointments_validator:
-        class: EMR\Bundle\CalendarBundle\Validator\NoPastAppointmentsValidator
-        tags:
-            -
-                name: validator.constraint_validator
-                alias: no_past_appointments
