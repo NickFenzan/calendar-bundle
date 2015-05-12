@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Description of Column
  *
- * @ORM\Entity(repositoryClass="ColumnRepository")
+ * @ORM\Entity(repositoryClass="EMR\Bundle\CalendarBundle\Entity\Repository\ColumnRepository")
  * @ORM\Table("calendar.calendar_column")
  * @author Nick Fenzan <nickf@millervein.com>
  */
@@ -59,7 +59,7 @@ class Column {
     /**
      * Regular hours of this column
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Hours")
+     * @ORM\ManyToMany(targetEntity="Hours", inversedBy="columns")
      * @ORM\OrderBy({"start_date" = "DESC", "id" = "DESC"})
      */
     protected $hours; 
@@ -105,6 +105,15 @@ class Column {
     public function getProvider() {
         return $this->provider;
     }
+
+    // -- END PROPERTY GETTERS
+    
+    public function getLongName(){
+        return sprintf("%s - %s",
+                $this->site->getCity(),
+                $this->getName());
+    }
+
 
 // </editor-fold>
 

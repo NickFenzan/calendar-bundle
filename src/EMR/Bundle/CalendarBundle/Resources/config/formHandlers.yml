@@ -1,0 +1,5 @@
+services:
+    emr.calendar.form.handler.hours:
+        class: EMR\Bundle\CalendarBundle\Form\Handler\HoursFormHandler
+        arguments:
+            - "@emr.calendar.hours_manager"

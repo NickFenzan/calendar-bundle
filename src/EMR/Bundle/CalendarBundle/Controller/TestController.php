@@ -21,6 +21,17 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class TestController extends Controller {
     /**
+     * @Route("/yo")
+     */
+    public function yoAction(){
+        $colRepo = $this->getDoctrine()->getManager()->getRepository("EMRCalendarBundle:Column");
+        $site = new \EMR\Bundle\LegacyBundle\Entity\Site();
+        $category = new \EMR\Bundle\CalendarBundle\Entity\Category\Category();
+        $colRepo->findBySiteAndCategory($site,$category);
+        return new Response();
+    }
+    
+    /**
      * @Route("/fix", name="fix_stuff", options={"expose"=true})
      */
     public function fixAction(){

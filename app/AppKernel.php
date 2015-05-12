@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new EMR\Bundle\LegacyBundle\EMRLegacyBundle(),
             new EMR\Bundle\PatientTrackerBundle\EMRPatientTrackerBundle(),
+            new MillerVein\Bundle\FormFieldsBundle\MillerVeinFormFieldsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

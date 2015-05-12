@@ -39,6 +39,7 @@ twig:
         resources: ['form_table_layout.html.twig']
     form_themes:
         - 'EMRCalendarBundle:Form:fields.html.twig'
+        - 'MillerVeinFormFieldsBundle::fields.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -65,17 +66,6 @@ doctrine:
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
-#            openemr:
-#                schema_filter: "/(^patient_data$|^marketing_campaign$|^marketing_source$|^referring_physician$|^users$|^facility$)/"
-#                driver:   "%database_driver2%"
-#                host:     "%database_host2%"
-#                port:     "%database_port2%"
-#                dbname:   "%database_name2%"
-#                user:     "%database_user2%"
-#                password: "%database_password2%"
-#                charset:  UTF8
-#                mapping_types:
-#                  enum: string
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
 #        auto_mapping: true

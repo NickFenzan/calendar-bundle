@@ -1,0 +1,20 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block time_widget %}
+    {% spaceless %}
+        {{ form_widget(form.hour) -}}
+        :
+        {{- form_widget(form.minute) }}
+        {{ form_widget(form.ampm) }}
+    {% endspaceless %}
+{% endblock %}
+
+{% block datetime_range_widget %}
+    {{ form_widget(form.start)}}
+    -
+    {{ form_widget(form.end)}}
+    {% if nullable %}
+        Null
+        {{form_widget(form.null)}}
+    {% endif %}
+{% endblock %}

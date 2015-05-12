@@ -25,7 +25,7 @@ class PatientSelectorController extends Controller{
         }
         
         $patRepo = $this->getDoctrine()->getManager()->getRepository("EMRLegacyBundle:PatientData");
-        /* @var $patRepo \EMR\Bundle\LegacyBundle\Entity\PatientRepository */
+        /* @var $patRepo \EMR\Bundle\LegacyBundle\Entity\Repository\PatientDataRepository */
         $patients = $patRepo->findAllBySearchTerm($searchTerm);
 
         $patientResponse = array();

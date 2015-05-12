@@ -1,11 +1,17 @@
-miller_vein_patient_tracker:
+emr_patient_tracker:
     resource: "@EMRPatientTrackerBundle/Controller/"
     type:     annotation
     prefix:   /patient_tracker
 
-miller_vein_calendar:
+emr_calendar:
     resource: "@EMRCalendarBundle/Controller/"
     type:     annotation
     prefix:   /
+    
+millervein_form_fields:
+    resource: "@MillerVeinFormFieldsBundle/Controller/"
+    type:     annotation
+    prefix:   /ff
+    
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
