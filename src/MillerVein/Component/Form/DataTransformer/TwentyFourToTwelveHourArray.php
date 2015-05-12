@@ -21,7 +21,7 @@ class TwentyFourToTwelveHourArray implements DataTransformerInterface{
         }
 
         if($value['ampm'] == 'AM'){
-            if($value['hour'] == 12){
+            if($value['hour'] == 12 && $value['minute'] == 0){
                 $value['hour'] = 0;
             }
         }else{
