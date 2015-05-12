@@ -53,6 +53,7 @@ class HoursRepository extends EntityRepository {
             $qb->andWhere($qb->expr()->in('c.id', implode(',', $columns)));
         }
 
+        $this->hoursDefaultSortOrder($qb);
         $query = $qb->getQuery();
         return $query->getResult();
     }
@@ -80,4 +81,12 @@ class HoursRepository extends EntityRepository {
         return $value->format('Y-m-d H:i:s');
     }
 
+    private function hoursDefaultSortOrder(QueryBuilder $qb){
+        $qb->addSelect('(CASE WHEN h.open_time is null then 1 else 0 END) AS HIDDEN nullOpen');
+        $qb->addSelect('(CASE WHEN h.end_date is null then 1 else 0 END) AS HIDDEN nullEndDate');
+        $qb->addOrderBy('nullOpen', 'DESC');
+        $qb->addOrderBy('nullEndDate', 'ASC');
+        $qb->addOrderBy('h.id');
+    }
+    
 }
