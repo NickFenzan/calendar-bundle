@@ -90,6 +90,8 @@ body {
 
 #appointment-dialog .appt_form textarea, #appointment-dialog .appt_form input, #appointment-dialog .appt_form select {
   width: 100%; }
+#appointment-dialog .appt_form .time_input select {
+  width: inherit; }
 #appointment-dialog .appt_form a, #appointment-dialog .appt_form button {
   font-size: .75em; }
 #appointment-dialog .appt_form .buttons {

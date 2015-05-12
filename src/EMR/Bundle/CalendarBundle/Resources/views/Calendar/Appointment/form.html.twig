@@ -22,8 +22,12 @@
                     <label>Start Time</label>
                 </td>
                 <td>
-                    <strong>{{ form_widget(form.start, { 'attr': {'hidden': true, 'class': 'time_input'} }) }}
-                    {{ form.start.vars.value |date('m/d/Y g:i a') }}</strong>
+                    {% block time_input %}
+                    {{ form_widget(form.start, { 'attr': {'hidden': true, 'class': 'time_input'} }) }}
+                    {% set date = form.start.vars.value.date %}
+                    {% set time = form.start.vars.value.time %}
+                    <strong>{{ date.month }}/{{ date.day }}/{{date.year}} {{time.hour}}:{{time.minute}}</strong>
+                    {% endblock %}
                 </td>
             </tr>
             {% if form.patient is defined %}

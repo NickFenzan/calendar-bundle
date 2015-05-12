@@ -1,5 +1,8 @@
 {% extends "EMRCalendarBundle:Calendar:Appointment/form.html.twig" %}
 {% block appointment_type_select %}{% endblock %}
+{% block time_input %}
+    {{ form_widget(form.start, { 'attr': {'class': 'time_input'} }) }}
+{% endblock %}
 {% block appointment_buttons %} 
 <a class="reminder_button" href="#">Reminder</a>
 <a class="paperwork_button" href="#">Paperwork</a>

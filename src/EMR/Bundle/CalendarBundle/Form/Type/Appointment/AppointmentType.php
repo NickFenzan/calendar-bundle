@@ -23,7 +23,8 @@ abstract class AppointmentType extends AbstractType {
 //        $calCol = $options['calendar_column'];
 //        $schedulingIncrement = $calCol->getHours()->getSchedulingIncrement();
         $builder->add('start', 'datetime',[
-                    'widget' => 'single_text'
+                    'date_widget' => 'single_text',
+                    'time_widget' => 'choice',
                 ])
                 ->add('duration', 'choice', [
 //                    'choices' => $this->durationChoices($schedulingIncrement)

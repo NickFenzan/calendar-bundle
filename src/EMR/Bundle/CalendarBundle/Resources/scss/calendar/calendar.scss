@@ -130,6 +130,9 @@ body{
     textarea,input,select{
         width: 100%;
     }
+    .time_input select{
+        width: inherit;
+    }
     a, button{
         font-size: .75em;
     }
