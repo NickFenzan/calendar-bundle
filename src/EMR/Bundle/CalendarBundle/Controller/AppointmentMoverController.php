@@ -4,7 +4,6 @@ namespace EMR\Bundle\CalendarBundle\Controller;
 
 use EMR\Bundle\CalendarBundle\Request\AppointmentMoverRequest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -28,7 +27,7 @@ class AppointmentMoverController extends Controller {
             $apptMover = $this->get('emr.calendar.appointment_mover');
             $apptMover->setRequest($apptRequest);
             $appts = $apptMover->getAppointmentsToMove();
-            switch($form->getClickedButton()){
+            switch($form->getClickedButton()->getName()){
                 case "go":
                     $apptMover->execute();
                     break;

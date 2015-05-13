@@ -45,7 +45,7 @@ class AppointmentMover {
     public function getAppointmentsToMove(){
         return $this->repo->match($this->request);
     }
-    protected function moveAppointments(ArrayCollection $appts){
+    protected function moveAppointments($appts){
         /* @var $appt \EMR\Bundle\CalendarBundle\Entity\Appointment\PatientAppointment */
         foreach($appts as $appt){
             $appt->setColumn($this->request->getToColumn());

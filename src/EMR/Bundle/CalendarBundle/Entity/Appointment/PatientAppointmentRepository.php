@@ -20,6 +20,7 @@ class PatientAppointmentRepository extends AppointmentRepository {
     protected $joined_column = false;
 
     public function match(AppointmentMoverRequest $request) {
+        $this->resetJoins();
         $qb = $this->createQueryBuilder('a');
         $this->joinPatient($qb);
         $this->joinCategory($qb);
@@ -53,6 +54,17 @@ class PatientAppointmentRepository extends AppointmentRepository {
             $qb->addSelect('cat');
             $qb->join('a.category', 'cat');
             $this->joined_category = true;
+        }
+    }
+    
+    protected function resetJoins(){
+        $reflect = new \ReflectionClass($this);
+        $props = $reflect->getProperties(\ReflectionProperty::IS_PROTECTED);
+        foreach($props as $prop){
+            $name = $prop->getName();
+            if(stristr($name, 'joined_')){
+                $this->$name = false;
+            }
         }
     }
 
