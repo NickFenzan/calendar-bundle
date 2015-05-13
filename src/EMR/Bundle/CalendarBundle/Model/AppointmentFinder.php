@@ -77,9 +77,8 @@ class AppointmentFinder {
             $lunchEnd = DateTimeUtility::moveTimeToDate($date, $hours->getLunchEnd());
             if ($start < $lunchStart) {
                 $this->loopTimes($start, $lunchStart, $hours, $column);
-            }else{
-                $this->loopTimes($start, $end, $hours, $column);
             }
+            $this->loopTimes($lunchEnd, $end, $hours, $column);
         } else {
             $this->loopTimes($start, $end, $hours, $column);
         }
