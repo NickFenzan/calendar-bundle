@@ -49,6 +49,8 @@ class AppointmentMover {
         /* @var $appt \EMR\Bundle\CalendarBundle\Entity\Appointment\PatientAppointment */
         foreach($appts as $appt){
             $appt->setColumn($this->request->getToColumn());
+            $this->em->persist($appt);
         }
+        $this->em->flush();
     }
 }
