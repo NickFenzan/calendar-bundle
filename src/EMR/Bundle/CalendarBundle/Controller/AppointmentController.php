@@ -19,8 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AppointmentController extends Controller {
 
-    const CLASS_PATH = "MillerVein\\CalendarBundle\\Entity\\";
-
     /**
      * @Route("/new", name="appointment_patient_new_form", options={"expose"=true})
      */
@@ -193,7 +191,6 @@ class AppointmentController extends Controller {
         return $this->render("EMRCalendarBundle:Calendar/Appointment:optionsMenu.html.twig", ['options' => $options]);
     }
     
-
     /**
      * @Route("/category/duration/default/{id}", name="category_default_duration", options={"expose"=true})
      */

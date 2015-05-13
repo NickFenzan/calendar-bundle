@@ -55,7 +55,7 @@ class DateRangeToArrayTransformer implements DataTransformerInterface {
             return new DateTimeRange();
         }
         $range = new DateTimeRange($value['start'], $value['end']);
-        if ($value['null']) {
+        if (isset($value['null']) && $value['null']) {
             $range->setNullValid(true);
         }
         return $range;

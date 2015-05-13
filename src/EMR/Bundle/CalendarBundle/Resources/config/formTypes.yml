@@ -11,6 +11,10 @@ services:
         class: EMR\Bundle\CalendarBundle\Form\Type\ColumnType
         tags:
             - { name: form.type, alias: column }
+    emr.calendar.form.type.column_create:
+        class: EMR\Bundle\CalendarBundle\Form\Type\ColumnCreateType
+        tags:
+            - { name: form.type, alias: column_create }
     emr.calendar.form.type.column_tag:
         class: EMR\Bundle\CalendarBundle\Form\Type\ColumnTagType
         tags:
@@ -57,6 +61,10 @@ services:
         class: EMR\Bundle\CalendarBundle\Form\Type\Category\PatientCategoryType
         tags:
             - { name: form.type, alias: category_patient }
+    emr.calendar.form.type.category.patient_create:
+        class: EMR\Bundle\CalendarBundle\Form\Type\Category\PatientCategoryCreateType
+        tags:
+            - { name: form.type, alias: category_patient_create }
     emr.calendar.form.type.category.provider:
         class: EMR\Bundle\CalendarBundle\Form\Type\Category\ProviderCategoryType
         tags:
@@ -74,3 +82,7 @@ services:
         tags:
             - { name: form.type, alias: hours_admin }
             
+    emr.calendar.form.type.appointment_mover:
+        class: EMR\Bundle\CalendarBundle\Form\Type\AppointmentMoverType
+        tags:
+            - { name: form.type, alias: appointment_mover }

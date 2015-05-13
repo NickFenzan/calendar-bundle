@@ -1,0 +1,26 @@
+{% extends "EMRCalendarBundle::base.html.twig" %}
+{% block title %}Appointment Mover{% endblock %}
+{% block stylesheets %}
+    {{parent()}}
+{% endblock %}
+{% block javascripts %}
+    {{parent()}}
+{% endblock %}
+
+{% block body %}
+    {{form(form)}}
+    {% if appointments %}
+    <div>
+        {% for appointment in appointments %}
+            <div>
+                <div>
+                    {{ appointment.start | date('m/d/Y g:i a') }}
+                </div>
+                <div>
+                    {{ appointment.patient.fname }} {{ appointment.patient.lname }} ({{ appointment.patient.pid }})
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endblock %}

@@ -101,5 +101,4 @@ class AppointmentRepository extends EntityRepository {
                 ->setParameter('exclude', implode(',', $exclude));
         return $query->getResult();
     }
-
 }

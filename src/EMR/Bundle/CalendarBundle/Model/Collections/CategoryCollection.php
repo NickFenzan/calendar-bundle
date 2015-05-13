@@ -2,16 +2,16 @@
 
 namespace EMR\Bundle\CalendarBundle\Model\Collections;
 
-use EMR\Bundle\CalendarBundle\Entity\Column;
+use EMR\Bundle\CalendarBundle\Entity\Category\Category;
 use MillerVein\Component\Collection\ArrayCollection;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 
 /**
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class ColumnCollection extends ArrayCollection {
+class CategoryCollection extends ArrayCollection {
 
-    const CLASS_NAME = '\EMR\Bundle\CalendarBundle\Entity\Column';
+    const CLASS_NAME = '\EMR\Bundle\CalendarBundle\Entity\Category\Category';
 
     public function __construct(array $elements = array()) {
         foreach ($elements as $element) {
@@ -21,7 +21,7 @@ class ColumnCollection extends ArrayCollection {
     }
 
     /**
-     * @return Column
+     * @return Category
      */
     public function get($key) {return parent::get($key);}
 
