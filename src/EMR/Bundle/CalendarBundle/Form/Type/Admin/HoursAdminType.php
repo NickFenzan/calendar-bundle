@@ -17,15 +17,8 @@ class HoursAdminType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $nullTimeRange = new DateTimeRange();
         $nullTimeRange->setNullValid(true);
-        $builder->add('columns', 'entity', [
+        $builder->add('columns', 'column', [
                     'multiple' => true,
-                    'class' => 'EMR\Bundle\CalendarBundle\Entity\Column',
-                    'property' => 'longName',
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('c')
-                                ->addSelect('s')
-                                ->join('c.site', 's');
-                    },
                     'required' => false
                 ])
                 ->add('start_date', 'datetime_range', [

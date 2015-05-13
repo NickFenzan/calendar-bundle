@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Description of Patient
  *
  * @author Nick Fenzan <nickf@millervein.com>
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="PatientAppointmentRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class PatientAppointment extends Appointment {

@@ -10,11 +10,23 @@
 {% endblock %}
 
 {% block datetime_range_widget %}
-    {{ form_widget(form.start)}}
-    -
-    {{ form_widget(form.end)}}
-    {% if nullable %}
-        Null
-        {{form_widget(form.null)}}
-    {% endif %}
+    <table>
+        <tr>
+            <td>
+                {{ form_widget(form.start)}}
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                {{ form_widget(form.end)}}
+            </td>
+            {% if nullable %}
+            <td>
+                Null
+                {{form_widget(form.null)}}
+            </td>
+            {% endif %}
+        </tr>
+    </table>
 {% endblock %}

@@ -6,6 +6,16 @@ services:
         factory_method: getRepository
         arguments:
             - EMR\Bundle\CalendarBundle\Entity\Appointment\Appointment
+    appointment_repository:
+        alias: emr.calendar.repository.appointment_repository
+    emr.calendar.repository.patient_appointment_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+            - EMR\Bundle\CalendarBundle\Entity\Appointment\PatientAppointment
+    patient_appointment_repository:
+        alias: emr.calendar.repository.patient_appointment_repository
     emr.calendar.repository.hours_repository:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.entity_manager
@@ -58,3 +68,7 @@ services:
         class: EMR\Bundle\CalendarBundle\Model\CalendarBuilder
         arguments: 
             - "@emr.calendar.repository.appointment_repository"
+    emr.calendar.appointment_mover:
+        class: EMR\Bundle\CalendarBundle\Model\AppointmentMover
+        arguments: 
+            - "@doctrine.orm.entity_manager"

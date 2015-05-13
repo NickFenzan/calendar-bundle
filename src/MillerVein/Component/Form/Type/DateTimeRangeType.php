@@ -45,7 +45,9 @@ class DateTimeRangeType extends AbstractType {
         $builder->add('start', $options['mode'], $controlOptions)
                 ->add('end', $options['mode'], $controlOptions);
         if($options['nullable']){
-            $builder->add('null','checkbox');
+            $builder->add('null','checkbox',[
+                'required' => false
+            ]);
         }
         $transformer = new DateRangeToArrayTransformer();
         $builder->addModelTransformer($transformer);
