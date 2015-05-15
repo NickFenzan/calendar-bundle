@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"patient" = "PatientCategory", "provider" = "ProviderCategory"})
  */
-class Category {
+abstract class Category {
 
     /**
      * Category ID

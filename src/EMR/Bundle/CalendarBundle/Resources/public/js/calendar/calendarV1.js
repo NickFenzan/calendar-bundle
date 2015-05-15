@@ -239,7 +239,7 @@ $.widget('emrcalendar.appointment_dialog', $.ui.dialog, {
                 that.category_input.html(data);
                 if(that.options.mode==='edit' && selected){
                     that.category_input.find('[value="'+selected.attr('value')+'"]').remove();
-                    that.category_input.prepend(selected);
+//                    that.category_input.prepend(selected); NO DON'T, DO THIS! THIS ALLOWS PEOPLE TO MESS THINGS UP! C'MON, SERIOUSLY!
                 }
                 that._durationUpdate();
             });
