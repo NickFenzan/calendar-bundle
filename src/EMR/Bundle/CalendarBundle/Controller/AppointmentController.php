@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
  * @Route("/calendar/appointment/patient")
  */
 class AppointmentController extends Controller {
-
     /**
      * @Route("/new", name="appointment_patient_new_form", options={"expose"=true})
      */
@@ -47,7 +46,7 @@ class AppointmentController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $appt = new PatientAppointment();
         $formOptions = ['action' => $this->generateUrl('appointment_patient_new_submit')];
-        if($request->getClientIp() != '10.1.1.223'){
+        if(!$this->overrideAllowed($request)){
             $formOptions['validation_groups'] = ['new'];
         }
         $form = $this->createForm('appointment_patient', $appt, $formOptions);
@@ -92,7 +91,7 @@ class AppointmentController extends Controller {
         $formOptions = [
             'action' => $this->generateUrl('appointment_patient_edit_submit',["appt"=>$appt->getId()])
         ];
-        if($exisitingForm->isValid() && $request->getClientIp() != '10.1.1.223'){
+        if(!$this->overrideAllowed($request)){
             $formOptions['validation_groups'] = ['new'];
         }
         $form = $this->createForm('appointment_patient', $appt, $formOptions);
@@ -196,5 +195,14 @@ class AppointmentController extends Controller {
      */
     public function categoryDefaultDuration(PatientCategory $category){
         return new JsonResponse($category->getDefaultDuration());
+    }
+    
+    protected function overrideAllowed(Request $request){
+        $override_ips = [
+            '127.0.0.1',
+            '10.1.1.110',
+            '10.1.1.223',
+        ];
+        return in_array($request->getClientIp(),$override_ips);
     }
 }
