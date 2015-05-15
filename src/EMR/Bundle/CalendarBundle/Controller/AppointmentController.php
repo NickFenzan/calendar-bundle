@@ -91,7 +91,7 @@ class AppointmentController extends Controller {
         $formOptions = [
             'action' => $this->generateUrl('appointment_patient_edit_submit',["appt"=>$appt->getId()])
         ];
-        if(!$this->overrideAllowed($request)){
+        if($exisitingForm->isValid() && !$this->overrideAllowed($request)){
             $formOptions['validation_groups'] = ['new'];
         }
         $form = $this->createForm('appointment_patient', $appt, $formOptions);
