@@ -38,7 +38,7 @@ class HoursAppointmentTimeValidator extends ConstraintValidator {
             ) {
                 $this->context->addViolation('Appointment ends after we are closed. ');
             }
-            if(is_a($hours->getLunchStart(),'DateTime') && is_a($hours->getLunchEnd(),'DateTime')){
+            if(is_a($hours->getLunchStart(),'\DateTime') && is_a($hours->getLunchEnd(),'\DateTime')){
                 if (
                 //Appointment starts during lunch
                                 ($timeStart->format('H:i') >= $hours->getLunchStart()->format('H:i') && $timeStart->format('H:i') < $hours->getLunchEnd()->format('H:i'))

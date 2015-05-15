@@ -262,10 +262,10 @@ class Hours {
         $end = new \DateTime($end->format('H:i'));
         $openTime = new \DateTime($this->getOpenTime()->format('H:i'));
         $closeTime = new \DateTime($this->getCloseTime()->format('H:i'));
-        if (is_a($hours->getLunchStart(), '\DateTime')) {
+        if (is_a($this->getLunchStart(), '\DateTime')) {
             $lunchStart = new \DateTime($this->getLunchStart()->format('H:i'));
         }
-        if (is_a($hours->getLunchEnd(), '\DateTime')) {
+        if (is_a($this->getLunchEnd(), '\DateTime')) {
             $lunchEnd = new \DateTime($this->getLunchEnd()->format('H:i'));
         }
         if (
