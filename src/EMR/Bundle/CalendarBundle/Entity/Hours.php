@@ -47,7 +47,7 @@ class Hours {
      * @Assert\Date()
      */
     protected $start_date;
-    
+
     /**
      * Date hours take effect
      * @var DateTime 
@@ -69,7 +69,7 @@ class Hours {
      * @ORM\Column(type="time", nullable=true)
      */
     protected $close_time;
-    
+
     /**
      * Lunch start
      * @var DateTime
@@ -102,15 +102,15 @@ class Hours {
      * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="RecurrenceRule", cascade={"persist"})
      */
-    protected $recurrence_rule; 
+    protected $recurrence_rule;
 
     /**
      * Regular hours of this column
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Column", mappedBy="hours")
      */
-    protected $columns; 
-    
+    protected $columns;
+
 // </editor-fold>
 
     public function __construct() {
@@ -129,7 +129,7 @@ class Hours {
     public function getStartDate() {
         return $this->start_date;
     }
-    
+
     public function getEndDate() {
         return $this->end_date;
     }
@@ -141,7 +141,7 @@ class Hours {
     public function getCloseTime() {
         return $this->close_time;
     }
-    
+
     public function getLunchStart() {
         return $this->lunch_start;
     }
@@ -149,7 +149,7 @@ class Hours {
     public function getLunchEnd() {
         return $this->lunch_end;
     }
-    
+
     public function hasLunch() {
         return ($this->lunch_start !== null && $this->lunch_end !== null);
     }
@@ -157,15 +157,15 @@ class Hours {
     public function getSchedulingIncrement() {
         return $this->scheduling_increment;
     }
-    
-    public function getSchedulingInterval(){
+
+    public function getSchedulingInterval() {
         return new \DateInterval('PT' . $this->scheduling_increment . 'M');
     }
 
     public function getRecurrenceRule() {
         return $this->recurrence_rule;
     }
-    
+
     function getColumns() {
         return $this->columns;
     }
@@ -183,7 +183,7 @@ class Hours {
     public function setStartDate(DateTime $start_date) {
         $this->start_date = $start_date;
     }
-    
+
     public function setEndDate(DateTime $end_date = null) {
         $this->end_date = $end_date;
     }
@@ -195,7 +195,7 @@ class Hours {
     public function setCloseTime(DateTime $close_time = null) {
         $this->close_time = $close_time;
     }
-    
+
     public function setLunchStart(DateTime $lunch_start = null) {
         $this->lunch_start = $lunch_start;
     }
@@ -211,7 +211,7 @@ class Hours {
     public function setRecurrenceRule(RecurrenceRule $recurrence_rule) {
         $this->recurrence_rule = $recurrence_rule;
     }
-    
+
     function setColumns(ArrayCollection $columns) {
         $this->columns = $columns;
     }
@@ -226,6 +226,7 @@ class Hours {
             return false;
         }
     }
+
     /**
      * @Assert\True(message="End Date must be later than start date")
      */
@@ -242,7 +243,7 @@ class Hours {
         if ($this->start_date > $date) {
             return false;
         }
-        
+
         //If the hours are expired bail
         if (null !== $this->end_date && $date > $this->end_date) {
             return false;
@@ -255,16 +256,20 @@ class Hours {
 
         return $recurrence_rule->doesRuleApplyToDate($this->start_date, $date);
     }
-    
-    public function doTimesConflict(\DateTime $start, \DateTime $end){
+
+    public function doTimesConflict(\DateTime $start, \DateTime $end) {
         $start = new \DateTime($start->format('H:i'));
         $end = new \DateTime($end->format('H:i'));
         $openTime = new \DateTime($this->getOpenTime()->format('H:i'));
         $closeTime = new \DateTime($this->getCloseTime()->format('H:i'));
-        $lunchStart = new \DateTime($this->getLunchStart()->format('H:i'));
-        $lunchEnd = new \DateTime($this->getLunchEnd()->format('H:i'));
+        if (is_a($hours->getLunchStart(), '\DateTime')) {
+            $lunchStart = new \DateTime($this->getLunchStart()->format('H:i'));
+        }
+        if (is_a($hours->getLunchEnd(), '\DateTime')) {
+            $lunchEnd = new \DateTime($this->getLunchEnd()->format('H:i'));
+        }
         if (
-                //Appointment starts before we are open
+        //Appointment starts before we are open
                 $start < $openTime ||
                 //Appointment ends after we are closed
                 $end > $closeTime ||
@@ -272,19 +277,20 @@ class Hours {
                 ($start >= $lunchStart && $start < $lunchEnd) ||
                 //Appointment starts before lunch, but doesnt end before lunch
                 ($start <= $lunchStart && $end > $lunchStart)
-            ){
+        ) {
 //            echo "true";
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
-    public function isOpen(){
+
+    public function isOpen() {
         return ($this->open_time !== null && $this->close_time !== null);
     }
 
-    public function getIterator(){
+    public function getIterator() {
         return new HoursIterator($this);
     }
+
 }
