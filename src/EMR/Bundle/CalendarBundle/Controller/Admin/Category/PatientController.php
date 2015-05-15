@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class PatientController extends DefaultController{
     const CLASS_NAME = "Category\PatientCategory";
-    const FORM_SERVICE = "category_patient";
+    const FORM_SERVICE = "category_patient_create";
     const DISPLAY_PROPERTY = "name";
     
     /**
