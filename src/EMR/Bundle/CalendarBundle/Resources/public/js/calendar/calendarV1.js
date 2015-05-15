@@ -253,7 +253,12 @@ $.widget('emrcalendar.appointment_dialog', $.ui.dialog, {
                 }
                 that.duration_input.html(data);
                 if(that.options.mode==='edit' && selected){
-                    that.duration_input.find('[value="'+selected.attr('value')+'"]');
+                    var previousSelected = that.duration_input.find('[value="'+selected.attr('value')+'"]');
+                    if(previousSelected.length < 1){
+                        that.duration_input.find('option').first().attr('selected','selected');
+                    }else{
+                        that.duration_input.val(selected.attr('value'));
+                    }
 //                    that.duration_input.prepend(selected); NO DON'T, DO THIS! THIS ALLOWS PEOPLE TO MESS THINGS UP! C'MON, SERIOUSLY
                 }
         });
