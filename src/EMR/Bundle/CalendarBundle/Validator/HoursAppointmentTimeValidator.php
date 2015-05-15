@@ -38,17 +38,19 @@ class HoursAppointmentTimeValidator extends ConstraintValidator {
             ) {
                 $this->context->addViolation('Appointment ends after we are closed. ');
             }
-            if (
-            //Appointment starts during lunch
-                    ($timeStart->format('H:i') >= $hours->getLunchStart()->format('H:i') && $timeStart->format('H:i') < $hours->getLunchEnd()->format('H:i'))
-            ) {
-                $this->context->addViolation('Appointment starts during lunch.');
-            }
-            if (
-            //Appointment starts before lunch, but doesnt end before lunch
-                    ($timeStart->format('H:i') <= $hours->getLunchStart()->format('H:i') && $timeEnd->format('H:i') > $hours->getLunchStart()->format('H:i'))
-            ) {
-                $this->context->addViolation('Appointment starts before lunch, but doesnt end before lunch.');
+            if(is_a($hours->getLunchStart(),'DateTime') && is_a($hours->getLunchEnd(),'DateTime')){
+                if (
+                //Appointment starts during lunch
+                                ($timeStart->format('H:i') >= $hours->getLunchStart()->format('H:i') && $timeStart->format('H:i') < $hours->getLunchEnd()->format('H:i'))
+                ) {
+                    $this->context->addViolation('Appointment starts during lunch.');
+                }
+                if (
+                //Appointment starts before lunch, but doesnt end before lunch
+                        ($timeStart->format('H:i') <= $hours->getLunchStart()->format('H:i') && $timeEnd->format('H:i') > $hours->getLunchStart()->format('H:i'))
+                ) {
+                    $this->context->addViolation('Appointment starts before lunch, but doesnt end before lunch.');
+                }
             }
         }
     }
