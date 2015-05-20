@@ -72,3 +72,7 @@ services:
         class: EMR\Bundle\CalendarBundle\Model\AppointmentMover
         arguments: 
             - "@doctrine.orm.entity_manager"
+    emr.calendar.calendar_request:
+        class: EMR\Bundle\CalendarBundle\Model\CalendarRequest
+        arguments:
+            - "@emr.legacy.repository.site"

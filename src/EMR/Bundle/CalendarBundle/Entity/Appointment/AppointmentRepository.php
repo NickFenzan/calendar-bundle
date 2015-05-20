@@ -36,7 +36,7 @@ class AppointmentRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    public function findAppointmentsBySiteDate(Site $site, DateTime $start, DateTime $end = null) {
+    public function findAppointmentsBySiteDate(Site $site, DateTime $start, DateTime $end = null, $cancelled = false) {
         if ($end === null) {
             $end = $start;
         }
@@ -44,8 +44,12 @@ class AppointmentRepository extends EntityRepository {
         $qb->select('a,col')
                 ->from('EMRCalendarBundle:Appointment\Appointment', 'a')
                 ->leftJoin('a.column', 'col')
-                ->where('a.start BETWEEN :dateOpen AND :dateClose')
-                ->andWhere('col.site = :site');
+                ->leftJoin('a.status', 's')
+                ->where('a.start BETWEEN :dateOpen AND :dateClose');
+        if (!$cancelled) {
+            $qb->andWhere('s.cancelled != 1 OR s.cancelled IS null');
+        }
+        $qb->andWhere('col.site = :site');
         $qb->orderBy('a.start');
         $query = $qb->getQuery();
 
@@ -101,4 +105,5 @@ class AppointmentRepository extends EntityRepository {
                 ->setParameter('exclude', implode(',', $exclude));
         return $query->getResult();
     }
+
 }

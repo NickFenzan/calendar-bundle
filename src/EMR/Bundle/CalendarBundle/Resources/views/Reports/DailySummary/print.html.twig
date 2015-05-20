@@ -1,0 +1,63 @@
+{% extends "EMRCalendarBundle::base.html.twig" %}
+{% block title %}Daily Summary{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        @media print{
+            html, body{
+                background-color: transparent !important;
+            }
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <h3>Daily Summary</h3>
+    <p>
+        Site: {{ request.site.name }}<br>
+        Date: {{ request.date | date('m/d/Y') }}<br>
+        Show Cancelled: {{ request.showCancelled ? 'Yes' : 'No' }}<br>
+    </p>
+    <table>
+        <tr>
+            <th>
+                Patient Name
+            </th>
+            <th>
+                PID
+            </th>
+            <th>
+                Appointment Time
+            </th>
+            <th>
+                Type of Visit
+            </th>
+            <th>
+                Notes
+            </th>
+        </tr>
+    {% for appointment in appointments %}
+        <tr>
+            <td>
+                {% if appointment.type == 'patient' %}
+                    {{ appointment.patient.fname }}
+                    {{ appointment.patient.lname }}
+                {% endif %}
+            </td>
+            <td>
+                {% if appointment.type == 'patient' %}
+                    {{ appointment.patient.id }}
+                {% endif %}
+            </td>
+            <td>
+                {{ appointment.start|date('h:i a') }}
+            </td>
+            <td>
+                {{ appointment.category.name }}
+            </td>
+            <td>
+                {{ appointment.notes }}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

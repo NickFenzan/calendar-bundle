@@ -1,0 +1,10 @@
+services:
+    # Repos #
+    emr.legacy.repository.site:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+            - EMR\Bundle\LegacyBundle\Entity\Site
+    site_repository:
+        alias: emr.legacy.repository.site
