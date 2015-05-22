@@ -22,6 +22,11 @@ class AppointmentFinder {
      */
     protected $request;
     protected $results;
+    /**
+     * @var PatientAppointment 
+     */
+    protected $appointment;
+    
 
     const RESULT_LIMIT = 3;
     const CONFLICT_LIMIT = 0;
@@ -47,7 +52,7 @@ class AppointmentFinder {
             if (!$this->isDateValid($currentDate)) {
                 continue;
             }
-
+            
             $cols = $this->findColumnsBySite();
             $this->loopColumns($cols, $currentDate);
         }
@@ -73,17 +78,21 @@ class AppointmentFinder {
         $end = $this->getEnd($date, $hours);
 
         if ($hours->hasLunch()) {
+            
             $lunchStart = DateTimeUtility::moveTimeToDate($date, $hours->getLunchStart());
             $lunchEnd = DateTimeUtility::moveTimeToDate($date, $hours->getLunchEnd());
+            
             if ($start < $lunchStart) {
                 $this->loopTimes($start, $lunchStart, $hours, $column);
             }
-            $this->loopTimes($lunchEnd, $end, $hours, $column);
+            
+            $this->loopTimes($start, $end, $hours, $column);
+            
         } else {
             $this->loopTimes($start, $end, $hours, $column);
         }
     }
-
+    
     protected function loopTimes(DateTime $start, DateTime $end, Hours $hours, Column $column) {
         if (count($this->results) >= static::RESULT_LIMIT) {
             return;
@@ -145,13 +154,27 @@ class AppointmentFinder {
     }
 
     protected function getStart(\DateTime $date, Hours $hours) {
-        $startTime = ($this->request->getMinTime()) ?
-                $this->request->getMinTime() : $hours->getOpenTime();
-        return DateTimeUtility::moveTimeToDate($date, $startTime);
-    }
+        if($this->request->getMinTime()){
+            $timestamp = $this->request->getMinTime()->getTimestamp();
+            $interval = $hours->getSchedulingIncrement()*60;
+            if($hours->hasLunch() && $this->request->getMinTime() > $hours->getLunchStart()){
+                    $start = $hours->getLunchEnd()->getTimestamp();
+            }else{
+                    $start = $hours->getOpenTime()->getTimestamp();
 
-    protected function getLunchStart(\DateTime $date, Hours $hours) {
-        
+            }
+            $offset = ($timestamp - $start) % $interval;
+            if($offset != 0){
+                $adjustedTime = clone $this->request->getMinTime();
+                $adjustedTime->add(new \DateInterval("PT{$offset}S"));
+                $startTime = $adjustedTime;
+            }else{
+                $startTime = $this->request->getMinTime();
+            }
+        }else{
+            $startTime = $hours->getOpenTime();
+        }
+        return DateTimeUtility::moveTimeToDate($date, $startTime);
     }
 
     protected function getEnd(\DateTime $date, Hours $hours) {
