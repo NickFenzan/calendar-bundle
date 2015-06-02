@@ -70,11 +70,18 @@ class Column {
      * @ORM\ManyToMany(targetEntity="ColumnTag", inversedBy="columns")
      */
     protected $tags;
+    
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="EMR\Bundle\CalendarBundle\Entity\Appointment\Appointment", mappedBy="column")
+     */
+    protected $appointments;
 // </editor-fold>
 
     public function __construct() {
         $this->hours = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->appointments = new ArrayCollection();
     }
 
 // <editor-fold defaultstate="collapsed" desc="Getters">
@@ -104,6 +111,10 @@ class Column {
     
     public function getProvider() {
         return $this->provider;
+    }
+    
+    function getAppointments() {
+        return $this->appointments;
     }
 
     // -- END PROPERTY GETTERS

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ColumnTagController extends DefaultController{
     const CLASS_NAME = "ColumnTag";
-    const FORM_SERVICE = "column_tag";
+    const FORM_SERVICE = "column_tag_create";
     const DISPLAY_PROPERTY = "name";
     
     /**

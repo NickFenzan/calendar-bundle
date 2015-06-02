@@ -293,4 +293,16 @@ class Hours {
         return new HoursIterator($this);
     }
 
+    public function getTimeOpen() {
+        if (!$this->isOpen()) {
+            return 0;
+        }
+        $timeOpen = ($this->close_time->getTimestamp() - $this->open_time->getTimestamp()) / 60;
+        if ($this->hasLunch()) {
+            $lunchTime = ($this->lunch_end->getTimestamp() - $this->lunch_start->getTimestamp()) / 60;
+            $timeOpen = $timeOpen - $lunchTime;
+        }
+        return $timeOpen;
+    }
+
 }

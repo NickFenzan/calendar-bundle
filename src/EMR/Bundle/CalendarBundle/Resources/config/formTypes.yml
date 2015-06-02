@@ -15,6 +15,10 @@ services:
         class: EMR\Bundle\CalendarBundle\Form\Type\ColumnCreateType
         tags:
             - { name: form.type, alias: column_create }
+    emr.calendar.form.type.column_tag_create:
+        class: EMR\Bundle\CalendarBundle\Form\Type\ColumnTagCreateType
+        tags:
+            - { name: form.type, alias: column_tag_create }
     emr.calendar.form.type.column_tag:
         class: EMR\Bundle\CalendarBundle\Form\Type\ColumnTagType
         tags:
@@ -86,3 +90,8 @@ services:
         class: EMR\Bundle\CalendarBundle\Form\Type\AppointmentMoverType
         tags:
             - { name: form.type, alias: appointment_mover }
+            
+    emr.calendar.form.type.utilization_calculator:
+        class: EMR\Bundle\CalendarBundle\Form\Type\Report\UtilizationCalculatorType
+        tags:
+            - { name: form.type, alias: utilization_calculator }

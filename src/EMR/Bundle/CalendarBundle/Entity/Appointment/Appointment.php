@@ -74,7 +74,7 @@ abstract class Appointment {
 
     /**
      * Column Appointment is associated with
-     * @ORM\ManyToOne(targetEntity="EMR\Bundle\CalendarBundle\Entity\Column")
+     * @ORM\ManyToOne(targetEntity="EMR\Bundle\CalendarBundle\Entity\Column", inversedBy="appointments")
      * @Assert\NotBlank()
      * @var Column
      */

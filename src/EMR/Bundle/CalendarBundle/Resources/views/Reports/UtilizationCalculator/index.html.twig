@@ -1,0 +1,51 @@
+{% extends "EMRCalendarBundle::base.html.twig" %}
+{% block title %}Utilization Calculator{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        h2, .form table, .results_section{
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .results_section{
+            margin-top: 15px;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <h2>Utilization Report</h2>
+    <div class="form">
+        {{ form_start(form) }}
+        <table>
+            <tr>
+                <td>
+                    {{ form_widget(form.tags) }}
+                </td>
+                <td>
+                    {{ form_widget(form.columns) }}
+                </td>
+                <td>
+                    {{ form_widget(form.start_date) }}
+                    {{ form_widget(form.end_date) }}
+                    {{ form_widget(form.submit) }}
+                </td>
+            </tr>
+        </table>
+        {{ form_end(form) }}
+    </div>
+    {% if calculator is defined %}
+        <div class="results_section">
+            <div class="date_range">
+                {{ calculator.startDate | date('m/d/Y') }} -
+                {{ calculator.endDate | date('m/d/Y') }}
+            </div>
+            <div class="results">
+                <h3>Results</h3>
+                Used Time: {{ calculator.UsedTime }} minutes<br>
+                Open Time: {{ calculator.OpenTime }} minutes<br>
+                Utilization: {{ calculator.Result }}% <br>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

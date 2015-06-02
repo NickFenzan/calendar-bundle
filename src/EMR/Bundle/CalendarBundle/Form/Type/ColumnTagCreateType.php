@@ -7,26 +7,23 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Description of ColumnTagType
  *
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class ColumnTagType extends AbstractType {
+class ColumnTagCreateType extends AbstractType {
+
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder->add('name', 'text');
     }
-    
-    public function getParent() {
-        return 'entity';
-    }
-    
+
     public function getName() {
-        return "column_tag";
+        return "column_tag_create";
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'class' => 'EMR\Bundle\CalendarBundle\Entity\ColumnTag',
-            'property' => 'name',
+            'data_class' => 'EMR\Bundle\CalendarBundle\Entity\ColumnTag',
         ));
     }
+
 }

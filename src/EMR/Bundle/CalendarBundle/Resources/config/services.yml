@@ -76,3 +76,14 @@ services:
         class: EMR\Bundle\CalendarBundle\Model\CalendarRequest
         arguments:
             - "@emr.legacy.repository.site"
+            
+    # Calculators #
+    emr.calendar.used_time_calculator:
+        class: EMR\Bundle\CalendarBundle\Model\Reports\UsedTimeCalculator
+    emr.calendar.open_time_calculator:
+        class: EMR\Bundle\CalendarBundle\Model\Reports\OpenTimeCalculator
+    emr.calendar.utilization_calculator:
+        class: EMR\Bundle\CalendarBundle\Model\Reports\UtilizationCalculator
+        arguments:
+            - "@emr.calendar.used_time_calculator"
+            - "@emr.calendar.open_time_calculator"

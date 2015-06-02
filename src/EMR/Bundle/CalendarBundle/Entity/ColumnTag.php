@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Description of Column
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="EMR\Bundle\CalendarBundle\Entity\Repository\ColumnTagRepository")
  * @ORM\Table(name="calendar.column_tag")
  * @author Nick Fenzan <nickf@millervein.com>
  */
@@ -54,5 +54,22 @@ class ColumnTag {
     public function setName($name) {
         $this->name = $name;
     }
+
+    function getCategories() {
+        return $this->categories;
+    }
+
+    function getColumns() {
+        return $this->columns;
+    }
+
+    function setCategories(ArrayCollection $categories) {
+        $this->categories = $categories;
+    }
+
+    function setColumns(ArrayCollection $columns) {
+        $this->columns = $columns;
+    }
+
 
 }
