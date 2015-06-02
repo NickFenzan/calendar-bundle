@@ -24,10 +24,12 @@ class UtilizationCalculatorType extends AbstractType{
                     'required' => false
                 ])
                 ->add('start_date','date',[
-                    'data' => new \DateTime()
+                    'data' => new \DateTime(),
+                    'widget' => 'single_text'
                 ])
                 ->add('end_date','date',[
-                    'data' => new \DateTime()
+                    'data' => new \DateTime(),
+                    'widget' => 'single_text'
                 ]);
     }
 
