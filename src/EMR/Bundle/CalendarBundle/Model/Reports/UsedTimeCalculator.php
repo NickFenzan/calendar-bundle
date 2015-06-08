@@ -3,8 +3,10 @@
 namespace EMR\Bundle\CalendarBundle\Model\Reports;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use EMR\Bundle\CalendarBundle\Model\Collections\ColumnCollection;
+use EMR\Bundle\CalendarBundle\Entity\Column;
 
 /**
  * @author Nick Fenzan <nickf@millervein.com>
@@ -22,7 +24,7 @@ class UsedTimeCalculator implements DateRangedCalendarCalculatorInterface {
     protected $end_date;
     
     /**
-     * @var ColumnCollection
+     * @var Collection|Column[]
      */
     protected $columns;
 
@@ -33,7 +35,7 @@ class UsedTimeCalculator implements DateRangedCalendarCalculatorInterface {
     protected $result;
     
     public function __construct() {
-        $this->columns = new ColumnCollection();
+        $this->columns = new ArrayCollection();
     }
 
     function getStartDate() {
@@ -61,7 +63,7 @@ class UsedTimeCalculator implements DateRangedCalendarCalculatorInterface {
         $this->end_date = new \DateTime($end_date->format('Y-m-d') . ' 23:59:59');
     }
 
-    function setColumns(ColumnCollection $columns) {
+    function setColumns(Collection $columns) {
         $this->columns = $columns;
     }
 

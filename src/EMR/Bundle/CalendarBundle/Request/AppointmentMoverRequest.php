@@ -2,9 +2,9 @@
 
 namespace EMR\Bundle\CalendarBundle\Request;
 
+use Doctrine\Common\Collections\Collection;
+use EMR\Bundle\CalendarBundle\Entity\Category\Category;
 use EMR\Bundle\CalendarBundle\Entity\Column;
-use EMR\Bundle\CalendarBundle\Model\Collections\CategoryCollection;
-use EMR\Bundle\CalendarBundle\Model\Collections\ColumnCollection;
 use MillerVein\Component\DateTime\DateTimeRange;
 /**
  * Description of AppointmentMoverRequest
@@ -14,7 +14,7 @@ use MillerVein\Component\DateTime\DateTimeRange;
 class AppointmentMoverRequest {
 // <editor-fold defaultstate="collapsed" desc="Properties">
     /**
-     * @var ColumnCollection
+     * @var Collection|Column[]
      */
     protected $from_columns;
 
@@ -29,7 +29,7 @@ class AppointmentMoverRequest {
     protected $date_range;
 
     /**
-     * @var CategoryCollection
+     * @var Collection|Category[]
      */
     protected $categories; // </editor-fold>
 
@@ -50,7 +50,7 @@ class AppointmentMoverRequest {
         return $this->categories;
     }
 
-    function setFromColumns(ColumnCollection $from_columns) {
+    function setFromColumns(Collection $from_columns) {
         $this->from_columns = $from_columns;
     }
 
@@ -62,7 +62,7 @@ class AppointmentMoverRequest {
         $this->date_range = $date_range;
     }
 
-    function setCategories(CategoryCollection $categories) {
+    function setCategories(Collection $categories) {
         $this->categories = $categories;
     }
 

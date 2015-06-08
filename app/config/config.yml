@@ -72,6 +72,7 @@ doctrine:
         default_entity_manager: default
         entity_managers:
             default:
+                default_repository_class: Happyr\DoctrineSpecification\EntitySpecificationRepository
                 connection: default
                 mappings:
                     EMRCalendarBundle: ~

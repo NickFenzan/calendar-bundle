@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use EMR\Bundle\CalendarBundle\Entity\Repository\UtilizationGoalRepository;
 use EMR\Bundle\CalendarBundle\Entity\Repository\UtilizationMetricRepository;
+use EMR\Bundle\CalendarBundle\Entity\UtilizationMetric;
 use Exception;
 
 /**
@@ -35,6 +36,11 @@ class UtilizationGoalReport {
     protected $utilization_goal_repo;
 
     /**
+     * @var UtilizationCalculator
+     */
+    protected $utilization_calculator;
+    
+    /**
      * Array of metrics the report has built
      * @var array
      */
@@ -48,9 +54,14 @@ class UtilizationGoalReport {
 
 // </editor-fold>
 
-    public function __construct(UtilizationMetricRepository $utilizationMetricRepo, UtilizationGoalRepository $utilizationGoalRepo) {
+    public function __construct(
+            UtilizationMetricRepository $utilizationMetricRepo, 
+            UtilizationGoalRepository $utilizationGoalRepo,
+            UtilizationCalculator $utilizationCalculator
+            ) {
         $this->utilization_metric_repo = $utilizationMetricRepo;
         $this->utilization_goal_repo = $utilizationGoalRepo;
+        $this->utilization_calculator = $utilizationCalculator;
         $this->metrics = new ArrayCollection();
         $this->results = array();
     }
@@ -83,38 +94,39 @@ class UtilizationGoalReport {
 // </editor-fold>
 
     public function run() {
-        $goal = $this->utilization_goal_repo->findOneBy([]);
-        echo "Goal: " . $goal->getId();
-        $spec = new \EMR\Bundle\CalendarBundle\Specification\FilterGoals($goal);
-        $metrics = $this->utilization_metric_repo->match($spec);
-//        $qb = $this->utilization_metric_repo->createQueryBuilder('m');
-//        $qb->join('m.goals', 'g');
-//        $qb->where($qb->expr()->eq('g.id', $goal->getId()));
-//        $query = $qb->getQuery();
-//        $metrics = $query->getResult();
-        
-        foreach($metrics as $metric){
-            echo $metric->getName();
-        }
-        
         if (!isset($this->start_date) || !isset($this->end_date)) {
             throw new Exception("Start and end date must be set to run the report.");
         }
         $this->findMetrics();
-        $this->findActiveGoals();
-        foreach($this->metrics as $metric){
-            $built = new UtilizationGoalReportMetric();
-            $built->setName($metric->getName());
-            $this->results[] = $built;
+        $this->buildResults();
+    }
+
+    protected function buildResults() {
+        foreach ($this->metrics as $metric) {
+            $result = new UtilizationGoalReportResult();
+            $result->setName($metric->getName());
+            $activeGoal = $this->findActiveGoalForMetric($metric);
+            $result->setGoal(($activeGoal) ? $activeGoal->getGoal() : null);
+            $result->setCurrent($this->calculateUtilization($metric));
+            $this->results[] = $result;
         }
     }
 
     protected function findMetrics() {
-        $this->metrics = $this->utilization_metric_repo->findAll();
+        $this->metrics = $this->utilization_metric_repo->findMetricsWithGoalsInDateRange($this->start_date, $this->end_date);
     }
 
-    protected function findActiveGoals() {
-        
+    protected function findActiveGoalForMetric(UtilizationMetric $metric) {
+        return $this->utilization_goal_repo->findActiveGoalForMetricByDateRange($metric, $this->start_date, $this->end_date);
     }
 
+    protected function calculateUtilization(UtilizationMetric $metric){
+        $this->utilization_calculator->setStartDate($this->start_date);
+        $this->utilization_calculator->setEndDate($this->start_date);
+        $this->utilization_calculator->setColumns($metric->getColumns());
+        $this->utilization_calculator->setTags($metric->getTags());
+        $this->utilization_calculator->calculate();
+        return $this->utilization_calculator->getResult();
+    }
+    
 }

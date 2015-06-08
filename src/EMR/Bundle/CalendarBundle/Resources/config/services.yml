@@ -106,4 +106,5 @@ services:
         arguments:
             - "@emr.calendar.repository.utilization_metric_repository"
             - "@emr.calendar.repository.utilization_goal_repository"
+            - "@emr.calendar.utilization_calculator"
         

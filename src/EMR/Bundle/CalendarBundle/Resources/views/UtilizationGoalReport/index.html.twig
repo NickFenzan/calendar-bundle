@@ -14,9 +14,11 @@
 
 {#Body#}
 {% block body %}
+    {{ report.startDate | date("m/d/Y") }}
+    {{ report.endDate | date("m/d/Y") }}
     {% for result in report.results %}
         <h3>{{ result.name }}</h3>
-        {#{{ metric.goal }}
-        {{ metric.current }}#}
+        {{ result.goal }}
+        {{ result.current }}
     {% endfor %}
 {% endblock %}

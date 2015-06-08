@@ -3,7 +3,8 @@
 namespace EMR\Bundle\CalendarBundle\Request\Admin;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use EMR\Bundle\CalendarBundle\Model\Collections\ColumnCollection;
+use Doctrine\Common\Collections\Collection;
+use EMR\Bundle\CalendarBundle\Entity\Column;
 use MillerVein\Component\DateTime\DateTimeRange;
 
 /**
@@ -13,7 +14,7 @@ class HoursAdminRequest {
 
 // <editor-fold defaultstate="collapsed" desc="Properties">
     /**
-     * @var ArrayCollection
+     * @var Collection|Column[]
      */
     protected $columns;
 
@@ -48,7 +49,7 @@ class HoursAdminRequest {
     protected $close_time; // </editor-fold>
 
     public function __construct() {
-        $this->columns = new ColumnCollection();
+        $this->columns = new ArrayCollection();
     }
 
     function getColumns() {
@@ -79,7 +80,7 @@ class HoursAdminRequest {
         return $this->close_time;
     }
 
-    function setColumns(ColumnCollection $columns) {
+    function setColumns(Collection $columns) {
         $this->columns = $columns;
     }
 

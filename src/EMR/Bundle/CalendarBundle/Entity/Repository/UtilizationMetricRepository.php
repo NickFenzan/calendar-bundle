@@ -2,30 +2,21 @@
 
 namespace EMR\Bundle\CalendarBundle\Entity\Repository;
 
-use Doctrine\ORM\EntityRepository;
-use MillerVein\Component\Specification\SpecificationInterface;
+use EMR\Bundle\CalendarBundle\Entity\Spec\CurrentGoals;
+use Happyr\DoctrineSpecification\EntitySpecificationRepository;
+use Happyr\DoctrineSpecification\Spec;
 
 /**
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class UtilizationMetricRepository extends EntityRepository {
+class UtilizationMetricRepository extends EntitySpecificationRepository {
 
-    public function match(SpecificationInterface $specification) {
-//        if (!$specification->supports($this->getEntityName())) {
-//            throw new InvalidArgumentException("Specification not supported by this repository.");
-//        }
-
-        $qb = $this->createQueryBuilder('r');
-//        $selectExpr = $specification->select($qb, 'r');
-        $whereExpr = $specification->match($qb, 'r');
-
-//        $qb->select($selectExpr);
-        $qb->where($whereExpr);
-        $query = $qb->getQuery();
-
-        $specification->modifyQuery($query);
-
-        return $query->getResult();
+    public function findMetricsWithGoalsInDateRange(\DateTime $startDate, \DateTime $endDate) {
+        $spec = Spec::andX(
+            Spec::join('goals', 'g'), 
+            new CurrentGoals($startDate, $endDate, 'g')
+        );
+        return $this->match($spec);
     }
 
 }

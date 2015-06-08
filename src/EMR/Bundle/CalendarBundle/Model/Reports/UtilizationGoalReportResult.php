@@ -5,7 +5,7 @@ namespace EMR\Bundle\CalendarBundle\Model\Reports;
 /**
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class UtilizationGoalReportMetric {
+class UtilizationGoalReportResult {
 
     protected $name;
     protected $goal;

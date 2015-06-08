@@ -2,11 +2,12 @@
 
 namespace EMR\Bundle\CalendarBundle\Entity\Appointment;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\QueryBuilder;
-use EMR\Bundle\CalendarBundle\Model\Collections\CategoryCollection;
-use EMR\Bundle\CalendarBundle\Model\Collections\ColumnCollection;
 use EMR\Bundle\CalendarBundle\Request\AppointmentMoverRequest;
 use MillerVein\Component\DateTime\DateTimeRange;
+use ReflectionClass;
+use ReflectionProperty;
 
 /**
  * Description of PatientAppointmentRepository
@@ -58,8 +59,8 @@ class PatientAppointmentRepository extends AppointmentRepository {
     }
     
     protected function resetJoins(){
-        $reflect = new \ReflectionClass($this);
-        $props = $reflect->getProperties(\ReflectionProperty::IS_PROTECTED);
+        $reflect = new ReflectionClass($this);
+        $props = $reflect->getProperties(ReflectionProperty::IS_PROTECTED);
         foreach($props as $prop){
             $name = $prop->getName();
             if(stristr($name, 'joined_')){
@@ -76,13 +77,13 @@ class PatientAppointmentRepository extends AppointmentRepository {
         $qb->andWhere($criteria);
     }
 
-    protected function whereColumns(QueryBuilder $qb, ColumnCollection $collection) {
+    protected function whereColumns(QueryBuilder $qb, Collection $collection) {
         $this->joinColumn($qb);
         $qb->andWhere($qb->expr()->in('col.id', ':col_ids'));
         $qb->setParameter('col_ids', $collection->getIds());
     }
 
-    protected function whereCategories(QueryBuilder $qb, CategoryCollection $collection) {
+    protected function whereCategories(QueryBuilder $qb, Collection $collection) {
         $this->joinCategory($qb);
         $qb->andWhere($qb->expr()->in('cat.id', ':cat_ids'));
         $qb->setParameter('cat_ids', $collection->getIds());

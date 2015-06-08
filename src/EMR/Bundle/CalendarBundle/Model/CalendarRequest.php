@@ -3,9 +3,9 @@
 namespace EMR\Bundle\CalendarBundle\Model;
 
 use DateTime;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\ORM\EntityManager;
-use EMR\Bundle\CalendarBundle\Model\Collections\ColumnCollection;
+use EMR\Bundle\CalendarBundle\Entity\Column;
 use EMR\Bundle\LegacyBundle\Entity\Site;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -24,7 +24,7 @@ class CalendarRequest {
      */
     protected $site;
     /**
-     * @var ColumnCollection
+     * @var Collection|Column[]
      */
     protected $columns;
     /**
@@ -65,10 +65,10 @@ class CalendarRequest {
 
     function setSite(Site $site) {
         $this->site = $site;
-        $this->setColumns(new ColumnCollection($site->getColumns()->toArray()));
+        $this->setColumns($site->getColumns());
     }
 
-    function setColumns(ColumnCollection $columns) {
+    function setColumns(Collection $columns) {
         $this->columns = $columns;
     }
     

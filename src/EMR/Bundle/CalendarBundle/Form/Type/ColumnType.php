@@ -3,21 +3,13 @@
 namespace EMR\Bundle\CalendarBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
-use EMR\Bundle\CalendarBundle\Form\DataTransformer\ColumnCollectionTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * @author Nick Fenzan <nickf@millervein.com>
  */
 class ColumnType extends AbstractType {
-    public function buildForm(FormBuilderInterface $builder, array $options) {
-        if($options['multiple']){
-            $builder->addModelTransformer(new ColumnCollectionTransformer());
-        }
-    }
-    
     public function getParent() {
         return 'entity';
     }

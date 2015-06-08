@@ -4,7 +4,9 @@ namespace EMR\Bundle\CalendarBundle\Model\Reports;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use EMR\Bundle\CalendarBundle\Model\Collections\ColumnCollection;
+use Doctrine\Common\Collections\Collection;
+use EMR\Bundle\CalendarBundle\Entity\Column;
+use EMR\Bundle\CalendarBundle\Entity\ColumnTag;
 
 /**
  * Description of UtilizationCalculator
@@ -34,12 +36,12 @@ class UtilizationCalculator implements DateRangedCalendarCalculatorInterface {
     protected $end_date;
 
     /**
-     * @var ColumnCollection
+     * @var Collection|Column[]
      */
     protected $columns;
     
     /**
-     * @var ArrayCollection
+     * @var Collection|ColumnTag[]
      */
     protected $tags;
 
@@ -64,7 +66,7 @@ class UtilizationCalculator implements DateRangedCalendarCalculatorInterface {
     public function __construct(UsedTimeCalculator $usedTimeCalculator, OpenTimeCalculator $openTimeCalculator) {
         $this->used_time_calculator = $usedTimeCalculator;
         $this->open_time_calculator = $openTimeCalculator;
-        $this->columns = new ColumnCollection();
+        $this->columns = new ArrayCollection();
     }
     
     function getStartDate() {
@@ -93,7 +95,7 @@ class UtilizationCalculator implements DateRangedCalendarCalculatorInterface {
     
     function setTags($tags) {
         $this->tags = $tags;
-        $columns = new ColumnCollection();
+        $columns = new ArrayCollection();
         foreach($tags as $tag){
             foreach($tag->getColumns() as $column){
                 $columns->add($column);
@@ -106,7 +108,7 @@ class UtilizationCalculator implements DateRangedCalendarCalculatorInterface {
         return $this->columns;
     }
 
-    public function setColumns(ColumnCollection $columns) {
+    public function setColumns(Collection $columns) {
         foreach($columns as $column){
             $this->columns->add($column);
         }

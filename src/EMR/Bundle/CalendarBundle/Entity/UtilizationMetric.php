@@ -3,8 +3,8 @@
 namespace EMR\Bundle\CalendarBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use EMR\Bundle\CalendarBundle\Model\Collections\ColumnCollection;
 
 /**
  * This is a named, saved group of columns with a goal attached.
@@ -32,26 +32,26 @@ class UtilizationMetric {
 
     /**
      * @ORM\ManyToMany(targetEntity="ColumnTag")
-     * @var ArrayCollection 
+     * @var ArrayCollection|ColumnTag[]
      */
     protected $tags;
 
     /**
      * @ORM\ManyToMany(targetEntity="Column")
-     * @var ColumnCollection 
+     * @var ArrayCollection|Column[]
      */
     protected $columns;
 
     /**
      * @ORM\OneToMany(targetEntity="UtilizationGoal", mappedBy="metric")
-     * @var ArrayCollection
+     * @var ArrayCollection|UtilizationGoal[]
      */
     protected $goals; 
 // </editor-fold>
 
     public function __construct() {
         $this->tags = new ArrayCollection();
-        $this->columns = new ColumnCollection();
+        $this->columns = new ArrayCollection();
         $this->goals = new ArrayCollection();
     }
 
@@ -89,17 +89,17 @@ class UtilizationMetric {
         return $this;
     }
 
-    public function setTags(ArrayCollection $tags) {
+    public function setTags(Collection $tags) {
         $this->tags = $tags;
         return $this;
     }
 
-    public function setColumns(ColumnCollection $columns) {
+    public function setColumns(Collection $columns) {
         $this->columns = $columns;
         return $this;
     }
 
-    public function setGoals(ArrayCollection $goals) {
+    public function setGoals(Collection $goals) {
         $this->goals = $goals;
         return $this;
     }

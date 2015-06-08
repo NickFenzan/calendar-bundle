@@ -22,7 +22,8 @@
         "eluceo/ical": "0.6.1",
         "sabre/vobject": "3.4.2",
         "friendsofsymfony/jsrouting-bundle": "~1.5",
-        "luxifer/doctrine-functions": "~1.2"
+        "luxifer/doctrine-functions": "~1.2",
+        "happyr/doctrine-specification": "dev-master@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

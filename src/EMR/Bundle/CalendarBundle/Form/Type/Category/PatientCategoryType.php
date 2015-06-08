@@ -3,9 +3,7 @@
 namespace EMR\Bundle\CalendarBundle\Form\Type\Category;
 
 use Doctrine\ORM\EntityRepository;
-use EMR\Bundle\CalendarBundle\Form\DataTransformer\CategoryCollectionTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -14,12 +12,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class PatientCategoryType extends AbstractType {
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
-        if($options['multiple']){
-            $builder->addModelTransformer(new CategoryCollectionTransformer());
-        }
-    }
-    
     public function getParent() {
         return "entity";
     }

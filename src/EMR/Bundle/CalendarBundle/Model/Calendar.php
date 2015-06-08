@@ -2,8 +2,6 @@
 
 namespace EMR\Bundle\CalendarBundle\Model;
 
-use EMR\Bundle\CalendarBundle\Entity\Column;
-use EMR\Bundle\CalendarBundle\Model\Collections\ColumnCollection;
 use EMR\Bundle\CalendarBundle\Model\Collections\ColumnViewCollection;
 
 /**

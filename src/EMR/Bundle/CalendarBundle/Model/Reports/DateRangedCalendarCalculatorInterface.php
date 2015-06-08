@@ -9,7 +9,7 @@
 namespace EMR\Bundle\CalendarBundle\Model\Reports;
 
 use DateTime;
-use EMR\Bundle\CalendarBundle\Model\Collections\ColumnCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  *
@@ -18,7 +18,7 @@ use EMR\Bundle\CalendarBundle\Model\Collections\ColumnCollection;
 interface DateRangedCalendarCalculatorInterface {
     public function setStartDate(DateTime $startDate);
     public function setEndDate(DateTime $endDate);
-    public function setColumns(ColumnCollection $columns);
+    public function setColumns(Collection $columns);
     public function calculate();
     public function getResult();
 }

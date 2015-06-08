@@ -4,7 +4,9 @@ namespace EMR\Bundle\CalendarBundle\Model\Reports;
 
 use DateInterval;
 use DateTime;
-use EMR\Bundle\CalendarBundle\Model\Collections\ColumnCollection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use EMR\Bundle\CalendarBundle\Entity\Column;
 
 /**
  * @author Nick Fenzan <nickf@millervein.com>
@@ -22,7 +24,7 @@ class OpenTimeCalculator implements DateRangedCalendarCalculatorInterface{
     protected $end_date;
     
     /**
-     * @var ColumnCollection
+     * @var Collection|Column[]
      */
     protected $columns;
 
@@ -33,7 +35,7 @@ class OpenTimeCalculator implements DateRangedCalendarCalculatorInterface{
     protected $result;
 
     public function __construct() {
-        $this->columns = new ColumnCollection();
+        $this->columns = new ArrayCollection();
     }
     
     function getStartDate() {
@@ -61,7 +63,7 @@ class OpenTimeCalculator implements DateRangedCalendarCalculatorInterface{
         $this->end_date = $end_date;
     }
 
-    function setColumns(ColumnCollection $columns) {
+    function setColumns(Collection $columns) {
         $this->columns = $columns;
     }
 
