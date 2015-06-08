@@ -32,12 +32,20 @@ class UtilizationMetric {
 
     /**
      * @ORM\ManyToMany(targetEntity="ColumnTag")
+     * @ORM\JoinTable(name="calendar_utilization_metric_column_tag",
+     *     joinColumns={@ORM\JoinColumn(name="utilization_metric_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="column_tag_id", referencedColumnName="id")}
+     * )
      * @var ArrayCollection|ColumnTag[]
      */
     protected $tags;
 
     /**
      * @ORM\ManyToMany(targetEntity="Column")
+     * @ORM\JoinTable(name="calendar_utilization_metric_column",
+     *     joinColumns={@ORM\JoinColumn(name="utilization_metric_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="column_id", referencedColumnName="id")}
+     * )
      * @var ArrayCollection|Column[]
      */
     protected $columns;
