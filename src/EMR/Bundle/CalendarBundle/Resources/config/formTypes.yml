@@ -95,3 +95,12 @@ services:
         class: EMR\Bundle\CalendarBundle\Form\Type\Report\UtilizationCalculatorType
         tags:
             - { name: form.type, alias: utilization_calculator }
+            
+    emr.calendar.form.type.new_utilization_metric:
+        class: EMR\Bundle\CalendarBundle\Form\Type\Report\UtilizationMetricType
+        tags:
+            - { name: form.type, alias: new_utilization_metric }
+    emr.calendar.form.type.new_utilization_goal:
+        class: EMR\Bundle\CalendarBundle\Form\Type\Report\UtilizationGoalType
+        tags:
+            - { name: form.type, alias: new_utilization_goal }

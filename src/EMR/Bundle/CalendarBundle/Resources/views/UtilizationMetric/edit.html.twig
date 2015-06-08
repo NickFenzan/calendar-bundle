@@ -1,0 +1,7 @@
+{% extends "EMRCalendarBundle::base.html.twig" %}
+{% block title %}Utilization Metric{% endblock %}
+{% block body %}
+    {{ form(form) }}
+    {{ form(delete) }}
+    <a href="{{path("utilization_metric")}}">Cancel</a>
+{% endblock %}

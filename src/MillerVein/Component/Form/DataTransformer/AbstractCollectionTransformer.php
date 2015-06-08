@@ -14,6 +14,7 @@ abstract class AbstractCollectionTransformer implements DataTransformerInterface
 
     const REVERSE_CLASS = '';
     const FORWARD_CLASS = '\Doctrine\Common\Collections\ArrayCollection';
+    const COLLECTION_INTERFACE = 'Doctrine\Common\Collections\Collection';
 
     /**
      * Model to Norm
@@ -24,8 +25,8 @@ abstract class AbstractCollectionTransformer implements DataTransformerInterface
         if ($value === null) {
             return null;
         }
-        if (!is_a($value, static::FORWARD_CLASS)) {
-            throw new UnexpectedTypeException($value, static::FORWARD_CLASS);
+        if (!class_implements(static::COLLECTION_INTERFACE)) {
+            throw new UnexpectedTypeException($value, static::COLLECTION_INTERFACE);
         }
         $class = static::REVERSE_CLASS;
         return new $class($value->toArray());
@@ -40,8 +41,8 @@ abstract class AbstractCollectionTransformer implements DataTransformerInterface
         if ($value === null) {
             return null;
         }
-        if (!is_a($value, static::REVERSE_CLASS)) {
-            throw new UnexpectedTypeException($value, static::REVERSE_CLASS);
+        if (!class_implements(static::COLLECTION_INTERFACE)) {
+            throw new UnexpectedTypeException($value, static::COLLECTION_INTERFACE);
         }
         $class = static::FORWARD_CLASS;
         return new $class($value->toArray());

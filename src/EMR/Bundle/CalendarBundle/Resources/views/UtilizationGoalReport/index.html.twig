@@ -1,0 +1,22 @@
+{% extends "EMRCalendarBundle::base.html.twig" %}
+{#Title#}
+{% block title %}Utilization Goals Report{% endblock %}
+
+{#Stylesheets#}
+{% block stylesheets %}
+{{ parent()}}
+{% endblock %}
+
+{#Javascripts#}
+{% block javascripts %}
+{{ parent()}}
+{% endblock %}
+
+{#Body#}
+{% block body %}
+    {% for result in report.results %}
+        <h3>{{ result.name }}</h3>
+        {#{{ metric.goal }}
+        {{ metric.current }}#}
+    {% endfor %}
+{% endblock %}

@@ -9,8 +9,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Description of ColumnType
- *
  * @author Nick Fenzan <nickf@millervein.com>
  */
 class ColumnType extends AbstractType {

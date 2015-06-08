@@ -1,0 +1,14 @@
+{% extends "EMRCalendarBundle::base.html.twig" %}
+{% block title %}Utilization Metric{% endblock %}
+{% block body %}
+    <a href="{{ path("utilization_metric_new") }}">New</a>
+    <ul>
+        {% for metric in metrics %}
+            <li>
+                {{metric.name}} 
+                <a href="{{ path("utilization_metric_edit",{"id":metric.id}) }}">Edit</a>
+                <a href="{{ path("utilization_metric_goal",{"id":metric.id}) }}">Edit Goals</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

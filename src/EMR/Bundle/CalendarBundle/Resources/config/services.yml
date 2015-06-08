@@ -22,6 +22,18 @@ services:
         factory_method: getRepository
         arguments:
             - EMR\Bundle\CalendarBundle\Entity\Hours
+    emr.calendar.repository.utilization_metric_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+            - EMR\Bundle\CalendarBundle\Entity\UtilizationMetric
+    emr.calendar.repository.utilization_goal_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+            - EMR\Bundle\CalendarBundle\Entity\UtilizationGoal
             
     # Validators #
     emr.calendar.unique_appointment_time_validator:
@@ -87,3 +99,11 @@ services:
         arguments:
             - "@emr.calendar.used_time_calculator"
             - "@emr.calendar.open_time_calculator"
+            
+            
+    emr.calendar.utilization.report.goals:
+        class: EMR\Bundle\CalendarBundle\Model\Reports\UtilizationGoalReport
+        arguments:
+            - "@emr.calendar.repository.utilization_metric_repository"
+            - "@emr.calendar.repository.utilization_goal_repository"
+        

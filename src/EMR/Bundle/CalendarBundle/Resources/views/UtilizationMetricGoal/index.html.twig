@@ -1,0 +1,40 @@
+{% extends "EMRCalendarBundle::base.html.twig" %}
+{% block title %}Utilization Metric Goals{% endblock %}
+{% block body %}
+<h2>{{ metric.name }}</h2>
+    <a href="{{ path("utilization_metric_goal_new",{ "id" : metric.id }) }}">New</a>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Start
+                </th>
+                <th>
+                    End
+                </th>
+                <th>
+                    Goal
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for goal in metric.goals %}
+            <tr>
+                <td>
+                    {{ goal.startDate | date("m/d/Y") }} 
+                </td>
+                <td>
+                    {{ goal.endDate is empty ? "Current" : goal.endDate|date("m/d/Y") }}
+                </td>
+                <td>
+                    {{ goal.goal }}%
+                </td>
+                <td>
+                    <a href="{{ path("utilization_metric_goal_edit",{"id":metric.id, "goal_id":goal.id}) }}">Edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
