@@ -95,13 +95,7 @@ class UtilizationCalculator implements DateRangedCalendarCalculatorInterface {
     
     function setTags($tags) {
         $this->tags = $tags;
-        $columns = new ArrayCollection();
-        foreach($tags as $tag){
-            foreach($tag->getColumns() as $column){
-                $columns->add($column);
-            }
-        }
-        $this->setColumns($columns);
+        return $this;
     }
     
     function getColumns(){
@@ -109,14 +103,14 @@ class UtilizationCalculator implements DateRangedCalendarCalculatorInterface {
     }
 
     public function setColumns(Collection $columns) {
-        foreach($columns as $column){
-            $this->columns->add($column);
-        }
-        $this->used_time_calculator->setColumns($this->columns);
-        $this->open_time_calculator->setColumns($this->columns);
+        $this->columns = $columns;
         return $this;
     }
 
+    public function addColumn(){
+        $this->columns->add($column);
+    }
+    
     public function setEndDate(DateTime $endDate) {
         $this->end_date = $endDate;
         $this->used_time_calculator->setEndDate($endDate);
@@ -131,7 +125,19 @@ class UtilizationCalculator implements DateRangedCalendarCalculatorInterface {
         return $this;
     }
 
+    public function allColumns(){
+        $columns = $this->columns;
+        foreach($this->tags as $tag){
+            foreach($tag->getColumns() as $column){
+                $columns->add($column);
+            }
+        }
+        return $columns;
+    }
+    
     public function calculate(){
+        $this->used_time_calculator->setColumns($this->allColumns());
+        $this->open_time_calculator->setColumns($this->allColumns());
         $this->open_time = $this->open_time_calculator->getResult();
         $this->used_time = $this->used_time_calculator->getResult();
         if(!$this->open_time){
