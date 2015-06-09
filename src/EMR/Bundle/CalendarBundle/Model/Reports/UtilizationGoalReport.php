@@ -122,7 +122,7 @@ class UtilizationGoalReport {
 
     protected function calculateUtilization(UtilizationMetric $metric){
         $this->utilization_calculator->setStartDate($this->start_date);
-        $this->utilization_calculator->setEndDate($this->start_date);
+        $this->utilization_calculator->setEndDate($this->end_date);
         $this->utilization_calculator->setColumns($metric->getColumns());
         $this->utilization_calculator->setTags($metric->getTags());
         $this->utilization_calculator->calculate();
