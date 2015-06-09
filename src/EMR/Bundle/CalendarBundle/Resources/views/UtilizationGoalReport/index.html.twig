@@ -5,10 +5,6 @@
 {#Stylesheets#}
 {% block stylesheets %}
     {{ parent()}}
-    {% stylesheets 'bundles/emrcalendar/js/jquery-ui-multiprogressbar/src/jquery.ui.multiprogressbar.css'  
-    filter='cssrewrite' %}
-        <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
     <style>
         .current{
             background-color: #85c466;
@@ -48,12 +44,10 @@
 
 {#Javascripts#}
 {% block javascripts %}
-{#    {{ parent()}}#}
+    {{ parent()}}
     {% javascripts 
-    '@EMRCalendarBundle/Resources/public/js/jquery/jquery-2.1.3.min.js'
-    '@EMRCalendarBundle/Resources/public/js/jqueryui/*'
     '@EMRCalendarBundle/Resources/public/js/outerHTML/*'
-    '@EMRCalendarBundle/Resources/public/js/jquery-ui-multiprogressbar/src/jquery.ui.multiprogressbar.js'
+    '@EMRCalendarBundle/Resources/public/js/jqueryui-multiprogressbar/*'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

@@ -6,7 +6,7 @@
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets 'bundles/emrcalendar/css/jqueryui/*'  
-    'bundles/emrveincalendar/css/forms/*'
+    'bundles/emrcalendar/css/forms/*'
     'bundles/emrcalendar/css/main.css'
     filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
