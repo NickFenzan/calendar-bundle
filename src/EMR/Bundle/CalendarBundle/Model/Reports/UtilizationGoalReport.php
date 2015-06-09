@@ -39,7 +39,7 @@ class UtilizationGoalReport {
      * @var UtilizationCalculator
      */
     protected $utilization_calculator;
-    
+
     /**
      * Array of metrics the report has built
      * @var array
@@ -55,10 +55,8 @@ class UtilizationGoalReport {
 // </editor-fold>
 
     public function __construct(
-            UtilizationMetricRepository $utilizationMetricRepo, 
-            UtilizationGoalRepository $utilizationGoalRepo,
-            UtilizationCalculator $utilizationCalculator
-            ) {
+    UtilizationMetricRepository $utilizationMetricRepo, UtilizationGoalRepository $utilizationGoalRepo, UtilizationCalculator $utilizationCalculator
+    ) {
         $this->utilization_metric_repo = $utilizationMetricRepo;
         $this->utilization_goal_repo = $utilizationGoalRepo;
         $this->utilization_calculator = $utilizationCalculator;
@@ -106,8 +104,9 @@ class UtilizationGoalReport {
             $result = new UtilizationGoalReportResult();
             $result->setName($metric->getName());
             $activeGoal = $this->findActiveGoalForMetric($metric);
+            $result->setCurrent($this->calculateCurrent($metric));
+            $result->setProjected($this->calculateProjected($metric));
             $result->setGoal(($activeGoal) ? $activeGoal->getGoal() : null);
-            $result->setCurrent($this->calculateUtilization($metric));
             $this->results[] = $result;
         }
     }
@@ -120,13 +119,27 @@ class UtilizationGoalReport {
         return $this->utilization_goal_repo->findActiveGoalForMetricByDateRange($metric, $this->start_date, $this->end_date);
     }
 
-    protected function calculateUtilization(UtilizationMetric $metric){
-        $this->utilization_calculator->setStartDate($this->start_date);
-        $this->utilization_calculator->setEndDate($this->end_date);
+    protected function setCalculatorColumnsForMetric(UtilizationMetric $metric) {
         $this->utilization_calculator->setColumns($metric->getColumns());
         $this->utilization_calculator->setTags($metric->getTags());
-        $this->utilization_calculator->calculate();
-        return $this->utilization_calculator->getResult();
     }
-    
+
+    protected function calculateProjected(UtilizationMetric $metric) {
+        $this->setCalculatorColumnsForMetric($metric);
+        return $this->utilization_calculator
+                ->setStartDate($this->start_date)
+                ->setEndDate($this->end_date)
+                ->calculate()
+                ->getResult();
+    }
+
+    protected function calculateCurrent(UtilizationMetric $metric) {
+        $this->setCalculatorColumnsForMetric($metric);
+        return $this->utilization_calculator
+                ->setStartDate($this->start_date)
+                ->setEndDate(new \DateTime())
+                ->calculate()
+                ->getResult();
+    }
+
 }

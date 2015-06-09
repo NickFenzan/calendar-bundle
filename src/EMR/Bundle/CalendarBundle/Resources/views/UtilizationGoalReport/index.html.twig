@@ -4,21 +4,93 @@
 
 {#Stylesheets#}
 {% block stylesheets %}
-{{ parent()}}
+    {{ parent()}}
+    {% stylesheets 'bundles/emrcalendar/js/jquery-ui-multiprogressbar/src/jquery.ui.multiprogressbar.css'  
+    filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    <style>
+        .current{
+            background-color: #85c466;
+        }
+        .projected{
+            background-color: #6685c4;
+        }
+        .goal{
+            background-color: #c46685;
+        }
+        .key{
+            display:flex;
+            width:100%;
+        }
+        .key>.entry{
+            flex: 1 0 auto;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            padding:5px;
+        }
+        .key>.entry>div{
+            float: left;
+        }
+        .reportDate{
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        h1{
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
 {% endblock %}
 
 {#Javascripts#}
 {% block javascripts %}
-{{ parent()}}
+{#    {{ parent()}}#}
+    {% javascripts 
+    '@EMRCalendarBundle/Resources/public/js/jquery/jquery-2.1.3.min.js'
+    '@EMRCalendarBundle/Resources/public/js/jqueryui/*'
+    '@EMRCalendarBundle/Resources/public/js/outerHTML/*'
+    '@EMRCalendarBundle/Resources/public/js/jquery-ui-multiprogressbar/src/jquery.ui.multiprogressbar.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        $(function(){
+        {% for result in report.results %}
+            $('#progressbar-{{loop.index}}').multiprogressbar({
+                {% autoescape false %}
+                parts: {{ result.progressBarParts }}
+                {% endautoescape %}
+            });
+        {% endfor %}
+        });
+    </script>
 {% endblock %}
 
 {#Body#}
 {% block body %}
-    {{ report.startDate | date("m/d/Y") }}
-    {{ report.endDate | date("m/d/Y") }}
-    {% for result in report.results %}
-        <h3>{{ result.name }}</h3>
-        {{ result.goal }}
-        {{ result.current }}
-    {% endfor %}
+    <h1>Goal Thermometers</h1>
+    <div class="reportDate">
+    {{ report.startDate | date("F Y") }}
+    </div>
+    <div class="key">
+        <div class="entry current">
+            Current
+        </div>
+        <div class="entry projected">
+            Projected
+        </div>
+        <div class="entry goal">
+            Goal
+        </div>
+    </div>
+    <div class="progressbars">
+        {% for result in report.results %}
+            <h3>{{ result.name }}</h3>
+            <div id="progressbar-{{loop.index}}" class="multi-progressbar"></div>
+        {% endfor %}
+    </div>
 {% endblock %}

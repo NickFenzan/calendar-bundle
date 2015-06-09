@@ -107,7 +107,7 @@ class UtilizationCalculator implements DateRangedCalendarCalculatorInterface {
         return $this;
     }
 
-    public function addColumn(){
+    public function addColumn(Column $column){
         $this->columns->add($column);
     }
     
@@ -145,6 +145,7 @@ class UtilizationCalculator implements DateRangedCalendarCalculatorInterface {
         }else{
             $this->result = round(($this->used_time / $this->open_time) * 100);
         }
+        return $this;
     }
     
 }
