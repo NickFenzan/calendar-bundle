@@ -42,12 +42,35 @@
             text-align: center;
             margin-bottom: 10px;
         }
+        .progressbars{
+            margin-bottom: 15px;;
+        }
         .progressbars>h3{
-            margin-bottom: 0;
         }
         .progressbars>h5{
             margin-top: 0;
             margin-bottom: 5px;;
+        }
+        .rewards{
+            width:100%;
+            text-align: center;
+        }
+        .rewards>div{
+            background-color: white;
+            border-radius: 5px;
+            display: inline-block;
+            padding: 5px;
+            box-shadow: 10px 10px 5px #888888;
+        }
+        .rewards>div>table{
+            border-collapse: collapse;
+        }
+        .rewards>div>table th{
+            background-color: #6685c4;
+            color: white;
+        }
+        .rewards>div>table th, .rewards>div>table td{
+            border: 1px solid black;
         }
     </style>
 {% endblock %}
@@ -62,41 +85,69 @@
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script>
-        $(function(){
+        $(function () {
         {% for result in report.results %}
-            $('#progressbar-{{loop.index}}').multiprogressbar({
-                {% autoescape false %}
-                parts: {{ result.progressBarParts }}
-                {% endautoescape %}
-            });
-        {% endfor %}
-        $('.entry').tooltip();
-        });
-    </script>
-{% endblock %}
+                $('#progressbar-{{loop.index}}').multiprogressbar({
+            {% autoescape false %}
+                    parts:{{ result.progressBarParts }}
+            {% endautoescape %}
+                    });{% endfor %}
+                            $('.entry').tooltip();
+                });
+        </script>
+        {% endblock %}
 
-{#Body#}
-{% block body %}
-    <h1>Goal Thermometers</h1>
-    <div class="reportDate">
-    {{ report.startDate | date("F Y") }}
-    </div>
-    <div class="key">
-        <div class="entry current" title="The percentage of the schedule that is filled for a given category from the beginning of the month until now.">
-            Current
-        </div>
-        <div class="entry projected" title="The percentage of the schedule that is filled for a given category from the beginning of the month until the end of the month.">
-            Projected
-        </div>
-        <div class="entry goal" title="The goal for the percentage of the schedule to be filled for a given category.">
-            Goal
-        </div>
-    </div>
-    <div class="progressbars">
-        {% for result in report.results %}
-            <h3>{{ result.name }}</h3>
-            <h5>Current: {{result.current}}% Projected: {{result.projected}}% Goal: {{result.goal}}%</h5>
-            <div id="progressbar-{{loop.index}}" class="multi-progressbar"></div>
-        {% endfor %}
-    </div>
-{% endblock %}
+            {#Body#}
+            {% block body %}
+                <h1>Goal Thermometers</h1>
+                <div class="reportDate">
+                    {{ report.startDate | date("F Y") }}
+                </div>
+                <div class="key">
+                    <div class="entry current" title="The percentage of the schedule that is filled for a given category from the beginning of the month until now.">
+                        Current
+                    </div>
+                    <div class="entry projected" title="The percentage of the schedule that is filled for a given category from the beginning of the month until the end of the month.">
+                        Projected
+                    </div>
+                    <div class="entry goal" title="The goal for the percentage of the schedule to be filled for a given category.">
+                        Goal
+                    </div>
+                </div>
+                <div class="progressbars">
+                    {% for result in report.results %}
+                        <h3>{{ result.name }}</h3>
+                        <h5>Current: {{result.current}}% Projected: {{result.projected}}% Goal: {{result.goal}}%</h5>
+                        <div id="progressbar-{{loop.index}}" class="multi-progressbar"></div>
+                    {% endfor %}
+                </div>
+                <div class="rewards">
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Goals Met
+                                    </th>
+                                    <th>
+                                        Reward
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reward in report.rewards %}
+                                    <tr>
+                                        <td>
+                                            {{ reward.goalThreshold }}
+                                        </td>
+                                        <td>
+                                            {{ reward.name }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            {% endblock %}

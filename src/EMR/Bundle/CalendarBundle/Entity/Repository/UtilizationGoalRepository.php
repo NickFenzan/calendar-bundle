@@ -3,7 +3,7 @@
 namespace EMR\Bundle\CalendarBundle\Entity\Repository;
 
 use DateTime;
-use EMR\Bundle\CalendarBundle\Entity\Spec\CurrentGoals;
+use EMR\Bundle\CalendarBundle\Entity\Spec\FilterDateRangeByDateRange;
 use EMR\Bundle\CalendarBundle\Entity\Spec\FilterMetric;
 use EMR\Bundle\CalendarBundle\Entity\UtilizationMetric;
 use Happyr\DoctrineSpecification\EntitySpecificationRepository;
@@ -16,7 +16,7 @@ class UtilizationGoalRepository extends EntitySpecificationRepository {
 
     public function findActiveGoalForMetricByDateRange(UtilizationMetric $metric, DateTime $startDate, DateTime $endDate) {
         $spec = Spec::andX(
-            new CurrentGoals($startDate, $endDate), 
+            new FilterDateRangeByDateRange($startDate, $endDate), 
             new FilterMetric($metric), 
             Spec::orderBy('start_date', 'DESC'), 
             Spec::limit(1)

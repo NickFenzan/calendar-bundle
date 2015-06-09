@@ -34,6 +34,12 @@ services:
         factory_method: getRepository
         arguments:
             - EMR\Bundle\CalendarBundle\Entity\UtilizationGoal
+    emr.calendar.repository.goal_reward_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+            - EMR\Bundle\CalendarBundle\Entity\GoalReward
             
     # Validators #
     emr.calendar.unique_appointment_time_validator:
@@ -106,5 +112,6 @@ services:
         arguments:
             - "@emr.calendar.repository.utilization_metric_repository"
             - "@emr.calendar.repository.utilization_goal_repository"
+            - "@emr.calendar.repository.goal_reward_repository"
             - "@emr.calendar.utilization_calculator"
         

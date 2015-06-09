@@ -104,3 +104,7 @@ services:
         class: EMR\Bundle\CalendarBundle\Form\Type\Report\UtilizationGoalType
         tags:
             - { name: form.type, alias: new_utilization_goal }
+    emr.calendar.form.type.new_goal_reward:
+        class: EMR\Bundle\CalendarBundle\Form\Type\GoalRewardType
+        tags:
+            - { name: form.type, alias: new_goal_reward }

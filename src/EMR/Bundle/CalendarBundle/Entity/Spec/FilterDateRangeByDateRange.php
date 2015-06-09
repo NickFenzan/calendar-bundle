@@ -6,11 +6,9 @@ use Happyr\DoctrineSpecification\BaseSpecification;
 use Happyr\DoctrineSpecification\Spec;
 
 /**
- * Description of CurrentGoals
- *
  * @author Nick Fenzan <nickf@millervein.com>
  */
-class CurrentGoals extends BaseSpecification {
+class FilterDateRangeByDateRange extends BaseSpecification {
 
     /**
      * @var \DateTime

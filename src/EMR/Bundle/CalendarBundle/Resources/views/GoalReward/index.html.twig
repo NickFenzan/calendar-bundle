@@ -1,0 +1,13 @@
+{% extends "EMRCalendarBundle::base.html.twig" %}
+{% block title %}Goal Reward{% endblock %}
+{% block body %}
+    <a href="{{ path("goal_reward_new") }}">New</a>
+    <ul>
+        {% for reward in rewards %}
+            <li>
+                {{reward.name}} 
+                <a href="{{ path("goal_reward_edit",{"id":reward.id}) }}">Edit</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

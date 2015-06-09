@@ -1,0 +1,7 @@
+{% extends "EMRCalendarBundle::base.html.twig" %}
+{% block title %}Goal Reward{% endblock %}
+{% block body %}
+    {{ form(form) }}
+    {{ form(delete) }}
+    <a href="{{path("goal_reward")}}">Cancel</a>
+{% endblock %}

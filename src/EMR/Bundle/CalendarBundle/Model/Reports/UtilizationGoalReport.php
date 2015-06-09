@@ -4,6 +4,7 @@ namespace EMR\Bundle\CalendarBundle\Model\Reports;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use EMR\Bundle\CalendarBundle\Entity\Repository\GoalRewardRepository;
 use EMR\Bundle\CalendarBundle\Entity\Repository\UtilizationGoalRepository;
 use EMR\Bundle\CalendarBundle\Entity\Repository\UtilizationMetricRepository;
 use EMR\Bundle\CalendarBundle\Entity\UtilizationMetric;
@@ -34,6 +35,11 @@ class UtilizationGoalReport {
      * @var UtilizationGoalRepository 
      */
     protected $utilization_goal_repo;
+    
+    /**
+     * @var GoalRewardRepository 
+     */
+    protected $goal_reward_repo;
 
     /**
      * @var UtilizationCalculator
@@ -47,20 +53,29 @@ class UtilizationGoalReport {
     protected $results;
 
     /**
-     *
      * @var ArrayCollection
      */
     protected $metrics;
+    
+    /**
+     * @var ArrayCollection 
+     */
+    protected $rewards;
 
 // </editor-fold>
 
     public function __construct(
-    UtilizationMetricRepository $utilizationMetricRepo, UtilizationGoalRepository $utilizationGoalRepo, UtilizationCalculator $utilizationCalculator
+    UtilizationMetricRepository $utilizationMetricRepo, 
+    UtilizationGoalRepository $utilizationGoalRepo, 
+    GoalRewardRepository $goalRewardRepository, 
+    UtilizationCalculator $utilizationCalculator
     ) {
         $this->utilization_metric_repo = $utilizationMetricRepo;
         $this->utilization_goal_repo = $utilizationGoalRepo;
+        $this->goal_reward_repo = $goalRewardRepository;
         $this->utilization_calculator = $utilizationCalculator;
         $this->metrics = new ArrayCollection();
+        $this->rewards = new ArrayCollection();
         $this->results = array();
     }
 
@@ -75,6 +90,10 @@ class UtilizationGoalReport {
 
     public function getResults() {
         return $this->results;
+    }
+    
+    public function getRewards(){
+        return $this->rewards;
     }
 
 // </editor-fold>
@@ -96,6 +115,7 @@ class UtilizationGoalReport {
             throw new Exception("Start and end date must be set to run the report.");
         }
         $this->findMetrics();
+        $this->findRewards();
         $this->buildResults();
     }
 
@@ -114,6 +134,10 @@ class UtilizationGoalReport {
     protected function findMetrics() {
         $this->metrics = $this->utilization_metric_repo->findMetricsWithGoalsInDateRange($this->start_date, $this->end_date);
     }
+    
+    protected function findRewards() {
+        $this->rewards = $this->goal_reward_repo->findRewardByDateRange($this->start_date, $this->end_date);
+    }
 
     protected function findActiveGoalForMetric(UtilizationMetric $metric) {
         return $this->utilization_goal_repo->findActiveGoalForMetricByDateRange($metric, $this->start_date, $this->end_date);
@@ -127,19 +151,19 @@ class UtilizationGoalReport {
     protected function calculateProjected(UtilizationMetric $metric) {
         $this->setCalculatorColumnsForMetric($metric);
         return $this->utilization_calculator
-                ->setStartDate($this->start_date)
-                ->setEndDate($this->end_date)
-                ->calculate()
-                ->getResult();
+                        ->setStartDate($this->start_date)
+                        ->setEndDate($this->end_date)
+                        ->calculate()
+                        ->getResult();
     }
 
     protected function calculateCurrent(UtilizationMetric $metric) {
         $this->setCalculatorColumnsForMetric($metric);
         return $this->utilization_calculator
-                ->setStartDate($this->start_date)
-                ->setEndDate(new \DateTime())
-                ->calculate()
-                ->getResult();
+                        ->setStartDate($this->start_date)
+                        ->setEndDate(new \DateTime())
+                        ->calculate()
+                        ->getResult();
     }
 
 }
