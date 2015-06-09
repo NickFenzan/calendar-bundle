@@ -95,7 +95,7 @@
     <div class="progressbars">
         {% for result in report.results %}
             <h3>{{ result.name }}</h3>
-            <h5>Current: {{result.current}} Projected: {{result.projected}} Goal: {{result.goal}}%</h5>
+            <h5>Current: {{result.current}}% Projected: {{result.projected}}% Goal: {{result.goal}}%</h5>
             <div id="progressbar-{{loop.index}}" class="multi-progressbar"></div>
         {% endfor %}
     </div>
