@@ -108,9 +108,9 @@
                     <div class="entry current" title="The percentage of the schedule that is filled for a given category from the beginning of the month until now.">
                         Current
                     </div>
-                    <div class="entry projected" title="The percentage of the schedule that is filled for a given category from the beginning of the month until the end of the month.">
+                    {#<div class="entry projected" title="The percentage of the schedule that is filled for a given category from the beginning of the month until the end of the month.">
                         Projected
-                    </div>
+                    </div>#}
                     <div class="entry goal" title="The goal for the percentage of the schedule to be filled for a given category.">
                         Goal
                     </div>
@@ -118,7 +118,11 @@
                 <div class="progressbars">
                     {% for result in report.results %}
                         <h3>{{ result.name }}</h3>
-                        <h5>Current: {{result.current}}% Projected: {{result.projected}}% Goal: {{result.goal}}%</h5>
+                        <h5>
+                            Current: {{result.current}}% 
+{#                            Projected: {{result.projected}}% #}
+                            Goal: {{result.goal}}%
+                        </h5>
                         <div id="progressbar-{{loop.index}}" class="multi-progressbar"></div>
                     {% endfor %}
                 </div>
