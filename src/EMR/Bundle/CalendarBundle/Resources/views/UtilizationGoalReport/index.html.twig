@@ -73,6 +73,21 @@
             border: 1px solid black;
             padding: 5px;
         }
+
+        .ui-progressbar-value{
+            margin: 0 !important;
+            border: none !important;
+        }
+        .goalLow, .goalHigh, .atGoal{
+            border-right: 2px solid black !important;
+        }
+        .goalLow, .currentHigh, .currentLow, .atGoal{
+            background-color: #85c466;
+        }
+        .goalHigh{
+            background-color: transparent;
+        }
+        
     </style>
 {% endblock %}
 
@@ -100,21 +115,21 @@
 
             {#Body#}
             {% block body %}
-                <h1>Goal Thermometers</h1>
+                <h1>Monthly Goals</h1>
                 <div class="reportDate">
                     {{ report.startDate | date("F Y") }}
                 </div>
-                <div class="key">
+                {#<div class="key">
                     <div class="entry current" title="The percentage of the schedule that is filled for a given category from the beginning of the month until now.">
                         Current
                     </div>
-                    {#<div class="entry projected" title="The percentage of the schedule that is filled for a given category from the beginning of the month until the end of the month.">
+                    <div class="entry projected" title="The percentage of the schedule that is filled for a given category from the beginning of the month until the end of the month.">
                         Projected
-                    </div>#}
+                    </div>
                     <div class="entry goal" title="The goal for the percentage of the schedule to be filled for a given category.">
                         Goal
                     </div>
-                </div>
+                </div>#}
                 <div class="progressbars">
                     {% for result in report.results %}
                         <h3>{{ result.name }}</h3>

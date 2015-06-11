@@ -70,28 +70,54 @@ class UtilizationGoalReportResult {
     public function getValuesAsArray(){
         return [
             'goal' => $this->goal,
-//            'projected' => $this->projected,
+            'projected' => $this->projected,
             'current' => $this->current,
         ];
     }
     
     public function getProgressBarParts(){
-        $values = $this->getValuesAsArray();
-        asort($values);
         $parts = array();
-        $currentValue = 0;
-        foreach($values as $name=>$value){
-            if($value > $currentValue){
-                $part = array();
-                $part['barClass'] = $name;
-                $part['text'] = true;
-                $part['value'] = $value - $currentValue;
-                $currentValue = $value;
-                $parts[] = $part;
-            }
+        if($this->current < $this->goal){
+            $parts[] = [
+                'barClass' => 'currentLow',
+                'value' => $this->current
+            ];
+            $parts[] = [
+                'barClass' => 'goalHigh',
+                'value' => $this->goal - $this->current
+            ];
+        }elseif($this->current === $this->goal){
+            $parts[] = [
+                'barClass' => 'atGoal',
+                'value' => $this->goal
+            ];
+        }elseif($this->current > $this->goal){
+            $parts[] = [
+                'barClass' => 'goalLow',
+                'value' => $this->goal
+            ];
+            $parts[] = [
+                'barClass' => 'currentHigh',
+                'value' => $this->current - $this->goal
+            ];
         }
-        
         return json_encode($parts);
+//        $values = $this->getValuesAsArray();
+//        asort($values);
+//        $parts = array();
+//        $currentValue = 0;
+//        foreach($values as $name=>$value){
+//            if($value > $currentValue){
+//                $part = array();
+//                $part['barClass'] = $name;
+//                $part['text'] = true;
+//                $part['value'] = $value - $currentValue;
+//                $currentValue = $value;
+//                $parts[] = $part;
+//            }
+//        }
+//        
+//        return json_encode($parts);
     }
 
 }
