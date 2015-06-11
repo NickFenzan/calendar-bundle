@@ -69,9 +69,9 @@ class UtilizationGoalReportResult {
     
     public function getValuesAsArray(){
         return [
-            'current' => $this->current,
-//            'projected' => $this->projected,
             'goal' => $this->goal,
+//            'projected' => $this->projected,
+            'current' => $this->current,
         ];
     }
     
