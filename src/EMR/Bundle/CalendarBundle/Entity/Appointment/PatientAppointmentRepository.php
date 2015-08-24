@@ -80,7 +80,8 @@ class PatientAppointmentRepository extends AppointmentRepository {
     protected function whereColumns(QueryBuilder $qb, Collection $collection) {
         $this->joinColumn($qb);
         $qb->andWhere($qb->expr()->in('col.id', ':col_ids'));
-        $qb->setParameter('col_ids', $collection->getIds());
+        $ids = $collection->map(function($entity) { return $entity->getId(); });
+        $qb->setParameter('col_ids', $ids->toArray());
     }
 
     protected function whereCategories(QueryBuilder $qb, Collection $collection) {
