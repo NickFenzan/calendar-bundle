@@ -58,7 +58,7 @@ class CalendarBuilder {
                         $latestTime = $closeTime;
                     }
                 }
-                if ($smallestIncrement == null || $smallestIncrement < $hours->getSchedulingInterval()){
+                if ($smallestIncrement == null || $smallestIncrement->format('%i') > $hours->getSchedulingInterval()->format('%i')){
                     $smallestIncrement = $hours->getSchedulingInterval();
                 }
             }
