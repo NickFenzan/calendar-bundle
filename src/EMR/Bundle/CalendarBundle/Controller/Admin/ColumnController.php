@@ -20,7 +20,12 @@ class ColumnController extends DefaultController{
      * @Route("/")
      */
     public function indexAction() {
-        return parent::indexAction();
+        $fullClassName = static::ENTITY_PATH . static::CLASS_NAME;
+        
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository($fullClassName);
+
+        return $this->render("EMRCalendarBundle:Admin\Columns:index.html.twig", ['columns' => $repo->findAll()]);
     }
 
     /**

@@ -1,0 +1,40 @@
+{% extends 'EMRCalendarBundle::base.html.twig' %}
+{% block title %}Columns{% endblock%}
+{% block body %}
+<h2>Columns</h2>
+<div>
+    <a href='{{ path('admin_menu') }}'>Admin Menu</a>
+    <a href='new'>New</a>
+</div>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Site</th>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for column in columns %}
+            <tr>
+                <td>
+                    {{column.id}} 
+                </td>
+                <td>
+                    {{column.site.city}}
+                </td>
+                <td>
+                    {{column.name}}
+                </td>
+                <td>
+                    <a href='edit/{{column.id}}'>Edit</a>
+                    <a href='delete/{{column.id}}'>Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
