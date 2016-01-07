@@ -52,8 +52,8 @@ class AppointmentController extends Controller {
         $form = $this->createForm('appointment_patient', $appt, $formOptions);
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $em->persist($appt);
-            $em->flush();
+//            $em->persist($appt);
+//            $em->flush();
             return new JsonResponse([
                 'action' => 'refreshCalendar',
             ]);
@@ -98,8 +98,8 @@ class AppointmentController extends Controller {
         
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $em->persist($appt);
-            $em->flush();
+//            $em->persist($appt);
+//            $em->flush();
             return new JsonResponse([
                 'action' => 'refreshCalendar',
             ]);
